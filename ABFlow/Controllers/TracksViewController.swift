@@ -76,7 +76,7 @@ extension TracksViewController: MPMediaPickerControllerDelegate {
         }.compactMap { $0 }
         guard tracks.count > 0 else { return }
 
-        playlist.tracks.append(contentsOf: tracks)
+        playlist.appendTracks(tracks)
         refresh()
 
         dismiss(animated: true, completion: nil)

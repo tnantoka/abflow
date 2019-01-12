@@ -20,8 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         window = UIWindow(frame: UIScreen.main.bounds)
 
-        // let rootViewController = PlaylistsViewController()
-        let rootViewController = TracksViewController(playlist: Playlist.all[0])
+        let rootViewController = PlaylistsViewController()
         let navController = UINavigationController(rootViewController: rootViewController)
         window?.rootViewController = navController
 

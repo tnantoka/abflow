@@ -8,30 +8,45 @@
 
 import Foundation
 
-class Playlist {
-    var name = ""
-    var tracks = [Track]()
+class Playlist: Codable {
+    private(set) var name = ""
+    private(set) var tracks = [Track]()
 
     static var playlists = [Playlist]()
 
     static var all: [Playlist] {
         return playlists
     }
+    static var jsonURL: URL {
+        let docsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        return docsURL.appendingPathComponent("playlists.json")
+    }
 
     static func load() {
-        create(name: "test")
+        guard let data = try? Data(contentsOf: jsonURL) else { return }
+        guard let playlists = try? JSONDecoder().decode([Playlist].self, from: data) else { return }
+        self.playlists = playlists
     }
 
     static func save() {
-
+        guard let data = try? JSONEncoder().encode(playlists) else { return }
+        try? data.write(to: jsonURL)
     }
 
     static func create(name: String) {
         let playlist = Playlist(name: name)
         Playlist.playlists.insert(playlist, at: 0)
+
+        save()
     }
 
     init(name: String) {
         self.name = name
+    }
+
+    func appendTracks(_ tracks: [Track]) {
+        self.tracks.append(contentsOf: tracks)
+
+        Playlist.save()
     }
 }
