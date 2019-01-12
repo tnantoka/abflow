@@ -56,6 +56,13 @@ class TracksViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        for cell in tableView.visibleCells {
+            if let indexPath = tableView.indexPath(for: cell) {
+                let track = playlist.tracks[indexPath.row]
+                configureCell(cell, with: track)
+            }
+        }
+
         navigationController?.setToolbarHidden(false, animated: animated)
         NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidEnd), name: Notification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
     }
@@ -142,19 +149,32 @@ extension TracksViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
 
         let track = playlist.tracks[indexPath.row]
-        cell.textLabel?.text = track.title
-        cell.accessoryType = .disclosureIndicator
-
-        if let pointA = track.pointA, let pointB = track.pointB {
-            cell.detailTextLabel?.text = "\(Util.formatDuration(pointA)) - \(Util.formatDuration(pointB))"
-        }
+        configureCell(cell, with: track)
 
         return cell
+    }
+
+    func configureCell(_ cell: UITableViewCell, with track: Track) {
+        cell.textLabel?.text = track.title
+        cell.accessoryType = .disclosureIndicator
+        cell.detailTextLabel?.text = "\(Util.formatDuration(track.pointA)) - \(Util.formatDuration(track.pointB))"
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let track = playlist.tracks[indexPath.row]
         let editTrackController = EditTrackViewController(track: track)
         navigationController?.pushViewController(editTrackController, animated: true)
+    }
+
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let track = playlist.tracks[indexPath.row]
+            playlist.destroyTrack(track)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
     }
 }

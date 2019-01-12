@@ -71,11 +71,14 @@ class PlaylistsViewController: UIViewController {
         ])
     }
 
-    func refresh() {
+    func updatePlaylists() {
         playlists = Playlist.all
-        tableView.reloadData()
     }
 
+    func refresh() {
+        updatePlaylists()
+        tableView.reloadData()
+    }
 }
 
 extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
@@ -97,5 +100,18 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
         let playlist = playlists[indexPath.row]
         let tracksController = TracksViewController(playlist: playlist)
         navigationController?.pushViewController(tracksController, animated: true)
+    }
+
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let playlist = playlists[indexPath.row]
+            playlist.destroy()
+            updatePlaylists()
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
     }
 }

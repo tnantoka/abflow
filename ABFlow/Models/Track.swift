@@ -10,10 +10,27 @@ import Foundation
 import AVFoundation
 
 class Track: Codable {
+    let id = UUID().uuidString
     let title: String
     let assetURL: URL
-    var pointA: Double?
-    var pointB: Double?
+    var pointA: Double? {
+        didSet {
+            if let pointA = pointA, let pointB = pointB {
+                if pointA >= pointB {
+                    self.pointB = nil
+                }
+            }
+        }
+    }
+    var pointB: Double? {
+        didSet {
+            if let pointA = pointA, let pointB = pointB {
+                if pointA >= pointB {
+                    self.pointB = nil
+                }
+            }
+        }
+    }
 
     init(title: String, assetURL: URL) {
         self.title = title

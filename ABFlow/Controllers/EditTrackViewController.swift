@@ -217,12 +217,7 @@ class EditTrackViewController: UIViewController {
     }
 
     func updatePointLabels() {
-        if let pointA = track.pointA {
-            pointLabelA.text = Util.formatDuration(pointA)
-        }
-
-        if let pointB = track.pointB {
-            pointLabelB.text = Util.formatDuration(pointB)
-        }
+        pointLabelA.text = Util.formatDuration(track.pointA)
+        pointLabelB.text = Util.formatDuration(track.pointB)
     }
 }

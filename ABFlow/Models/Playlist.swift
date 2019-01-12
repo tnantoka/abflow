@@ -9,6 +9,7 @@
 import Foundation
 
 class Playlist: Codable {
+    let id = UUID().uuidString
     private(set) var name = ""
     private(set) var tracks = [Track]()
 
@@ -44,8 +45,20 @@ class Playlist: Codable {
         self.name = name
     }
 
+    func destroy() {
+        Playlist.playlists.removeAll { $0.id == id }
+
+        Playlist.save()
+    }
+
     func appendTracks(_ tracks: [Track]) {
         self.tracks.append(contentsOf: tracks)
+
+        Playlist.save()
+    }
+
+    func destroyTrack(_ track: Track) {
+        tracks.removeAll { $0.id == track.id }
 
         Playlist.save()
     }

@@ -9,7 +9,9 @@
 import Foundation
 
 class Util {
-    static func formatDuration(_ duration: Double) -> String {
+    static func formatDuration(_ duration: Double?) -> String {
+        guard let duration = duration else { return "" }
+
         let formatter = DateComponentsFormatter()
         formatter.allowedUnits = [.hour, .minute, .second]
         formatter.unitsStyle = .positional
