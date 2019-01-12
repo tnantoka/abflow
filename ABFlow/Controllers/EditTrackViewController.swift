@@ -15,6 +15,7 @@ class EditTrackViewController: UIViewController {
 
     var wholePlayer: AVAudioPlayer?
     var previewPlayer: AVPlayer?
+    var durationTimer: Timer?
 
     lazy var durationLabel: UILabel = {
         let durationLabel = UILabel(frame: .zero)
@@ -23,7 +24,6 @@ class EditTrackViewController: UIViewController {
         durationLabel.backgroundColor = Color.white
         durationLabel.textAlignment = .center
         durationLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 14.0, weight: .regular)
-        durationLabel.textAlignment = .center
 
         view.addSubview(durationLabel)
 
@@ -53,17 +53,14 @@ class EditTrackViewController: UIViewController {
         return pointButtonA
     }()
 
-    lazy var pointTextA: UITextField = {
-        let pointTextA = UITextField(frame: .zero)
+    lazy var pointLabelA: UILabel = {
+        let pointLabelA = UILabel(frame: .zero)
 
-        pointTextA.translatesAutoresizingMaskIntoConstraints = false
-        if let pointA = track.pointA {
-            pointTextA.text = String(pointA)
-        }
+        pointLabelA.translatesAutoresizingMaskIntoConstraints = false
 
-        sectionViewA.addSubview(pointTextA)
+        sectionViewA.addSubview(pointLabelA)
 
-        return pointTextA
+        return pointLabelA
     }()
 
     lazy var sectionViewB: UIView = {
@@ -89,17 +86,14 @@ class EditTrackViewController: UIViewController {
         return pointButtonB
     }()
 
-    lazy var pointTextB: UITextField = {
-        let pointTextB = UITextField(frame: .zero)
+    lazy var pointLabelB: UILabel = {
+        let pointLabelB = UILabel(frame: .zero)
 
-        pointTextB.translatesAutoresizingMaskIntoConstraints = false
-        if let pointB = track.pointB {
-            pointTextB.text = String(pointB)
-        }
+        pointLabelB.translatesAutoresizingMaskIntoConstraints = false
 
-        sectionViewB.addSubview(pointTextB)
+        sectionViewB.addSubview(pointLabelB)
 
-        return pointTextB
+        return pointLabelB
     }()
 
     init(track: Track) {
@@ -122,6 +116,13 @@ class EditTrackViewController: UIViewController {
         toolbarItems = [previewItem]
 
         buildLayout()
+        updatePointLabels()
+
+        durationTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+            guard let wholePlayer = self?.wholePlayer else { return }
+
+            self?.durationLabel.text = Util.formatDuration(wholePlayer.currentTime)
+        }
 
         wholePlayer = try? AVAudioPlayer(contentsOf: track.assetURL)
         wholePlayer?.play()
@@ -142,16 +143,17 @@ class EditTrackViewController: UIViewController {
     // MARK: - Actions
 
     @objc func pointButtonADidTap(sender: Any) {
-        pointTextA.text = String(wholePlayer?.currentTime ?? 0)
-
         track.pointA = wholePlayer?.currentTime
         Playlist.save()
+
+        updatePointLabels()
     }
 
     @objc func pointButtonBDidTap(sender: Any) {
-        pointTextB.text = String(wholePlayer?.currentTime ?? 0)
         track.pointB = wholePlayer?.currentTime
         Playlist.save()
+
+        updatePointLabels()
     }
 
     @objc func previewItemDidTap(sender: Any) {
@@ -186,10 +188,10 @@ class EditTrackViewController: UIViewController {
         ])
 
         NSLayoutConstraint.activate([
-            pointTextA.topAnchor.constraint(equalTo: sectionViewA.topAnchor, constant: 8.0),
-            pointTextA.leadingAnchor.constraint(equalTo: sectionViewA.centerXAnchor, constant: 4.0),
-            pointTextA.trailingAnchor.constraint(equalTo: sectionViewA.trailingAnchor, constant: -8.0),
-            pointTextA.bottomAnchor.constraint(equalTo: sectionViewA.bottomAnchor, constant: -8.0),
+            pointLabelA.topAnchor.constraint(equalTo: sectionViewA.topAnchor, constant: 8.0),
+            pointLabelA.leadingAnchor.constraint(equalTo: sectionViewA.centerXAnchor, constant: 4.0),
+            pointLabelA.trailingAnchor.constraint(equalTo: sectionViewA.trailingAnchor, constant: -8.0),
+            pointLabelA.bottomAnchor.constraint(equalTo: sectionViewA.bottomAnchor, constant: -8.0),
         ])
 
         NSLayoutConstraint.activate([
@@ -207,10 +209,20 @@ class EditTrackViewController: UIViewController {
         ])
 
         NSLayoutConstraint.activate([
-            pointTextB.topAnchor.constraint(equalTo: sectionViewB.topAnchor, constant: 8.0),
-            pointTextB.leadingAnchor.constraint(equalTo: sectionViewB.centerXAnchor, constant: 4.0),
-            pointTextB.trailingAnchor.constraint(equalTo: sectionViewB.trailingAnchor, constant: -8.0),
-            pointTextB.bottomAnchor.constraint(equalTo: sectionViewB.bottomAnchor, constant: -8.0),
+            pointLabelB.topAnchor.constraint(equalTo: sectionViewB.topAnchor, constant: 8.0),
+            pointLabelB.leadingAnchor.constraint(equalTo: sectionViewB.centerXAnchor, constant: 4.0),
+            pointLabelB.trailingAnchor.constraint(equalTo: sectionViewB.trailingAnchor, constant: -8.0),
+            pointLabelB.bottomAnchor.constraint(equalTo: sectionViewB.bottomAnchor, constant: -8.0),
         ])
+    }
+
+    func updatePointLabels() {
+        if let pointA = track.pointA {
+            pointLabelA.text = Util.formatDuration(pointA)
+        }
+
+        if let pointB = track.pointB {
+            pointLabelB.text = Util.formatDuration(pointB)
+        }
     }
 }

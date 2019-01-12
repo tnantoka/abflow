@@ -23,7 +23,7 @@ class TracksViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        tableView.register(TrackCell.self, forCellReuseIdentifier: cellIdentifier)
 
         view.addSubview(tableView)
 
@@ -144,6 +144,10 @@ extension TracksViewController: UITableViewDelegate, UITableViewDataSource {
         let track = playlist.tracks[indexPath.row]
         cell.textLabel?.text = track.title
         cell.accessoryType = .disclosureIndicator
+
+        if let pointA = track.pointA, let pointB = track.pointB {
+            cell.detailTextLabel?.text = "\(Util.formatDuration(pointA)) - \(Util.formatDuration(pointB))"
+        }
 
         return cell
     }
