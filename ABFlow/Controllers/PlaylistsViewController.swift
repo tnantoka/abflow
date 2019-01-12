@@ -12,29 +12,29 @@ class PlaylistsViewController: UIViewController {
     let cellIdentifier = "PlaylistCell"
 
     var playlists = Playlist.all
-    let tableView = UITableView(frame: .zero)
+    
+    lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero)
+
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+
+        view.addSubview(tableView)
+
+        return tableView
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = NSLocalizedString("Playlists", comment: "")
 
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
-        
-        view.addSubview(tableView)
-
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0.0),
-            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0.0),
-            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0.0),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0.0)
-        ])
-
         let addItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItemDidTap))
         navigationItem.rightBarButtonItem = addItem
+
+        buildLayout()
     }
     
     // MARK: - Actions
@@ -62,10 +62,20 @@ class PlaylistsViewController: UIViewController {
 
     // MARK: - Utils
 
+    func buildLayout() {
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0.0),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0.0),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0.0),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0.0)
+        ])
+    }
+
     func refresh() {
         playlists = Playlist.all
         tableView.reloadData()
     }
+
 }
 
 extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
