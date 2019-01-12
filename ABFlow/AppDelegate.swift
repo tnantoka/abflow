@@ -15,11 +15,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+
+        Playlist.load()
 
         window = UIWindow(frame: UIScreen.main.bounds)
-        let viewContoroller = ViewController()
-        window?.rootViewController = viewContoroller
+
+        // let rootViewController = PlaylistsViewController()
+        let rootViewController = TracksViewController(playlist: Playlist.all[0])
+        let navController = UINavigationController(rootViewController: rootViewController)
+        window?.rootViewController = navController
+
         window?.makeKeyAndVisible()
 
         return true

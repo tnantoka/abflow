@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  ABFlow
+
+  Created by Tatsuya Tobioka on 2019/01/12.
+  Copyright © 2019 tnantoka. All rights reserved.
+*/
+
+NSAppleMusicUsageDescription = "アプリ内プレイリストに音楽を追加するためにライブラリにアクセスします。";

@@ -7,8 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9B52857921E70300008A75D5 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B52857821E70300008A75D5 /* Playlist.swift */; };
+		9B52857B21E7032E008A75D5 /* PlaylistsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B52857A21E7032E008A75D5 /* PlaylistsViewController.swift */; };
+		9B52859B21E8707B008A75D5 /* TracksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B52859A21E8707B008A75D5 /* TracksViewController.swift */; };
+		9B52859E21E99B68008A75D5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9B5285A021E99B68008A75D5 /* InfoPlist.strings */; };
+		9B5285A421E99E68008A75D5 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9B5285A621E99E68008A75D5 /* Localizable.strings */; };
+		9B5285A921E9A9C5008A75D5 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5285A821E9A9C5008A75D5 /* Track.swift */; };
 		9B6F725021E490AB00538D25 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6F724F21E490AB00538D25 /* AppDelegate.swift */; };
-		9B6F725221E490AB00538D25 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6F725121E490AB00538D25 /* ViewController.swift */; };
 		9B6F725721E490AD00538D25 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B6F725621E490AD00538D25 /* Assets.xcassets */; };
 		9B6F725A21E490AD00538D25 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B6F725821E490AD00538D25 /* LaunchScreen.storyboard */; };
 		9B6F726521E490AD00538D25 /* ABFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6F726421E490AD00538D25 /* ABFlowTests.swift */; };
@@ -25,9 +30,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9B52857821E70300008A75D5 /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
+		9B52857A21E7032E008A75D5 /* PlaylistsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistsViewController.swift; sourceTree = "<group>"; };
+		9B52859A21E8707B008A75D5 /* TracksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracksViewController.swift; sourceTree = "<group>"; };
+		9B52859F21E99B68008A75D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9B5285A121E99B76008A75D5 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		9B5285A521E99E68008A75D5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		9B5285A721E99E69008A75D5 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		9B5285A821E9A9C5008A75D5 /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
 		9B6F724C21E490AB00538D25 /* ABFlow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ABFlow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B6F724F21E490AB00538D25 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		9B6F725121E490AB00538D25 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		9B6F725621E490AD00538D25 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9B6F725921E490AD00538D25 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9B6F725B21E490AD00538D25 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -54,6 +66,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9B52857521E702D7008A75D5 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				9B52857A21E7032E008A75D5 /* PlaylistsViewController.swift */,
+				9B52859A21E8707B008A75D5 /* TracksViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		9B52857621E702DF008A75D5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9B52857821E70300008A75D5 /* Playlist.swift */,
+				9B5285A821E9A9C5008A75D5 /* Track.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		9B52857721E702E5008A75D5 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		9B6F724321E490AB00538D25 = {
 			isa = PBXGroup;
 			children = (
@@ -75,11 +112,15 @@
 		9B6F724E21E490AB00538D25 /* ABFlow */ = {
 			isa = PBXGroup;
 			children = (
+				9B52857621E702DF008A75D5 /* Models */,
+				9B52857721E702E5008A75D5 /* Views */,
+				9B52857521E702D7008A75D5 /* Controllers */,
 				9B6F724F21E490AB00538D25 /* AppDelegate.swift */,
-				9B6F725121E490AB00538D25 /* ViewController.swift */,
 				9B6F725621E490AD00538D25 /* Assets.xcassets */,
 				9B6F725821E490AD00538D25 /* LaunchScreen.storyboard */,
 				9B6F725B21E490AD00538D25 /* Info.plist */,
+				9B5285A021E99B68008A75D5 /* InfoPlist.strings */,
+				9B5285A621E99E68008A75D5 /* Localizable.strings */,
 			);
 			path = ABFlow;
 			sourceTree = "<group>";
@@ -157,6 +198,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ja,
 			);
 			mainGroup = 9B6F724321E490AB00538D25;
 			productRefGroup = 9B6F724D21E490AB00538D25 /* Products */;
@@ -175,6 +217,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				9B6F725A21E490AD00538D25 /* LaunchScreen.storyboard in Resources */,
+				9B5285A421E99E68008A75D5 /* Localizable.strings in Resources */,
+				9B52859E21E99B68008A75D5 /* InfoPlist.strings in Resources */,
 				9B6F725721E490AD00538D25 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -193,8 +237,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9B6F725221E490AB00538D25 /* ViewController.swift in Sources */,
+				9B52859B21E8707B008A75D5 /* TracksViewController.swift in Sources */,
+				9B5285A921E9A9C5008A75D5 /* Track.swift in Sources */,
+				9B52857B21E7032E008A75D5 /* PlaylistsViewController.swift in Sources */,
 				9B6F725021E490AB00538D25 /* AppDelegate.swift in Sources */,
+				9B52857921E70300008A75D5 /* Playlist.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -217,6 +264,24 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		9B5285A021E99B68008A75D5 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9B52859F21E99B68008A75D5 /* en */,
+				9B5285A121E99B76008A75D5 /* ja */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		9B5285A621E99E68008A75D5 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9B5285A521E99E68008A75D5 /* en */,
+				9B5285A721E99E69008A75D5 /* ja */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		9B6F725821E490AD00538D25 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -232,6 +297,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -293,6 +359,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -349,6 +416,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = H4Z42X3L6X;
 				INFOPLIST_FILE = ABFlow/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -366,6 +434,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = H4Z42X3L6X;
 				INFOPLIST_FILE = ABFlow/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
