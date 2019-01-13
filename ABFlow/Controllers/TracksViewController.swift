@@ -11,12 +11,10 @@ import MediaPlayer
 
 class TracksViewController: UIViewController {
     let cellIdentifier = "TrackCell"
+    let itemSize = CGSize(width: 28.0, height: 28.0)
 
     let playlist: Playlist
 
-    var repeatPlayer: AVPlayer?
-    var playerItems = [AVPlayerItem]()
-    
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero)
 
@@ -30,6 +28,24 @@ class TracksViewController: UIViewController {
         view.addSubview(tableView)
 
         return tableView
+    }()
+
+    lazy var addItem: UIBarButtonItem = {
+        let addImage = UIImage(from: .materialIcon, code: "playlist.add", textColor: .black, backgroundColor: .clear, size: itemSize)
+        let addItem = UIBarButtonItem(image: addImage, style: .plain, target: self, action: #selector(addItemDidTap))
+        return addItem
+    }()
+
+    lazy var editItem: UIBarButtonItem = {
+        let editImage = UIImage(from: .materialIcon, code: "edit", textColor: .black, backgroundColor: .clear, size: itemSize)
+        let editItem = UIBarButtonItem(image: editImage, style: .plain, target: self, action: #selector(editItemDidTap))
+        return editItem
+    }()
+
+    lazy var doneItem: UIBarButtonItem = {
+        let doneImage = UIImage(from: .materialIcon, code: "close", textColor: .black, backgroundColor: .clear, size: itemSize)
+        let doneItem = UIBarButtonItem(image: doneImage, style: .plain, target: self, action: #selector(doneItemDidTap))
+        return doneItem
     }()
 
     init(playlist: Playlist) {
@@ -48,10 +64,11 @@ class TracksViewController: UIViewController {
 
         view.backgroundColor = Color.darkGray
 
-        let addItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItemDidTap))
-        navigationItem.rightBarButtonItem = addItem
+        setEditing(false, animated: false)
 
         buildLayout()
+
+        playButtonDidTap(sender: self)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -64,14 +81,29 @@ class TracksViewController: UIViewController {
             }
         }
 
+        if let indexPath = tableView.indexPathForSelectedRow {
+            tableView.deselectRow(at: indexPath, animated: animated)
+        }
+
         navigationController?.setToolbarHidden(false, animated: animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidEnd), name: Notification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
         navigationController?.setToolbarHidden(true, animated: animated)
+    }
+
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+
+        if editing {
+            navigationItem.rightBarButtonItems = [doneItem]
+        } else {
+            navigationItem.rightBarButtonItems = [editItem, addItem]
+        }
+
+        tableView.setEditing(editing, animated: animated)
     }
 
     // MARK: - Actions
@@ -85,16 +117,16 @@ class TracksViewController: UIViewController {
         present(mediaController, animated: true, completion: nil)
     }
 
-    @objc func playerItemDidEnd(notification: Notification) {
-        guard let playerItem = notification.object as? AVPlayerItem else { return }
-
-        if playerItem == playerItems.last {
-            playAll()
-        }
+    @objc func playButtonDidTap(sender: Any) {
+        BackgroundPlayer.shared.play(playlist)
     }
 
-    @objc func playButtonDidTap(sender: Any) {
-        playAll()
+    @objc func editItemDidTap(sender: Any) {
+        setEditing(true, animated: true)
+    }
+
+    @objc func doneItemDidTap(sender: Any) {
+        setEditing(false, animated: true)
     }
 
     // MARK: - Utils
@@ -110,12 +142,6 @@ class TracksViewController: UIViewController {
 
     func refresh() {
         tableView.reloadData()
-    }
-
-    func playAll() {
-        playerItems = playlist.tracks.map { $0.playerItem }
-        repeatPlayer = AVQueuePlayer(items: playerItems)
-        repeatPlayer?.play()
     }
 }
 
@@ -168,7 +194,7 @@ extension TracksViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
+        return tableView.isEditing
     }
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -177,5 +203,14 @@ extension TracksViewController: UITableViewDelegate, UITableViewDataSource {
             playlist.destroyTrack(track)
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
+    }
+
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let track = playlist.tracks[sourceIndexPath.row]
+        playlist.moveTrack(track, to: destinationIndexPath.row)
     }
 }

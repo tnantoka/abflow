@@ -41,6 +41,9 @@ class Playlist: Codable {
         save()
     }
 
+    static func hoge() {
+    }
+
     init(name: String) {
         self.name = name
     }
@@ -51,6 +54,15 @@ class Playlist: Codable {
         Playlist.save()
     }
 
+    func move(to i: Int) {
+        Playlist.playlists.removeAll { $0.id == id }
+        Playlist.playlists.insert(self, at: i)
+
+        Playlist.save()
+    }
+
+    // MARK: - Tracks
+
     func appendTracks(_ tracks: [Track]) {
         self.tracks.append(contentsOf: tracks)
 
@@ -59,6 +71,13 @@ class Playlist: Codable {
 
     func destroyTrack(_ track: Track) {
         tracks.removeAll { $0.id == track.id }
+
+        Playlist.save()
+    }
+
+    func moveTrack(_ track: Track, to i: Int) {
+        tracks.removeAll { $0.id == track.id }
+        tracks.insert(track, at: i)
 
         Playlist.save()
     }
