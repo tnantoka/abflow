@@ -32,14 +32,14 @@ class Track: Codable {
         }
     }
 
+    lazy var asset: AVURLAsset = { AVURLAsset(url: assetURL) }()
+
     init(title: String, assetURL: URL) {
         self.title = title
         self.assetURL = assetURL
     }
 
     var playerItem: AVPlayerItem {
-        let asset = AVURLAsset(url: assetURL)
-
         guard let pointA = pointA, let pointB = pointB else {
             return AVPlayerItem(asset: asset)
         }

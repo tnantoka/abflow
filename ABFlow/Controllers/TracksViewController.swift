@@ -111,7 +111,7 @@ class TracksViewController: UIViewController {
     }
 
     @objc func playButtonDidTap(sender: Any) {
-        BackgroundPlayer.shared.play(playlist)
+        BackgroundPlayer.shared.playlist = playlist
     }
 
     @objc func editItemDidTap(sender: Any) {

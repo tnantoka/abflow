@@ -17,6 +17,37 @@ class EditTrackViewController: UIViewController {
     var previewPlayer: AVPlayer?
     var durationTimer: Timer?
 
+    lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView(frame: .zero)
+
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+
+        view.addSubview(scrollView)
+
+        return scrollView
+    }()
+
+    lazy var containerView: UIView = {
+        let containerView = UIView(frame: .zero)
+
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+
+        scrollView.addSubview(containerView)
+
+        return containerView
+    }()
+
+    lazy var sectionViewControl: UIView = {
+        let sectionViewControl = UIView(frame: .zero)
+
+        sectionViewControl.translatesAutoresizingMaskIntoConstraints = false
+        sectionViewControl.backgroundColor = Color.white
+
+        containerView.addSubview(sectionViewControl)
+
+        return sectionViewControl
+    }()
+
     lazy var durationLabel: UILabel = {
         let durationLabel = UILabel(frame: .zero)
 
@@ -25,10 +56,56 @@ class EditTrackViewController: UIViewController {
         durationLabel.textAlignment = .center
         durationLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 14.0, weight: .regular)
         durationLabel.textColor = Color.text
+        durationLabel.text = "0:00:00"
 
-        view.addSubview(durationLabel)
+        sectionViewControl.addSubview(durationLabel)
 
         return durationLabel
+    }()
+
+    lazy var playButton: UIButton = {
+        let playButton = UIButton(type: .system)
+
+        playButton.translatesAutoresizingMaskIntoConstraints = false
+        playButton.addTarget(self, action: #selector(playButtonDidTap), for: .touchUpInside)
+        playButton.tintColor = Color.text
+
+        let playImage = UIImage(from: .materialIcon, code: "play.arrow", textColor: .black, backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
+        playButton.setImage(playImage, for: .normal)
+
+        sectionViewControl.addSubview(playButton)
+
+        return playButton
+    }()
+
+    lazy var pauseButton: UIButton = {
+        let pauseButton = UIButton(type: .system)
+
+        pauseButton.translatesAutoresizingMaskIntoConstraints = false
+        pauseButton.addTarget(self, action: #selector(pauseButtonDidTap), for: .touchUpInside)
+        pauseButton.tintColor = Color.text
+        pauseButton.isHidden = true
+
+        let pauseImage = UIImage(from: .materialIcon, code: "pause", textColor: .black, backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
+        pauseButton.setImage(pauseImage, for: .normal)
+
+        sectionViewControl.addSubview(pauseButton)
+
+        return pauseButton
+    }()
+
+    lazy var durationSlider: UISlider = {
+        let durationSlider = UISlider(frame: .zero)
+
+        durationSlider.translatesAutoresizingMaskIntoConstraints = false
+        durationSlider.isContinuous = false
+        durationSlider.minimumValue = 0.0
+        durationSlider.maximumValue = Float(CMTimeGetSeconds(track.asset.duration))
+        durationSlider.addTarget(self, action: #selector(durationSliderDidChange), for: .valueChanged)
+
+        sectionViewControl.addSubview(durationSlider)
+
+        return durationSlider
     }()
 
     lazy var sectionViewA: UIView = {
@@ -37,7 +114,7 @@ class EditTrackViewController: UIViewController {
         sectionViewA.translatesAutoresizingMaskIntoConstraints = false
         sectionViewA.backgroundColor = Color.white
 
-        view.addSubview(sectionViewA)
+        containerView.addSubview(sectionViewA)
 
         return sectionViewA
     }()
@@ -73,7 +150,7 @@ class EditTrackViewController: UIViewController {
         sectionViewB.translatesAutoresizingMaskIntoConstraints = false
         sectionViewB.backgroundColor = Color.white
 
-        view.addSubview(sectionViewB)
+        containerView.addSubview(sectionViewB)
 
         return sectionViewB
     }()
@@ -109,7 +186,7 @@ class EditTrackViewController: UIViewController {
         sectionViewPreview.translatesAutoresizingMaskIntoConstraints = false
         sectionViewPreview.backgroundColor = Color.white
 
-        view.addSubview(sectionViewPreview)
+        containerView.addSubview(sectionViewPreview)
 
         return sectionViewPreview
     }()
@@ -151,10 +228,12 @@ class EditTrackViewController: UIViewController {
             guard let wholePlayer = self?.wholePlayer else { return }
 
             self?.durationLabel.text = Util.formatDuration(wholePlayer.currentTime)
+            self?.durationSlider.value = Float(wholePlayer.currentTime)
         }
 
         wholePlayer = try? AVAudioPlayer(contentsOf: track.assetURL)
-        wholePlayer?.play()
+
+        NotificationCenter.default.addObserver(self, selector: #selector(appDidEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
 
     // MARK: - Actions
@@ -176,25 +255,95 @@ class EditTrackViewController: UIViewController {
     @objc func previewButtonDidTap(sender: Any) {
         previewPlayer = AVPlayer(playerItem: track.playerItem)
 
+        BackgroundPlayer.shared.pause()
         wholePlayer?.stop()
+
         previewPlayer?.play()
+    }
+
+    @objc func durationSliderDidChange(sender: Any) {
+        wholePlayer?.currentTime = TimeInterval(durationSlider.value)
+    }
+
+    @objc func playButtonDidTap(sender: Any) {
+        BackgroundPlayer.shared.pause()
+        previewPlayer?.pause()
+
+        wholePlayer?.play()
+
+        playButton.isHidden = true
+        pauseButton.isHidden = false
+    }
+
+    @objc func pauseButtonDidTap(sender: Any) {
+        wholePlayer?.pause()
+
+        playButton.isHidden = false
+        pauseButton.isHidden = true
+    }
+
+    @objc func appDidEnterBackground(sender: Any) {
+        pauseButtonDidTap(sender: self)
+
+        previewPlayer?.pause()
     }
 
     // MARK: - Utils
 
     func buildLayout() {
         NSLayoutConstraint.activate([
-            durationLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8.0),
-            durationLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8.0),
-            durationLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8.0),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0.0),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0.0),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0.0),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0.0),
+        ])
+
+        NSLayoutConstraint.activate([
+            containerView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 0.0),
+            containerView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 1.0),
+            containerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 0.0),
+        ])
+
+        NSLayoutConstraint.activate([
+            sectionViewControl.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8.0),
+            sectionViewControl.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8.0),
+            sectionViewControl.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8.0),
+            sectionViewControl.heightAnchor.constraint(equalToConstant: 44.0 * 3.0 + 8.0 * 4.0),
+        ])
+
+        NSLayoutConstraint.activate([
+            durationLabel.topAnchor.constraint(equalTo: sectionViewControl.topAnchor, constant: 8.0),
+            durationLabel.leadingAnchor.constraint(equalTo: sectionViewControl.leadingAnchor, constant: 8.0),
+            durationLabel.trailingAnchor.constraint(equalTo: sectionViewControl.trailingAnchor, constant: -8.0),
             durationLabel.heightAnchor.constraint(equalToConstant: 44.0),
         ])
 
         NSLayoutConstraint.activate([
-            sectionViewA.topAnchor.constraint(equalTo: durationLabel.bottomAnchor, constant: 8.0),
-            sectionViewA.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8.0),
-            sectionViewA.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8.0),
-            sectionViewA.heightAnchor.constraint(equalToConstant: 44.0),
+            durationSlider.topAnchor.constraint(equalTo: durationLabel.bottomAnchor, constant: 8.0),
+            durationSlider.leadingAnchor.constraint(equalTo: sectionViewControl.leadingAnchor, constant: 8.0),
+            durationSlider.trailingAnchor.constraint(equalTo: sectionViewControl.trailingAnchor, constant: -8.0),
+            durationSlider.heightAnchor.constraint(equalToConstant: 44.0),
+        ])
+
+        NSLayoutConstraint.activate([
+            playButton.topAnchor.constraint(equalTo: durationSlider.bottomAnchor, constant: 8.0),
+            playButton.widthAnchor.constraint(equalToConstant: 44.0),
+            playButton.heightAnchor.constraint(equalToConstant: 44.0),
+            playButton.centerXAnchor.constraint(equalToSystemSpacingAfter: sectionViewControl.centerXAnchor, multiplier: 0.0)
+        ])
+
+        NSLayoutConstraint.activate([
+            pauseButton.topAnchor.constraint(equalTo: durationSlider.bottomAnchor, constant: 8.0),
+            pauseButton.widthAnchor.constraint(equalToConstant: 44.0),
+            pauseButton.heightAnchor.constraint(equalToConstant: 44.0),
+            pauseButton.centerXAnchor.constraint(equalToSystemSpacingAfter: sectionViewControl.centerXAnchor, multiplier: 0.0)
+        ])
+
+        NSLayoutConstraint.activate([
+            sectionViewA.topAnchor.constraint(equalTo: sectionViewControl.bottomAnchor, constant: 8.0),
+            sectionViewA.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8.0),
+            sectionViewA.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8.0),
+            sectionViewA.heightAnchor.constraint(equalToConstant: 44.0 * 1.0 + 8.0 * 2.0),
         ])
 
         NSLayoutConstraint.activate([
@@ -213,9 +362,9 @@ class EditTrackViewController: UIViewController {
 
         NSLayoutConstraint.activate([
             sectionViewB.topAnchor.constraint(equalTo: sectionViewA.bottomAnchor, constant: 8.0),
-            sectionViewB.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8.0),
-            sectionViewB.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8.0),
-            sectionViewB.heightAnchor.constraint(equalToConstant: 44.0),
+            sectionViewB.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8.0),
+            sectionViewB.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8.0),
+            sectionViewB.heightAnchor.constraint(equalToConstant: 44.0 * 1.0 + 8.0 * 2.0),
         ])
 
         NSLayoutConstraint.activate([
@@ -234,9 +383,9 @@ class EditTrackViewController: UIViewController {
 
         NSLayoutConstraint.activate([
             sectionViewPreview.topAnchor.constraint(equalTo: sectionViewB.bottomAnchor, constant: 8.0),
-            sectionViewPreview.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8.0),
-            sectionViewPreview.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8.0),
-            sectionViewPreview.heightAnchor.constraint(equalToConstant: 44.0),
+            sectionViewPreview.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8.0),
+            sectionViewPreview.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8.0),
+            sectionViewPreview.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8.0),
         ])
 
         NSLayoutConstraint.activate([

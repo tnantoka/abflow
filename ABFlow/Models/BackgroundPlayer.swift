@@ -16,7 +16,11 @@ class BackgroundPlayer: NSObject {
     var avPlayer: AVQueuePlayer?
     var playerItems = [AVPlayerItem]()
 
-    var playlist: Playlist?
+    var playlist: Playlist? {
+        didSet {
+            playAll()
+        }
+    }
 
     private override init() {
         super.init()
@@ -31,11 +35,6 @@ class BackgroundPlayer: NSObject {
 
     deinit {
         UIApplication.shared.endReceivingRemoteControlEvents()
-    }
-
-    func play(_ playlist: Playlist) {
-        self.playlist = playlist
-        playAll()
     }
 
     // MARK: - Actions
@@ -81,12 +80,12 @@ class BackgroundPlayer: NSObject {
     private func prepareForRemoteControl() {
         UIApplication.shared.beginReceivingRemoteControlEvents()
 
-        MPRemoteCommandCenter.shared().playCommand.addTarget { _ in
-            print("play")
+        MPRemoteCommandCenter.shared().playCommand.addTarget { [weak self] _ in
+            self?.play()
             return MPRemoteCommandHandlerStatus.success
         }
-        MPRemoteCommandCenter.shared().pauseCommand.addTarget { _ in
-            print("pause")
+        MPRemoteCommandCenter.shared().pauseCommand.addTarget { [weak self] _ in
+            self?.pause()
             return MPRemoteCommandHandlerStatus.success
         }
         MPRemoteCommandCenter.shared().previousTrackCommand.addTarget { _ in
@@ -97,5 +96,13 @@ class BackgroundPlayer: NSObject {
             print("nextTrack")
             return MPRemoteCommandHandlerStatus.success
         }
+    }
+
+    func play() {
+        avPlayer?.play()
+    }
+
+    func pause() {
+        avPlayer?.pause()
     }
 }
