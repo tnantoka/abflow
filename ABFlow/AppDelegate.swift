@@ -18,10 +18,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         Playlist.load()
 
+        UINavigationBar.appearance(whenContainedInInstancesOf: [NavigationController.self]).barTintColor = Color.primary
+        UINavigationBar.appearance(whenContainedInInstancesOf: [NavigationController.self]).tintColor = Color.white
+        UINavigationBar.appearance(whenContainedInInstancesOf: [NavigationController.self]).titleTextAttributes = [
+            .foregroundColor: Color.white
+        ]
+
         window = UIWindow(frame: UIScreen.main.bounds)
 
         let rootViewController = PlaylistsViewController()
-        let navController = UINavigationController(rootViewController: rootViewController)
+        let navController = NavigationController(rootViewController: rootViewController)
         window?.rootViewController = navController
 
         window?.makeKeyAndVisible()

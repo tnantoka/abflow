@@ -19,7 +19,9 @@ class PlaylistsViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        tableView.register(PlaylistCell.self, forCellReuseIdentifier: cellIdentifier)
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = Color.darkGray
 
         view.addSubview(tableView)
 
@@ -31,10 +33,20 @@ class PlaylistsViewController: UIViewController {
 
         title = NSLocalizedString("Playlists", comment: "")
 
+        view.backgroundColor = Color.darkGray
+
         let addItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItemDidTap))
         navigationItem.rightBarButtonItem = addItem
 
         buildLayout()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        if let indexPath = tableView.indexPathForSelectedRow {
+            tableView.deselectRow(at: indexPath, animated: animated)
+        }
     }
     
     // MARK: - Actions
@@ -64,10 +76,10 @@ class PlaylistsViewController: UIViewController {
 
     func buildLayout() {
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0.0),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0.0),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0.0),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0.0)
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 4.0),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4.0),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4.0),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 4.0)
         ])
     }
 
@@ -92,6 +104,7 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
         let playlist = playlists[indexPath.row]
         cell.textLabel?.text = playlist.name
         cell.accessoryType = .disclosureIndicator
+        cell.detailTextLabel?.text = "\(playlist.tracks.count)"
 
         return cell
     }

@@ -24,6 +24,8 @@ class TracksViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(TrackCell.self, forCellReuseIdentifier: cellIdentifier)
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = Color.darkGray
 
         view.addSubview(tableView)
 
@@ -44,11 +46,10 @@ class TracksViewController: UIViewController {
 
         title = playlist.name
 
+        view.backgroundColor = Color.darkGray
+
         let addItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItemDidTap))
         navigationItem.rightBarButtonItem = addItem
-
-        let playItem = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(playItemDidTap))
-        toolbarItems = [playItem]
 
         buildLayout()
     }
@@ -84,10 +85,6 @@ class TracksViewController: UIViewController {
         present(mediaController, animated: true, completion: nil)
     }
 
-    @objc func playItemDidTap(sender: Any) {
-        playAll()
-    }
-
     @objc func playerItemDidEnd(notification: Notification) {
         guard let playerItem = notification.object as? AVPlayerItem else { return }
 
@@ -96,14 +93,18 @@ class TracksViewController: UIViewController {
         }
     }
 
+    @objc func playButtonDidTap(sender: Any) {
+        playAll()
+    }
+
     // MARK: - Utils
 
     func buildLayout() {
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0.0),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0.0),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0.0),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0.0)
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 4.0),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4.0),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4.0),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 4.0)
         ])
     }
 

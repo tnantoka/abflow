@@ -24,6 +24,7 @@ class EditTrackViewController: UIViewController {
         durationLabel.backgroundColor = Color.white
         durationLabel.textAlignment = .center
         durationLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 14.0, weight: .regular)
+        durationLabel.textColor = Color.text
 
         view.addSubview(durationLabel)
 
@@ -47,6 +48,8 @@ class EditTrackViewController: UIViewController {
         pointButtonA.translatesAutoresizingMaskIntoConstraints = false
         pointButtonA.setTitle(NSLocalizedString("Point A", comment: ""), for: .normal)
         pointButtonA.addTarget(self, action: #selector(pointButtonADidTap), for: .touchUpInside)
+        pointButtonA.setTitleColor(Color.text, for: .normal)
+        pointButtonA.backgroundColor = Color.secondary
 
         sectionViewA.addSubview(pointButtonA)
 
@@ -57,6 +60,7 @@ class EditTrackViewController: UIViewController {
         let pointLabelA = UILabel(frame: .zero)
 
         pointLabelA.translatesAutoresizingMaskIntoConstraints = false
+        pointLabelA.textColor = Color.text
 
         sectionViewA.addSubview(pointLabelA)
 
@@ -80,6 +84,8 @@ class EditTrackViewController: UIViewController {
         pointButtonB.translatesAutoresizingMaskIntoConstraints = false
         pointButtonB.setTitle(NSLocalizedString("Point B", comment: ""), for: .normal)
         pointButtonB.addTarget(self, action: #selector(pointButtonBDidTap), for: .touchUpInside)
+        pointButtonB.setTitleColor(Color.text, for: .normal)
+        pointButtonB.backgroundColor = Color.secondary
 
         sectionViewB.addSubview(pointButtonB)
 
@@ -90,10 +96,36 @@ class EditTrackViewController: UIViewController {
         let pointLabelB = UILabel(frame: .zero)
 
         pointLabelB.translatesAutoresizingMaskIntoConstraints = false
+        pointLabelB.textColor = Color.text
 
         sectionViewB.addSubview(pointLabelB)
 
         return pointLabelB
+    }()
+
+    lazy var sectionViewPreview: UIView = {
+        let sectionViewPreview = UIView(frame: .zero)
+
+        sectionViewPreview.translatesAutoresizingMaskIntoConstraints = false
+        sectionViewPreview.backgroundColor = Color.white
+
+        view.addSubview(sectionViewPreview)
+
+        return sectionViewPreview
+    }()
+
+    lazy var previewButton: UIButton = {
+        let previewButton = UIButton(type: .system)
+
+        previewButton.translatesAutoresizingMaskIntoConstraints = false
+        previewButton.setTitle(NSLocalizedString("Preview", comment: ""), for: .normal)
+        previewButton.addTarget(self, action: #selector(previewButtonDidTap), for: .touchUpInside)
+        previewButton.setTitleColor(Color.white, for: .normal)
+        previewButton.backgroundColor = Color.primary
+
+        sectionViewPreview.addSubview(previewButton)
+
+        return previewButton
     }()
 
     init(track: Track) {
@@ -110,10 +142,7 @@ class EditTrackViewController: UIViewController {
 
         title = track.title
 
-        view.backgroundColor = Color.lightGray
-
-        let previewItem = UIBarButtonItem(barButtonSystemItem: .play, target: self, action: #selector(previewItemDidTap))
-        toolbarItems = [previewItem]
+        view.backgroundColor = Color.darkGray
 
         buildLayout()
         updatePointLabels()
@@ -126,18 +155,6 @@ class EditTrackViewController: UIViewController {
 
         wholePlayer = try? AVAudioPlayer(contentsOf: track.assetURL)
         wholePlayer?.play()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        navigationController?.setToolbarHidden(false, animated: animated)
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        navigationController?.setToolbarHidden(true, animated: animated)
     }
 
     // MARK: - Actions
@@ -156,7 +173,7 @@ class EditTrackViewController: UIViewController {
         updatePointLabels()
     }
 
-    @objc func previewItemDidTap(sender: Any) {
+    @objc func previewButtonDidTap(sender: Any) {
         previewPlayer = AVPlayer(playerItem: track.playerItem)
 
         wholePlayer?.stop()
@@ -213,6 +230,20 @@ class EditTrackViewController: UIViewController {
             pointLabelB.leadingAnchor.constraint(equalTo: sectionViewB.centerXAnchor, constant: 4.0),
             pointLabelB.trailingAnchor.constraint(equalTo: sectionViewB.trailingAnchor, constant: -8.0),
             pointLabelB.bottomAnchor.constraint(equalTo: sectionViewB.bottomAnchor, constant: -8.0),
+        ])
+
+        NSLayoutConstraint.activate([
+            sectionViewPreview.topAnchor.constraint(equalTo: sectionViewB.bottomAnchor, constant: 8.0),
+            sectionViewPreview.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8.0),
+            sectionViewPreview.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8.0),
+            sectionViewPreview.heightAnchor.constraint(equalToConstant: 44.0),
+        ])
+
+        NSLayoutConstraint.activate([
+            previewButton.topAnchor.constraint(equalTo: sectionViewPreview.topAnchor, constant: 8.0),
+            previewButton.leadingAnchor.constraint(equalTo: sectionViewPreview.leadingAnchor, constant: 8.0),
+            previewButton.trailingAnchor.constraint(equalTo: sectionViewPreview.trailingAnchor, constant: -8.0),
+            previewButton.bottomAnchor.constraint(equalTo: sectionViewPreview.bottomAnchor, constant: -8.0),
         ])
     }
 
