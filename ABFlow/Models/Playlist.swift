@@ -48,6 +48,12 @@ class Playlist: Codable {
         self.name = name
     }
 
+    func update(name: String) {
+        self.name = name
+
+        Playlist.save()
+    }
+
     func destroy() {
         Playlist.playlists.removeAll { $0.id == id }
 

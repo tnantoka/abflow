@@ -24,6 +24,7 @@ class TracksViewController: UIViewController {
         tableView.register(TrackCell.self, forCellReuseIdentifier: cellIdentifier)
         tableView.separatorStyle = .none
         tableView.backgroundColor = Color.darkGray
+        tableView.allowsSelectionDuringEditing = true
 
         view.addSubview(tableView)
 
@@ -84,14 +85,6 @@ class TracksViewController: UIViewController {
         if let indexPath = tableView.indexPathForSelectedRow {
             tableView.deselectRow(at: indexPath, animated: animated)
         }
-
-        navigationController?.setToolbarHidden(false, animated: animated)
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-
-        navigationController?.setToolbarHidden(true, animated: animated)
     }
 
     override func setEditing(_ editing: Bool, animated: Bool) {
@@ -183,7 +176,6 @@ extension TracksViewController: UITableViewDelegate, UITableViewDataSource {
 
     func configureCell(_ cell: UITableViewCell, with track: Track) {
         cell.textLabel?.text = track.title
-        cell.accessoryType = .disclosureIndicator
         cell.detailTextLabel?.text = "\(Util.formatDuration(track.pointA)) - \(Util.formatDuration(track.pointB))"
     }
 

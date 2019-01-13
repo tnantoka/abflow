@@ -6,5 +6,14 @@
   Copyright © 2019 tnantoka. All rights reserved.
 */
 
+"Add" = "Add";
+"Cancel" = "Cancel";
+"Edit Playlist" = "Edit Playlist";
 "Playlists" = "Playlists";
+"Point A" = "Point A";
+"Point B" = "Point B";
+"Preview" = "Preview";
+"Name" = "Name";
+"New Playlist" = "New Playlist";
 "tracks" = "tracks";
+"Update" = "Update";

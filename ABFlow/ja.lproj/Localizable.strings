@@ -6,5 +6,15 @@
   Copyright © 2019 tnantoka. All rights reserved.
 */
 
+
+"Add" = "追加";
+"Cancel" = "キャンセル";
+"Edit Playlist" = "プレイリストの編集";
 "Playlists" = "プレイリスト";
+"Point A" = "開始位置";
+"Point B" = "終了位置";
+"Preview" = "プレビュー";
+"Name" = "名前";
+"New Playlist" = "新規プレイリスト";
 "tracks" = "トラック";
+"Update" = "更新";

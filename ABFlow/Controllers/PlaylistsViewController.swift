@@ -25,6 +25,7 @@ class PlaylistsViewController: UIViewController {
         tableView.register(PlaylistCell.self, forCellReuseIdentifier: cellIdentifier)
         tableView.separatorStyle = .none
         tableView.backgroundColor = Color.darkGray
+        tableView.allowsSelectionDuringEditing = true
 
         view.addSubview(tableView)
 
@@ -64,16 +65,8 @@ class PlaylistsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        for cell in tableView.visibleCells {
-            if let indexPath = tableView.indexPath(for: cell) {
-                let playlist = playlists[indexPath.row]
-                configureCell(cell, with: playlist)
-            }
-        }
-
-        if let indexPath = tableView.indexPathForSelectedRow {
-            tableView.deselectRow(at: indexPath, animated: animated)
-        }
+        updateCells()
+        deselectRow(animated: animated)
     }
 
     override func setEditing(_ editing: Bool, animated: Bool) {
@@ -91,12 +84,8 @@ class PlaylistsViewController: UIViewController {
     // MARK: - Actions
 
     @objc func addItemDidTap(sender: Any) {
-        let alertController = UIAlertController(title: NSLocalizedString("New Playlist", comment: ""), message: nil, preferredStyle: .alert)
-        alertController.addTextField { textField in
-            textField.placeholder = NSLocalizedString("Name", comment: "")
-        }
-        alertController.addAction(
-            UIAlertAction(
+        presentPlaylistAlert(title: NSLocalizedString("New Playlist", comment: ""), text: nil) { alertController in
+            return UIAlertAction(
                 title: NSLocalizedString("Add", comment: ""),
                 style: .default,
                 handler: { _ in
@@ -106,9 +95,7 @@ class PlaylistsViewController: UIViewController {
                     self.refresh()
                 }
             )
-        )
-        alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: nil))
-        present(alertController, animated: true, completion: nil)
+        }
     }
 
     @objc func editItemDidTap(sender: Any) {
@@ -138,6 +125,32 @@ class PlaylistsViewController: UIViewController {
         updatePlaylists()
         tableView.reloadData()
     }
+
+    func deselectRow(animated: Bool) {
+        if let indexPath = tableView.indexPathForSelectedRow {
+            tableView.deselectRow(at: indexPath, animated: animated)
+        }
+    }
+
+    func updateCells() {
+        for cell in tableView.visibleCells {
+            if let indexPath = tableView.indexPath(for: cell) {
+                let playlist = playlists[indexPath.row]
+                configureCell(cell, with: playlist)
+            }
+        }
+    }
+
+    func presentPlaylistAlert(title: String, text: String?, actionProvider: (UIAlertController) -> UIAlertAction) {
+        let alertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+        alertController.addTextField { textField in
+            textField.placeholder = NSLocalizedString("Name", comment: "")
+            textField.text = text
+        }
+        alertController.addAction(actionProvider(alertController))
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: { [weak self] _ in self?.deselectRow(animated: true) }))
+        present(alertController, animated: true, completion: nil)
+    }
 }
 
 extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
@@ -162,8 +175,25 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let playlist = playlists[indexPath.row]
-        let tracksController = TracksViewController(playlist: playlist)
-        navigationController?.pushViewController(tracksController, animated: true)
+
+        if tableView.isEditing {
+            presentPlaylistAlert(title: NSLocalizedString("Edit Playlist", comment: ""), text: playlist.name) { [weak self] alertController in
+                return UIAlertAction(
+                    title: NSLocalizedString("Update", comment: ""),
+                    style: .default,
+                    handler: { _ in
+                        guard let text = alertController.textFields?.first?.text?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) else { return }
+                        guard !text.isEmpty else { return }
+                        playlist.update(name: text)
+                        self?.updateCells()
+                        self?.deselectRow(animated: true)
+                    }
+                )
+            }
+        } else {
+            let tracksController = TracksViewController(playlist: playlist)
+            navigationController?.pushViewController(tracksController, animated: true)
+        }
     }
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -186,5 +216,6 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         let playlist = playlists[sourceIndexPath.row]
         playlist.move(to: destinationIndexPath.row)
+        updatePlaylists()
     }
 }
