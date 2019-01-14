@@ -163,8 +163,8 @@
 				9B6F725621E490AD00538D25 /* Assets.xcassets */,
 				9B6F725821E490AD00538D25 /* LaunchScreen.storyboard */,
 				9B6F725B21E490AD00538D25 /* Info.plist */,
-				9B5285A021E99B68008A75D5 /* InfoPlist.strings */,
 				9B5285A621E99E68008A75D5 /* Localizable.strings */,
+				9B5285A021E99B68008A75D5 /* InfoPlist.strings */,
 			);
 			path = ABFlow;
 			sourceTree = "<group>";
