@@ -265,16 +265,12 @@ class EditTrackViewController: UIViewController {
     // MARK: - Actions
 
     @objc func pointAButtonDidTap(sender: Any) {
-        track.pointA = wholePlayer?.currentTime
-        Playlist.save()
-
+        track.update(pointA: wholePlayer?.currentTime)
         updatePointLabels()
     }
 
     @objc func pointBButtonDidTap(sender: Any) {
-        track.pointB = wholePlayer?.currentTime
-        Playlist.save()
-
+        track.update(pointB: wholePlayer?.currentTime)
         updatePointLabels()
     }
 

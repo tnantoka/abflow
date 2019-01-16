@@ -31,6 +31,19 @@ class TracksViewController: UIViewController {
         return tableView
     }()
 
+    lazy var playlistBar: PlaylistBar = {
+        let playlistBar = PlaylistBar(frame: .zero)
+
+        playlistBar.onTapLabel = { [weak self] in
+            let modalController = PlaylistModalViewController()
+            self?.present(modalController, animated: false, completion: nil)
+        }
+
+        view.addSubview(playlistBar)
+
+        return playlistBar
+    }()
+
     lazy var addItem: UIBarButtonItem = {
         let addImage = UIImage(from: .materialIcon, code: "playlist.add", textColor: .black, backgroundColor: .clear, size: itemSize)
         let addItem = UIBarButtonItem(image: addImage, style: .plain, target: self, action: #selector(addItemDidTap))
@@ -129,7 +142,14 @@ class TracksViewController: UIViewController {
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 4.0),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4.0),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4.0),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 4.0)
+        ])
+
+        NSLayoutConstraint.activate([
+            playlistBar.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 0.0),
+            playlistBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0.0),
+            playlistBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0.0),
+            playlistBar.heightAnchor.constraint(equalToConstant: 60.0),
+            playlistBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0.0)
         ])
     }
 

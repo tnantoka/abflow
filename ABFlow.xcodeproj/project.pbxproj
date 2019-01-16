@@ -21,6 +21,11 @@
 		9B5285B321EAA958008A75D5 /* PlaylistCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5285B221EAA958008A75D5 /* PlaylistCell.swift */; };
 		9B5285B521EAB624008A75D5 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5285B421EAB624008A75D5 /* NavigationController.swift */; };
 		9B5285B721EACB7E008A75D5 /* BackgroundPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5285B621EACB7E008A75D5 /* BackgroundPlayer.swift */; };
+		9B5285B921ECCF49008A75D5 /* PlaylistBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5285B821ECCF49008A75D5 /* PlaylistBar.swift */; };
+		9B5285BB21ED8DE2008A75D5 /* PlaylistModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5285BA21ED8DE2008A75D5 /* PlaylistModalViewController.swift */; };
+		9B5285C021EECF47008A75D5 /* track1.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9B5285BF21EECDE6008A75D5 /* track1.m4a */; };
+		9B5285C121EECF50008A75D5 /* track2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9B5285BE21EECDE6008A75D5 /* track2.m4a */; };
+		9B5285C221EECF53008A75D5 /* track3.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9B5285BD21EECDE6008A75D5 /* track3.m4a */; };
 		9B6F725021E490AB00538D25 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6F724F21E490AB00538D25 /* AppDelegate.swift */; };
 		9B6F725721E490AD00538D25 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B6F725621E490AD00538D25 /* Assets.xcassets */; };
 		9B6F725A21E490AD00538D25 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B6F725821E490AD00538D25 /* LaunchScreen.storyboard */; };
@@ -57,6 +62,11 @@
 		9B5285B221EAA958008A75D5 /* PlaylistCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistCell.swift; sourceTree = "<group>"; };
 		9B5285B421EAB624008A75D5 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		9B5285B621EACB7E008A75D5 /* BackgroundPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundPlayer.swift; sourceTree = "<group>"; };
+		9B5285B821ECCF49008A75D5 /* PlaylistBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistBar.swift; sourceTree = "<group>"; };
+		9B5285BA21ED8DE2008A75D5 /* PlaylistModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistModalViewController.swift; sourceTree = "<group>"; };
+		9B5285BD21EECDE6008A75D5 /* track3.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; name = track3.m4a; path = ABFlow/Assets/track3.m4a; sourceTree = SOURCE_ROOT; };
+		9B5285BE21EECDE6008A75D5 /* track2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; name = track2.m4a; path = ABFlow/Assets/track2.m4a; sourceTree = SOURCE_ROOT; };
+		9B5285BF21EECDE6008A75D5 /* track1.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; name = track1.m4a; path = ABFlow/Assets/track1.m4a; sourceTree = SOURCE_ROOT; };
 		9B6F724C21E490AB00538D25 /* ABFlow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ABFlow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B6F724F21E490AB00538D25 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9B6F725621E490AD00538D25 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -104,10 +114,11 @@
 		9B52857521E702D7008A75D5 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				9B5285B421EAB624008A75D5 /* NavigationController.swift */,
 				9B52857A21E7032E008A75D5 /* PlaylistsViewController.swift */,
 				9B52859A21E8707B008A75D5 /* TracksViewController.swift */,
 				9B5285AA21E9AE4A008A75D5 /* EditTrackViewController.swift */,
-				9B5285B421EAB624008A75D5 /* NavigationController.swift */,
+				9B5285BA21ED8DE2008A75D5 /* PlaylistModalViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -129,8 +140,19 @@
 			children = (
 				9B5285B221EAA958008A75D5 /* PlaylistCell.swift */,
 				9B5285AE21EA02C3008A75D5 /* TrackCell.swift */,
+				9B5285B821ECCF49008A75D5 /* PlaylistBar.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		9B5285BC21EECD50008A75D5 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				9B5285BF21EECDE6008A75D5 /* track1.m4a */,
+				9B5285BE21EECDE6008A75D5 /* track2.m4a */,
+				9B5285BD21EECDE6008A75D5 /* track3.m4a */,
+			);
+			path = Assets;
 			sourceTree = "<group>";
 		};
 		9B6F724321E490AB00538D25 = {
@@ -159,6 +181,7 @@
 				9B52857621E702DF008A75D5 /* Models */,
 				9B52857721E702E5008A75D5 /* Views */,
 				9B52857521E702D7008A75D5 /* Controllers */,
+				9B5285BC21EECD50008A75D5 /* Assets */,
 				9B6F724F21E490AB00538D25 /* AppDelegate.swift */,
 				9B6F725621E490AD00538D25 /* Assets.xcassets */,
 				9B6F725821E490AD00538D25 /* LaunchScreen.storyboard */,
@@ -279,6 +302,9 @@
 			files = (
 				9B6F725A21E490AD00538D25 /* LaunchScreen.storyboard in Resources */,
 				9B5285A421E99E68008A75D5 /* Localizable.strings in Resources */,
+				9B5285C021EECF47008A75D5 /* track1.m4a in Resources */,
+				9B5285C121EECF50008A75D5 /* track2.m4a in Resources */,
+				9B5285C221EECF53008A75D5 /* track3.m4a in Resources */,
 				9B52859E21E99B68008A75D5 /* InfoPlist.strings in Resources */,
 				9B6F725721E490AD00538D25 /* Assets.xcassets in Resources */,
 			);
@@ -371,9 +397,11 @@
 				9B5285AB21E9AE4A008A75D5 /* EditTrackViewController.swift in Sources */,
 				9B5285B121EA03FC008A75D5 /* Util.swift in Sources */,
 				9B52859B21E8707B008A75D5 /* TracksViewController.swift in Sources */,
+				9B5285BB21ED8DE2008A75D5 /* PlaylistModalViewController.swift in Sources */,
 				9B5285B321EAA958008A75D5 /* PlaylistCell.swift in Sources */,
 				9B5285AD21E9B963008A75D5 /* Color.swift in Sources */,
 				9B5285B721EACB7E008A75D5 /* BackgroundPlayer.swift in Sources */,
+				9B5285B921ECCF49008A75D5 /* PlaylistBar.swift in Sources */,
 				9B5285A921E9A9C5008A75D5 /* Track.swift in Sources */,
 				9B52857B21E7032E008A75D5 /* PlaylistsViewController.swift in Sources */,
 				9B6F725021E490AB00538D25 /* AppDelegate.swift in Sources */,

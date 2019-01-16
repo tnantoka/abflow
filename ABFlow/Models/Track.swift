@@ -54,4 +54,16 @@ class Track: Codable {
         let playerItem = AVPlayerItem(asset: composition)
         return playerItem
     }
+
+    func update(pointA: Double?) {
+        self.pointA = pointA
+
+        Playlist.save()
+    }
+
+    func update(pointB: Double?) {
+        self.pointB = pointB
+
+        Playlist.save()
+    }
 }

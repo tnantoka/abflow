@@ -18,6 +18,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         Playlist.load()
 
+        #if targetEnvironment(simulator)
+            Playlist.all.forEach { $0.destroy() }
+
+            Playlist.create(name: "English 2: have")
+            Playlist.create(name: "English 1: be")
+
+            let playlist = Playlist.all[0]
+            playlist.appendTracks([
+                Track(title: "1. Exercise 1: I have a pen.", assetURL: Bundle.main.url(forResource: "track1", withExtension: "m4a")!),
+                Track(title: "2. Exercise 2: They each have an apple.", assetURL: Bundle.main.url(forResource: "track2", withExtension: "m4a")!),
+                Track(title: "3. Exercise 3: Have a nice day.", assetURL: Bundle.main.url(forResource: "track3", withExtension: "m4a")!)
+            ])
+        #endif
+
         UINavigationBar.appearance(whenContainedInInstancesOf: [NavigationController.self]).barTintColor = Color.primary
         UINavigationBar.appearance(whenContainedInInstancesOf: [NavigationController.self]).tintColor = Color.white
         UINavigationBar.appearance(whenContainedInInstancesOf: [NavigationController.self]).titleTextAttributes = [
