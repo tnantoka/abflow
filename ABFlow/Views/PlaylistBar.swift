@@ -10,14 +10,15 @@ import UIKit
 
 class PlaylistBar: UIView {
 
+    var playlist: Playlist?
     var onTapLabel: () -> Void = {}
+    var playerTimer: Timer?
 
     lazy var titleLabel: UILabel = {
         let titleLabel = UILabel(frame: .zero)
 
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.textColor = Color.text
-        titleLabel.text = "Track title - Playlist name"
         durationLabel.font = UIFont.systemFont(ofSize: 14.0, weight: .regular)
 
         return titleLabel
@@ -29,7 +30,6 @@ class PlaylistBar: UIView {
         durationLabel.translatesAutoresizingMaskIntoConstraints = false
         durationLabel.textColor = Color.text
         durationLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 14.0, weight: .regular)
-        durationLabel.text = "0:00:00"
 
         return durationLabel
     }()
@@ -71,6 +71,7 @@ class PlaylistBar: UIView {
         pauseButton.translatesAutoresizingMaskIntoConstraints = false
         pauseButton.addTarget(self, action: #selector(pauseButtonDidTap), for: .touchUpInside)
         pauseButton.tintColor = Color.text
+        pauseButton.isHidden = true
 
         let pauseImage = UIImage(from: .materialIcon, code: "pause", textColor: .black, backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
         pauseButton.setImage(pauseImage, for: .normal)
@@ -100,6 +101,11 @@ class PlaylistBar: UIView {
         backgroundColor = Color.secondary
 
         buildLayout()
+
+        playerTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
+            self?.updateControls()
+        }
+        updateControls()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -109,15 +115,21 @@ class PlaylistBar: UIView {
     // MARK: - Actions
 
     @objc func playButtonDidTap(sender: Any) {
-        print("play")
+        if let _ = BackgroundPlayer.shared.playlist {
+            BackgroundPlayer.shared.play()
+        } else {
+            BackgroundPlayer.shared.playlist = playlist
+        }
     }
 
     @objc func pauseButtonDidTap(sender: Any) {
-        print("pause")
+        BackgroundPlayer.shared.pause()
     }
 
     @objc func labelStackDidTap(sender: Any) {
-        onTapLabel()
+        if let _ = BackgroundPlayer.shared.playlist {
+            onTapLabel()
+        }
     }
 
     // MARK: - Utils
@@ -133,8 +145,21 @@ class PlaylistBar: UIView {
             controlStack.topAnchor.constraint(equalTo: topAnchor, constant: 8.0),
             controlStack.leadingAnchor.constraint(equalTo: labelStack.trailingAnchor, constant: 8.0),
             controlStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8.0),
-            controlStack.widthAnchor.constraint(equalToConstant: 44.0 * CGFloat(controlStack.arrangedSubviews.count)),
+            controlStack.widthAnchor.constraint(equalToConstant: 44.0),
             controlStack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8.0),
         ])
+    }
+
+    func updateControls() {
+        durationLabel.text = BackgroundPlayer.shared.currentTimeString
+        titleLabel.text = "\(BackgroundPlayer.shared.currentTrackTitle ?? "") - \(BackgroundPlayer.shared.playlist?.name ?? "")"
+
+        if BackgroundPlayer.shared.isPlaying {
+            playButton.isHidden = true
+            pauseButton.isHidden = false
+        } else {
+            playButton.isHidden = false
+            pauseButton.isHidden = true
+        }
     }
 }

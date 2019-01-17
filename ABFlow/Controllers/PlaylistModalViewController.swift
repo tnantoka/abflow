@@ -7,11 +7,15 @@
 //
 
 import UIKit
+import AVFoundation
 
 class PlaylistModalViewController: UIViewController {
 
+    let playlist: Playlist
+
     var containerHeight: CGFloat = 0.0
     var containerBottomConstraint: NSLayoutConstraint?
+    var playerTimer: Timer?
 
     lazy var durationSlider: UISlider = {
         let durationSlider = UISlider(frame: .zero)
@@ -19,8 +23,7 @@ class PlaylistModalViewController: UIViewController {
         durationSlider.translatesAutoresizingMaskIntoConstraints = false
         durationSlider.isContinuous = false
         durationSlider.minimumValue = 0.0
-//        durationSlider.maximumValue = Float(CMTimeGetSeconds(track.asset.duration))
-//        durationSlider.addTarget(self, action: #selector(durationSliderDidChange), for: .valueChanged)
+        durationSlider.addTarget(self, action: #selector(durationSliderDidChange), for: .valueChanged)
         durationSlider.tintColor = Color.text
         durationSlider.thumbTintColor = Color.primary
 
@@ -40,6 +43,32 @@ class PlaylistModalViewController: UIViewController {
         return playButton
     }()
 
+    lazy var prevButton: UIButton = {
+        let prevButton = UIButton(type: .system)
+
+        prevButton.translatesAutoresizingMaskIntoConstraints = false
+        prevButton.addTarget(self, action: #selector(prevButtonDidTap), for: .touchUpInside)
+        prevButton.tintColor = Color.text
+
+        let prevImage = UIImage(from: .materialIcon, code: "fast.rewind", textColor: .black, backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
+        prevButton.setImage(prevImage, for: .normal)
+
+        return prevButton
+    }()
+
+    lazy var nextButton: UIButton = {
+        let nextButton = UIButton(type: .system)
+
+        nextButton.translatesAutoresizingMaskIntoConstraints = false
+        nextButton.addTarget(self, action: #selector(nextButtonDidTap), for: .touchUpInside)
+        nextButton.tintColor = Color.text
+
+        let nextImage = UIImage(from: .materialIcon, code: "fast.forward", textColor: .black, backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
+        nextButton.setImage(nextImage, for: .normal)
+
+        return nextButton
+    }()
+
     lazy var pauseButton: UIButton = {
         let pauseButton = UIButton(type: .system)
 
@@ -55,8 +84,10 @@ class PlaylistModalViewController: UIViewController {
 
     lazy var controlStack: UIStackView = {
         let controlStack = UIStackView(arrangedSubviews: [
+            prevButton,
             playButton,
             pauseButton,
+            nextButton,
         ])
 
         controlStack.translatesAutoresizingMaskIntoConstraints = false
@@ -108,6 +139,8 @@ class PlaylistModalViewController: UIViewController {
     lazy var playlistBar: PlaylistBar = {
         let playlistBar = PlaylistBar(frame: .zero)
 
+        playlistBar.playlist = playlist
+
         view.addSubview(playlistBar)
 
         return playlistBar
@@ -140,8 +173,9 @@ class PlaylistModalViewController: UIViewController {
         return containerView
     }()
 
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    init(playlist: Playlist) {
+        self.playlist = playlist
+        super.init(nibName: nil, bundle: nil)
 
         modalPresentationStyle = .overCurrentContext
         modalTransitionStyle = .crossDissolve
@@ -158,6 +192,11 @@ class PlaylistModalViewController: UIViewController {
         view.addGestureRecognizer(tapRecognizer)
 
         buildLayout()
+
+        playerTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
+            self?.updateControls()
+        }
+        updateControls()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -187,11 +226,19 @@ class PlaylistModalViewController: UIViewController {
     }
 
     @objc func playButtonDidTap(sender: Any) {
-        print("play")
+        BackgroundPlayer.shared.play()
     }
 
     @objc func pauseButtonDidTap(sender: Any) {
-        print("pause")
+        BackgroundPlayer.shared.pause()
+    }
+
+    @objc func prevButtonDidTap(sender: Any) {
+        BackgroundPlayer.shared.prev()
+    }
+
+    @objc func nextButtonDidTap(sender: Any) {
+        BackgroundPlayer.shared.next()
     }
 
     @objc func repeatButtonDidTap(sender: Any) {
@@ -200,6 +247,12 @@ class PlaylistModalViewController: UIViewController {
 
     @objc func speedButtonDidTap(sender: Any) {
         print("speed")
+    }
+
+    @objc func durationSliderDidChange(sender: Any) {
+        guard let currentItem = BackgroundPlayer.shared.currentItem else { return }
+        let time = CMTime(seconds: Double(durationSlider.value), preferredTimescale: currentItem.duration.timescale)
+        BackgroundPlayer.shared.avPlayer?.seek(to: time)
     }
 
     // MARK: - Utils
@@ -231,4 +284,16 @@ class PlaylistModalViewController: UIViewController {
         ])
     }
 
+    func updateControls() {
+        durationSlider.maximumValue = Float(BackgroundPlayer.shared.currentDuration)
+        durationSlider.value = BackgroundPlayer.shared.currentTime
+
+        if BackgroundPlayer.shared.isPlaying {
+            playButton.isHidden = true
+            pauseButton.isHidden = false
+        } else {
+            playButton.isHidden = false
+            pauseButton.isHidden = true
+        }
+    }
 }

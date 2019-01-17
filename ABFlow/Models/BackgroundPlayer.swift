@@ -21,6 +21,36 @@ class BackgroundPlayer: NSObject {
             playAll()
         }
     }
+    var currentItem: AVPlayerItem? {
+        return avPlayer?.currentItem
+    }
+    var currentDuration: Float {
+        guard let currentItem = avPlayer?.currentItem else { return 0.0 }
+        return Float(CMTimeGetSeconds(currentItem.duration))
+    }
+    var currentTime: Float {
+        guard let currentTime = avPlayer?.currentTime() else { return 0.0 }
+        return Float(CMTimeGetSeconds(currentTime))
+    }
+    var currentTimeString: String {
+        guard let avPlayer = avPlayer else { return "0:00:00" }
+        return Util.formatDuration(CMTimeGetSeconds(avPlayer.currentTime()))
+    }
+    var isPlaying: Bool {
+        guard let avPlayer = avPlayer else { return false }
+        return avPlayer.timeControlStatus == .playing
+    }
+    var currentTrackTitle: String? {
+        guard let currentItem = avPlayer?.currentItem else { return nil }
+        guard let playlist = playlist else { return nil }
+
+        if let index = playerItems.index(where: { $0 == currentItem }) {
+            let track = playlist.tracks[index]
+            return track.title
+        }
+
+        return nil
+    }
 
     private override init() {
         super.init()
@@ -88,12 +118,12 @@ class BackgroundPlayer: NSObject {
             self?.pause()
             return MPRemoteCommandHandlerStatus.success
         }
-        MPRemoteCommandCenter.shared().previousTrackCommand.addTarget { _ in
-            print("previousTrack")
+        MPRemoteCommandCenter.shared().previousTrackCommand.addTarget { [weak self] _ in
+            self?.prev()
             return MPRemoteCommandHandlerStatus.success
         }
-        MPRemoteCommandCenter.shared().nextTrackCommand.addTarget { _ in
-            print("nextTrack")
+        MPRemoteCommandCenter.shared().nextTrackCommand.addTarget { [weak self] _ in
+            self?.next()
             return MPRemoteCommandHandlerStatus.success
         }
     }
@@ -104,5 +134,34 @@ class BackgroundPlayer: NSObject {
 
     func pause() {
         avPlayer?.pause()
+    }
+
+    func prev() {
+        guard let playlist = playlist else { return }
+        guard let currentItem = avPlayer?.currentItem else { return }
+
+        if let index = playerItems.index(where: { $0 == currentItem }) {
+            let prevIndex = index > 0 ? index - 1 : playlist.tracks.count - 1
+            play(index: prevIndex)
+        }
+    }
+
+    func next() {
+        guard let playlist = playlist else { return }
+        guard let currentItem = avPlayer?.currentItem else { return }
+
+        if let index = playerItems.index(where: { $0 == currentItem }) {
+            let nextIndex = index < playlist.tracks.count - 1 ? index + 1 : 0
+            play(index: nextIndex)
+       }
+    }
+
+    func play(index: Int) {
+        let isPlaying = self.isPlaying
+        playAll()
+        if !isPlaying {
+            pause()
+        }
+        (0..<index).forEach { _ in avPlayer?.advanceToNextItem() }
     }
 }

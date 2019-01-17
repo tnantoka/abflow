@@ -35,9 +35,11 @@ class TracksViewController: UIViewController {
         let playlistBar = PlaylistBar(frame: .zero)
 
         playlistBar.onTapLabel = { [weak self] in
-            let modalController = PlaylistModalViewController()
+            guard let playlist = self?.playlist else { return }
+            let modalController = PlaylistModalViewController(playlist: playlist)
             self?.present(modalController, animated: false, completion: nil)
         }
+        playlistBar.playlist = playlist
 
         view.addSubview(playlistBar)
 
@@ -81,23 +83,13 @@ class TracksViewController: UIViewController {
         setEditing(false, animated: false)
 
         buildLayout()
-
-        playButtonDidTap(sender: self)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        for cell in tableView.visibleCells {
-            if let indexPath = tableView.indexPath(for: cell) {
-                let track = playlist.tracks[indexPath.row]
-                configureCell(cell, with: track)
-            }
-        }
-
-        if let indexPath = tableView.indexPathForSelectedRow {
-            tableView.deselectRow(at: indexPath, animated: animated)
-        }
+        updateCells()
+        deselectRow(animated: animated)
     }
 
     override func setEditing(_ editing: Bool, animated: Bool) {
@@ -121,10 +113,6 @@ class TracksViewController: UIViewController {
         mediaController.showsItemsWithProtectedAssets = false
         mediaController.showsCloudItems = false
         present(mediaController, animated: true, completion: nil)
-    }
-
-    @objc func playButtonDidTap(sender: Any) {
-        BackgroundPlayer.shared.playlist = playlist
     }
 
     @objc func editItemDidTap(sender: Any) {
@@ -155,6 +143,21 @@ class TracksViewController: UIViewController {
 
     func refresh() {
         tableView.reloadData()
+    }
+
+    func deselectRow(animated: Bool) {
+        if let indexPath = tableView.indexPathForSelectedRow {
+            tableView.deselectRow(at: indexPath, animated: animated)
+        }
+    }
+
+    func updateCells() {
+        for cell in tableView.visibleCells {
+            if let indexPath = tableView.indexPath(for: cell) {
+                let track = playlist.tracks[indexPath.row]
+                configureCell(cell, with: track)
+            }
+        }
     }
 }
 
@@ -200,9 +203,16 @@ extension TracksViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let track = playlist.tracks[indexPath.row]
-        let editTrackController = EditTrackViewController(track: track)
-        navigationController?.pushViewController(editTrackController, animated: true)
+        if tableView.isEditing {
+            let track = playlist.tracks[indexPath.row]
+            let editTrackController = EditTrackViewController(track: track)
+            navigationController?.pushViewController(editTrackController, animated: true)
+        } else {
+            BackgroundPlayer.shared.playlist = playlist
+            BackgroundPlayer.shared.play(index: indexPath.row)
+            BackgroundPlayer.shared.play()
+            deselectRow(animated: true)
+        }
     }
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
