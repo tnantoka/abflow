@@ -14,6 +14,7 @@ class TracksViewController: UIViewController {
     let itemSize = CGSize(width: 28.0, height: 28.0)
 
     let playlist: Playlist
+    var barBottomConstraint: NSLayoutConstraint?
 
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero)
@@ -40,7 +41,6 @@ class TracksViewController: UIViewController {
             let modalController = PlaylistModalViewController(playlist: playlist)
             self?.present(modalController, animated: false, completion: nil)
         }
-        playlistBar.playlist = playlist
 
         view.addSubview(playlistBar)
 
@@ -88,6 +88,10 @@ class TracksViewController: UIViewController {
         NotificationCenter.default.addObserver(forName: BackgroundPlayer.changeTrackNotification, object: nil, queue: nil) { [weak self] _ in
             self?.updateCells()
         }
+        NotificationCenter.default.addObserver(forName: BackgroundPlayer.changeTrackNotification, object: nil, queue: nil) { [weak self] _ in
+            self?.updatePlaylistBar()
+        }
+        updatePlaylistBar()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -142,8 +146,10 @@ class TracksViewController: UIViewController {
             playlistBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0.0),
             playlistBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0.0),
             playlistBar.heightAnchor.constraint(equalToConstant: 60.0),
-            playlistBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0.0)
         ])
+
+        barBottomConstraint = playlistBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 60.0)
+        barBottomConstraint?.isActive = true
     }
 
     func refresh() {
@@ -163,6 +169,10 @@ class TracksViewController: UIViewController {
                 configureCell(cell, with: track)
             }
         }
+    }
+
+    func updatePlaylistBar() {
+        barBottomConstraint?.constant = BackgroundPlayer.shared.playlist == nil ? 60.0 : 0.0
     }
 }
 
@@ -208,7 +218,7 @@ extension TracksViewController: UITableViewDelegate, UITableViewDataSource {
         cell.textLabel?.text = track.title
         cell.detailTextLabel?.text = "\(Util.formatDuration(track.pointA)) - \(Util.formatDuration(track.pointB))"
 
-        cell.isPlayling = BackgroundPlayer.shared.track?.id == track.id
+        cell.isPlaying = BackgroundPlayer.shared.track?.id == track.id
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -10,7 +10,6 @@ import UIKit
 
 class PlaylistBar: UIView {
 
-    var playlist: Playlist?
     var onTapLabel: () -> Void = {}
     var playerTimer: Timer?
 
@@ -115,11 +114,7 @@ class PlaylistBar: UIView {
     // MARK: - Actions
 
     @objc func playButtonDidTap(sender: Any) {
-        if let _ = BackgroundPlayer.shared.playlist {
-            BackgroundPlayer.shared.play()
-        } else {
-            BackgroundPlayer.shared.playlist = playlist
-        }
+        BackgroundPlayer.shared.play()
     }
 
     @objc func pauseButtonDidTap(sender: Any) {

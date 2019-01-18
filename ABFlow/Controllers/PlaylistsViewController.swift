@@ -15,7 +15,8 @@ class PlaylistsViewController: UIViewController {
     let itemSize = CGSize(width: 28.0, height: 28.0)
 
     var playlists = Playlist.all
-    
+    var barBottomConstraint: NSLayoutConstraint?
+
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero)
 
@@ -31,6 +32,20 @@ class PlaylistsViewController: UIViewController {
         view.addSubview(tableView)
 
         return tableView
+    }()
+
+    lazy var playlistBar: PlaylistBar = {
+        let playlistBar = PlaylistBar(frame: .zero)
+
+        playlistBar.onTapLabel = { [weak self] in
+            guard let playlist = BackgroundPlayer.shared.playlist else { return }
+            let modalController = PlaylistModalViewController(playlist: playlist)
+            self?.present(modalController, animated: false, completion: nil)
+        }
+
+        view.addSubview(playlistBar)
+
+        return playlistBar
     }()
 
     lazy var addItem: UIBarButtonItem = {
@@ -61,6 +76,11 @@ class PlaylistsViewController: UIViewController {
         setEditing(false, animated: false)
 
         buildLayout()
+
+        NotificationCenter.default.addObserver(forName: BackgroundPlayer.changeTrackNotification, object: nil, queue: nil) { [weak self] _ in
+            self?.updatePlaylistBar()
+        }
+        updatePlaylistBar()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -114,8 +134,17 @@ class PlaylistsViewController: UIViewController {
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 4.0),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4.0),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4.0),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 4.0)
         ])
+
+        NSLayoutConstraint.activate([
+            playlistBar.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 0.0),
+            playlistBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0.0),
+            playlistBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0.0),
+            playlistBar.heightAnchor.constraint(equalToConstant: 60.0)
+        ])
+
+        barBottomConstraint = playlistBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 60.0)
+        barBottomConstraint?.isActive = true
     }
 
     func updatePlaylists() {
@@ -140,6 +169,10 @@ class PlaylistsViewController: UIViewController {
                 configureCell(cell, with: playlist)
             }
         }
+    }
+
+    func updatePlaylistBar() {
+        barBottomConstraint?.constant = BackgroundPlayer.shared.playlist == nil ? 60.0 : 0.0
     }
 
     func presentPlaylistAlert(title: String, text: String?, actionProvider: (UIAlertController) -> UIAlertAction) {
@@ -175,7 +208,7 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
         cell.accessoryType = .disclosureIndicator
         cell.detailTextLabel?.text = "\(playlist.tracks.count) \(NSLocalizedString("tracks", comment: ""))"
 
-        cell.isPlayling = BackgroundPlayer.shared.playlist?.id == playlist.id
+        cell.isPlaying = BackgroundPlayer.shared.playlist?.id == playlist.id
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

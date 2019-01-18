@@ -139,7 +139,6 @@ class PlaylistModalViewController: UIViewController {
     lazy var playlistBar: PlaylistBar = {
         let playlistBar = PlaylistBar(frame: .zero)
 
-        playlistBar.playlist = playlist
         playlistBar.onTapLabel = { [weak self] in
             self?.viewDidTap(sender: playlistBar)
         }

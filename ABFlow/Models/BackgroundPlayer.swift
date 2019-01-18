@@ -13,6 +13,7 @@ import MediaPlayer
 class BackgroundPlayer: NSObject {
     static let shared = BackgroundPlayer()
 
+    static let changePlaylistNotification = Notification.Name("changePlaylistNotification")
     static let changeTrackNotification = Notification.Name("changeTrackNotification")
 
     var avPlayer: AVQueuePlayer?
@@ -21,6 +22,7 @@ class BackgroundPlayer: NSObject {
     var playlist: Playlist? {
         didSet {
             playAll()
+            NotificationCenter.default.post(name: BackgroundPlayer.changePlaylistNotification, object: nil)
         }
     }
     var track: Track? {
@@ -98,6 +100,7 @@ class BackgroundPlayer: NSObject {
 
     private func playAll() {
         guard let playlist = playlist else { return }
+        guard !playlist.tracks.isEmpty else { return }
 
         playerItems = playlist.tracks.map { $0.playerItem }
 

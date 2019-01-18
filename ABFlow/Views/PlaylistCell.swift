@@ -10,9 +10,9 @@ import UIKit
 
 class PlaylistCell: UITableViewCell {
 
-    var isPlayling: Bool = false {
+    var isPlaying: Bool = false {
         didSet {
-            borderView.isHidden = !isPlayling
+            borderView.isHidden = !isPlaying
         }
     }
 
@@ -59,17 +59,14 @@ class PlaylistCell: UITableViewCell {
         borderView.backgroundColor = Color.secondary
     }
 
-    override func layoutSubviews() {
-        super.layoutSubviews()
-    }
-
     // MARK: - Utils
 
     func buildLayout() {
+        guard let textLabel = textLabel else { return }
         NSLayoutConstraint.activate([
             borderView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0.0),
-            borderView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0.0),
-            borderView.widthAnchor.constraint(equalToConstant: 6.0),
+            borderView.trailingAnchor.constraint(equalTo: textLabel.leadingAnchor, constant: -9.0),
+            borderView.widthAnchor.constraint(equalToConstant: 2.0),
             borderView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0.0)
         ])
     }
