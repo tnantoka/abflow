@@ -13,12 +13,19 @@ import MediaPlayer
 class BackgroundPlayer: NSObject {
     static let shared = BackgroundPlayer()
 
+    static let changeTrackNotification = Notification.Name("changeTrackNotification")
+
     var avPlayer: AVQueuePlayer?
     var playerItems = [AVPlayerItem]()
 
     var playlist: Playlist? {
         didSet {
             playAll()
+        }
+    }
+    var track: Track? {
+        didSet {
+            NotificationCenter.default.post(name: BackgroundPlayer.changeTrackNotification, object: nil)
         }
     }
     var currentItem: AVPlayerItem? {
@@ -41,15 +48,7 @@ class BackgroundPlayer: NSObject {
         return avPlayer.timeControlStatus == .playing
     }
     var currentTrackTitle: String? {
-        guard let currentItem = avPlayer?.currentItem else { return nil }
-        guard let playlist = playlist else { return nil }
-
-        if let index = playerItems.index(where: { $0 == currentItem }) {
-            let track = playlist.tracks[index]
-            return track.title
-        }
-
-        return nil
+        return track?.title
     }
 
     private override init() {
@@ -91,6 +90,7 @@ class BackgroundPlayer: NSObject {
                 MPMediaItemPropertyPlaybackDuration: CMTimeGetSeconds(currentItem.duration),
                 MPNowPlayingInfoPropertyPlaybackRate: 1.0
             ]
+            self.track = track
         }
     }
 

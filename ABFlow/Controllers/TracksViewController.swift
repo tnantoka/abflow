@@ -25,6 +25,7 @@ class TracksViewController: UIViewController {
         tableView.separatorStyle = .none
         tableView.backgroundColor = Color.darkGray
         tableView.allowsSelectionDuringEditing = true
+        tableView.rowHeight = 60.0
 
         view.addSubview(tableView)
 
@@ -83,6 +84,10 @@ class TracksViewController: UIViewController {
         setEditing(false, animated: false)
 
         buildLayout()
+
+        NotificationCenter.default.addObserver(forName: BackgroundPlayer.changeTrackNotification, object: nil, queue: nil) { [weak self] _ in
+            self?.updateCells()
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -198,8 +203,12 @@ extension TracksViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func configureCell(_ cell: UITableViewCell, with track: Track) {
+        guard let cell = cell as? TrackCell else { return }
+
         cell.textLabel?.text = track.title
         cell.detailTextLabel?.text = "\(Util.formatDuration(track.pointA)) - \(Util.formatDuration(track.pointB))"
+
+        cell.isPlayling = BackgroundPlayer.shared.track?.id == track.id
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

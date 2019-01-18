@@ -140,6 +140,9 @@ class PlaylistModalViewController: UIViewController {
         let playlistBar = PlaylistBar(frame: .zero)
 
         playlistBar.playlist = playlist
+        playlistBar.onTapLabel = { [weak self] in
+            self?.viewDidTap(sender: playlistBar)
+        }
 
         view.addSubview(playlistBar)
 

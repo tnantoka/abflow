@@ -26,6 +26,7 @@ class PlaylistsViewController: UIViewController {
         tableView.separatorStyle = .none
         tableView.backgroundColor = Color.darkGray
         tableView.allowsSelectionDuringEditing = true
+        tableView.rowHeight = 60.0
 
         view.addSubview(tableView)
 
@@ -168,9 +169,13 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func configureCell(_ cell: UITableViewCell, with playlist: Playlist) {
+        guard let cell = cell as? PlaylistCell else { return }
+
         cell.textLabel?.text = playlist.name
         cell.accessoryType = .disclosureIndicator
         cell.detailTextLabel?.text = "\(playlist.tracks.count) \(NSLocalizedString("tracks", comment: ""))"
+
+        cell.isPlayling = BackgroundPlayer.shared.playlist?.id == playlist.id
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
