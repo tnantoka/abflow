@@ -30,6 +30,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 Track(title: "2. Exercise 2: They each have an apple.", assetURL: Bundle.main.url(forResource: "track2", withExtension: "m4a")!),
                 Track(title: "3. Exercise 3: Have a nice day.", assetURL: Bundle.main.url(forResource: "track3", withExtension: "m4a")!)
             ])
+
+            Settings.reset()
         #endif
 
         UINavigationBar.appearance(whenContainedInInstancesOf: [NavigationController.self]).barTintColor = Color.primary

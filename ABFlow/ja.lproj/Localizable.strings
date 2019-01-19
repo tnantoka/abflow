@@ -12,8 +12,13 @@
 "Add New Track" = "トラックを追加";
 "Cancel" = "キャンセル";
 "Edit Playlist" = "プレイリストの編集";
+"Edit Playlists" = "プレイリストの編集";
+"Edit Tracks" = "トラックの編集";
+"OK" = "OK";
 "Playlists" = "プレイリスト";
 "Play whole" = "全体を再生";
+"Please tap the cell to configure settings for the track." = "トラックの設定を変更したい場合はセルをタップしてください。";
+"Please tap the cell to rename the playlist." = "プレイリストの名前を変えたい場合はセルをタップしてください。";
 "Point A" = "開始位置";
 "Point B" = "終了位置";
 "Preview" = "プレビュー";

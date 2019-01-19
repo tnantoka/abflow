@@ -152,6 +152,18 @@ class PlaylistsViewController: UIViewController {
         }
 
         tableView.setEditing(editing, animated: animated)
+
+        if editing && !Settings.shared.playlistsEdited {
+            let alertController = UIAlertController(
+                title: NSLocalizedString("Edit Playlists", comment: ""),
+                message: NSLocalizedString("Please tap the cell to rename the playlist.", comment: ""),
+                preferredStyle: .alert
+            )
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil))
+            present(alertController, animated: true, completion: nil)
+
+            Settings.shared.playlistsEdited = true
+        }
     }
 
     // MARK: - Actions

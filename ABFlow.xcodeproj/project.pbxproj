@@ -26,6 +26,7 @@
 		9B5285C021EECF47008A75D5 /* track1.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9B5285BF21EECDE6008A75D5 /* track1.m4a */; };
 		9B5285C121EECF50008A75D5 /* track2.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9B5285BE21EECDE6008A75D5 /* track2.m4a */; };
 		9B5285C221EECF53008A75D5 /* track3.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9B5285BD21EECDE6008A75D5 /* track3.m4a */; };
+		9B5FDD8A21F3668F00B6E5A7 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5FDD8921F3668F00B6E5A7 /* Settings.swift */; };
 		9B6F725021E490AB00538D25 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6F724F21E490AB00538D25 /* AppDelegate.swift */; };
 		9B6F725721E490AD00538D25 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B6F725621E490AD00538D25 /* Assets.xcassets */; };
 		9B6F725A21E490AD00538D25 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B6F725821E490AD00538D25 /* LaunchScreen.storyboard */; };
@@ -67,6 +68,7 @@
 		9B5285BD21EECDE6008A75D5 /* track3.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; name = track3.m4a; path = ABFlow/Assets/track3.m4a; sourceTree = SOURCE_ROOT; };
 		9B5285BE21EECDE6008A75D5 /* track2.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; name = track2.m4a; path = ABFlow/Assets/track2.m4a; sourceTree = SOURCE_ROOT; };
 		9B5285BF21EECDE6008A75D5 /* track1.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; name = track1.m4a; path = ABFlow/Assets/track1.m4a; sourceTree = SOURCE_ROOT; };
+		9B5FDD8921F3668F00B6E5A7 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		9B6F724C21E490AB00538D25 /* ABFlow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ABFlow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B6F724F21E490AB00538D25 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9B6F725621E490AD00538D25 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 				9B5285AC21E9B963008A75D5 /* Color.swift */,
 				9B5285B021EA03FC008A75D5 /* Util.swift */,
 				9B5285B621EACB7E008A75D5 /* BackgroundPlayer.swift */,
+				9B5FDD8921F3668F00B6E5A7 /* Settings.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -402,6 +405,7 @@
 				9B5285AD21E9B963008A75D5 /* Color.swift in Sources */,
 				9B5285B721EACB7E008A75D5 /* BackgroundPlayer.swift in Sources */,
 				9B5285B921ECCF49008A75D5 /* PlaylistBar.swift in Sources */,
+				9B5FDD8A21F3668F00B6E5A7 /* Settings.swift in Sources */,
 				9B5285A921E9A9C5008A75D5 /* Track.swift in Sources */,
 				9B52857B21E7032E008A75D5 /* PlaylistsViewController.swift in Sources */,
 				9B6F725021E490AB00538D25 /* AppDelegate.swift in Sources */,
