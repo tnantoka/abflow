@@ -8,6 +8,8 @@
 
 
 "Add" = "追加";
+"Add New Playlist" = "プレイリストを追加";
+"Add New Track" = "トラックを追加";
 "Cancel" = "キャンセル";
 "Edit Playlist" = "プレイリストの編集";
 "Playlists" = "プレイリスト";
@@ -17,5 +19,7 @@
 "Preview" = "プレビュー";
 "Name" = "名前";
 "New Playlist" = "新規プレイリスト";
+"No playlists yet." = "プレイリストはまだありません。";
+"No tracks yet." = "トラックはまだありません。";
 "tracks" = "トラック";
 "Update" = "更新";

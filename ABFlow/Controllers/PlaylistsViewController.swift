@@ -16,6 +16,56 @@ class PlaylistsViewController: UIViewController {
 
     var playlists = Playlist.all
     var barBottomConstraint: NSLayoutConstraint?
+    var alertTopConstraint: NSLayoutConstraint?
+
+    lazy var alertView: UIView = {
+        let alertView = UIView(frame: .zero)
+
+        alertView.translatesAutoresizingMaskIntoConstraints = false
+        alertView.backgroundColor = Color.white
+
+        view.addSubview(alertView)
+
+        return alertView
+    }()
+
+    lazy var alertLabel: UILabel = {
+        let alertLabel = UILabel(frame: .zero)
+
+        alertLabel.translatesAutoresizingMaskIntoConstraints = false
+        alertLabel.text = NSLocalizedString("No playlists yet.", comment: "")
+        alertLabel.textColor = Color.text
+        alertLabel.textAlignment = .center
+
+        return alertLabel
+    }()
+
+    lazy var alertButton: UIButton = {
+        let alertButton = UIButton(type: .system)
+
+        alertButton.translatesAutoresizingMaskIntoConstraints = false
+        alertButton.setTitle(NSLocalizedString("Add New Playlist", comment: ""), for: .normal)
+        alertButton.addTarget(self, action: #selector(alertButtonDidTap), for: .touchUpInside)
+        alertButton.setTitleColor(Color.text, for: .normal)
+        alertButton.backgroundColor = Color.secondary
+
+        return alertButton
+    }()
+
+    lazy var alertStack: UIStackView = {
+        let alertStack = UIStackView(arrangedSubviews: [
+            alertLabel,
+            alertButton,
+        ])
+
+        alertStack.translatesAutoresizingMaskIntoConstraints = false
+        alertStack.axis = .vertical
+        alertStack.distribution = .fillEqually
+
+        alertView.addSubview(alertStack)
+
+        return alertStack
+    }()
 
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero)
@@ -81,6 +131,8 @@ class PlaylistsViewController: UIViewController {
             self?.updatePlaylistBar()
         }
         updatePlaylistBar()
+        updateAlertView()
+        updateBarItems()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -127,11 +179,31 @@ class PlaylistsViewController: UIViewController {
         setEditing(false, animated: true)
     }
 
+    @objc func alertButtonDidTap(sender: Any) {
+        addItemDidTap(sender: sender)
+    }
+
     // MARK: - Utils
 
     func buildLayout() {
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 4.0),
+            alertView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8.0),
+            alertView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8.0),
+            alertView.heightAnchor.constraint(equalToConstant: 88.0),
+        ])
+
+        alertTopConstraint = alertView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8.0)
+        alertTopConstraint?.isActive = true
+
+        NSLayoutConstraint.activate([
+            alertStack.topAnchor.constraint(equalTo: alertView.topAnchor, constant: 8.0),
+            alertStack.leadingAnchor.constraint(equalTo: alertView.leadingAnchor, constant: 8.0),
+            alertStack.trailingAnchor.constraint(equalTo: alertView.trailingAnchor, constant: -8.0),
+            alertStack.bottomAnchor.constraint(equalTo: alertView.bottomAnchor, constant: -8.0)
+        ])
+
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: alertView.bottomAnchor, constant: 4.0),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4.0),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4.0),
         ])
@@ -154,6 +226,20 @@ class PlaylistsViewController: UIViewController {
     func refresh() {
         updatePlaylists()
         tableView.reloadData()
+        updateAlertView()
+        updateBarItems()
+    }
+
+    func updateAlertView() {
+        if playlists.isEmpty {
+            alertTopConstraint?.constant = 8.0
+        } else {
+            alertTopConstraint?.constant = -88.0
+        }
+    }
+
+    func updateBarItems() {
+        editItem.isEnabled = !playlists.isEmpty
     }
 
     func deselectRow(animated: Bool) {
@@ -244,6 +330,10 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
             playlist.destroy()
             updatePlaylists()
             tableView.deleteRows(at: [indexPath], with: .automatic)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+                self?.updateAlertView()
+                self?.updateBarItems()
+            }
         }
     }
 

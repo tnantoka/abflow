@@ -7,6 +7,8 @@
 */
 
 "Add" = "Add";
+"Add New Playlist" = "Add New Playlist";
+"Add New Track" = "Add New Track";
 "Cancel" = "Cancel";
 "Edit Playlist" = "Edit Playlist";
 "Playlists" = "Playlists";
@@ -16,5 +18,7 @@
 "Preview" = "Preview";
 "Name" = "Name";
 "New Playlist" = "New Playlist";
+"No playlists yet." = "No playlists yet.";
+"No tracks yet." = "No tracks yet.";
 "tracks" = "tracks";
 "Update" = "Update";
