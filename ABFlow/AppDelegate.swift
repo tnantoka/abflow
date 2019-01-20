@@ -8,6 +8,9 @@
 
 import UIKit
 
+import AdFooter
+import Keys
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -17,36 +20,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         Playlist.load()
+        buildAppearance()
 
         #if targetEnvironment(simulator)
-            Playlist.all.forEach { $0.destroy() }
-
-            Playlist.create(name: "English 2: have")
-            Playlist.create(name: "English 1: be")
-
-            let playlist = Playlist.all[0]
-            playlist.appendTracks([
-                Track(title: "1. Exercise 1: I have a pen.", assetURL: Bundle.main.url(forResource: "track1", withExtension: "m4a")!),
-                Track(title: "2. Exercise 2: They each have an apple.", assetURL: Bundle.main.url(forResource: "track2", withExtension: "m4a")!),
-                Track(title: "3. Exercise 3: Have a nice day.", assetURL: Bundle.main.url(forResource: "track3", withExtension: "m4a")!)
-            ])
-
-            Settings.reset()
+            prepareForSimulator()
         #endif
 
-        UINavigationBar.appearance(whenContainedInInstancesOf: [NavigationController.self]).barTintColor = Color.primary
-        UINavigationBar.appearance(whenContainedInInstancesOf: [NavigationController.self]).tintColor = Color.white
-        UINavigationBar.appearance(whenContainedInInstancesOf: [NavigationController.self]).titleTextAttributes = [
-            .foregroundColor: Color.white
-        ]
-
-        window = UIWindow(frame: UIScreen.main.bounds)
-
-        let rootViewController = PlaylistsViewController()
-        let navController = NavigationController(rootViewController: rootViewController)
-        window?.rootViewController = navController
-
-        window?.makeKeyAndVisible()
+        buildWindow()
 
         return true
     }
@@ -71,5 +51,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+
+    func prepareForSimulator() {
+        Playlist.all.forEach { $0.destroy() }
+
+        Playlist.create(name: "English 2: have")
+        Playlist.create(name: "English 1: be")
+
+        let playlist = Playlist.all[0]
+        playlist.appendTracks([
+            Track(title: "1. Exercise 1: I have a pen.", assetURL: Bundle.main.url(forResource: "track1", withExtension: "m4a")!),
+            Track(title: "2. Exercise 2: They each have an apple.", assetURL: Bundle.main.url(forResource: "track2", withExtension: "m4a")!),
+            Track(title: "3. Exercise 3: Have a nice day.", assetURL: Bundle.main.url(forResource: "track3", withExtension: "m4a")!)
+        ])
+
+        Settings.reset()
+    }
+
+    func buildAppearance() {
+        UINavigationBar.appearance(whenContainedInInstancesOf: [NavigationController.self]).barTintColor = Color.primary
+        UINavigationBar.appearance(whenContainedInInstancesOf: [NavigationController.self]).tintColor = Color.white
+        UINavigationBar.appearance(whenContainedInInstancesOf: [NavigationController.self]).titleTextAttributes = [
+            .foregroundColor: Color.white
+        ]
+    }
+
+    func buildWindow() {
+        window = UIWindow(frame: UIScreen.main.bounds)
+
+        let rootViewController = PlaylistsViewController()
+        let navController = NavigationController(rootViewController: rootViewController)
+
+        AdFooter.shared.adMobApplicationId = ABFlowKeys().adMobApplicationId
+        AdFooter.shared.adMobAdUnitId = ABFlowKeys().adMobAdUnitId
+        window?.rootViewController = AdFooter.shared.wrap(navController)
+
+        window?.makeKeyAndVisible()
     }
 }

@@ -1,16 +1,27 @@
 PODS:
+  - AdFooter (7.37.0)
+  - Keys (1.0.1)
   - SwiftIconFont (2.9.1)
 
 DEPENDENCIES:
+  - AdFooter
+  - Keys (from `Pods/CocoaPodsKeys`)
   - SwiftIconFont
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - AdFooter
     - SwiftIconFont
 
+EXTERNAL SOURCES:
+  Keys:
+    :path: Pods/CocoaPodsKeys
+
 SPEC CHECKSUMS:
+  AdFooter: b2a6d109ca0cefa98ff3f5fd480b365ff4341ab6
+  Keys: a576f4c9c1c641ca913a959a9c62ed3f215a8de9
   SwiftIconFont: c6d0073f1fa7e03a81b6daf2d8fa8d6ac62b7711
 
-PODFILE CHECKSUM: 02303c5dfe7e6679cd4a12f19966e35e2f5bb648
+PODFILE CHECKSUM: 89114a518815853170d4ae6daf6b4bd9c7f28eec
 
 COCOAPODS: 1.5.3
