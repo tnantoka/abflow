@@ -14,11 +14,13 @@ class Settings {
     struct Keys {
         static let playlistsEdited = "playlistsEdited"
         static let tracksEdited = "trackEditedsEdited"
+        static let tracksAdded = "tracksAdded"
     }
 
     static func reset() {
         shared.playlistsEdited = false
         shared.tracksEdited = false
+        shared.tracksAdded = false
     }
 
     var playlistsEdited: Bool {
@@ -37,6 +39,16 @@ class Settings {
         }
         set {
             UserDefaults.standard.set(newValue, forKey: Keys.tracksEdited)
+            UserDefaults.standard.synchronize()
+        }
+    }
+
+    var tracksAdded: Bool {
+        get {
+            return UserDefaults.standard.bool(forKey: Keys.tracksAdded)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: Keys.tracksAdded)
             UserDefaults.standard.synchronize()
         }
     }

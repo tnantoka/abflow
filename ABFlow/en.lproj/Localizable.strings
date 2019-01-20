@@ -13,6 +13,10 @@
 "Edit Playlist" = "Edit Playlist";
 "Edit Playlists" = "Edit Playlists";
 "Edit Tracks" = "Edit Tracks";
+"Name" = "Name";
+"New Playlist" = "New Playlist";
+"No playlists yet." = "No playlists yet.";
+"No tracks yet." = "No tracks yet.";
 "OK" = "OK";
 "Playlists" = "Playlists";
 "Play whole" = "Play whole";
@@ -21,9 +25,7 @@
 "Point A" = "Point A";
 "Point B" = "Point B";
 "Preview" = "Preview";
-"Name" = "Name";
-"New Playlist" = "New Playlist";
-"No playlists yet." = "No playlists yet.";
-"No tracks yet." = "No tracks yet.";
+"There are some formats that are not supported, such as DRM-protected songs." = "There are some formats that are not supported, such as DRM-protected songs.";
+"There is no permission to access the media library. Please allow it in the Settings app." = "There is no permission to access the media library. Please allow it in the Settings app.";
 "tracks" = "tracks";
 "Update" = "Update";

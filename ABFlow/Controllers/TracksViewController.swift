@@ -175,18 +175,24 @@ class TracksViewController: UIViewController {
 
             Settings.shared.playlistsEdited = true
         }
-
     }
 
     // MARK: - Actions
 
     @objc func addItemDidTap(sender: Any) {
-        let mediaController = MPMediaPickerController()
-        mediaController.delegate = self
-        mediaController.allowsPickingMultipleItems = true
-        mediaController.showsItemsWithProtectedAssets = false
-        mediaController.showsCloudItems = false
-        present(mediaController, animated: true, completion: nil)
+        if Settings.shared.tracksAdded {
+            showMediaPicker()
+        } else {
+            let alertController = UIAlertController(
+                title: NSLocalizedString("Add Tracks", comment: ""),
+                message: NSLocalizedString("There are some formats that are not supported, such as DRM-protected songs.", comment: ""),
+                preferredStyle: .alert
+            )
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: { [weak self] _ in self?.showMediaPicker() }))
+            present(alertController, animated: true, completion: nil)
+
+            Settings.shared.tracksAdded = true
+        }
     }
 
     @objc func editItemDidTap(sender: Any) {
@@ -272,6 +278,28 @@ class TracksViewController: UIViewController {
 
     func updateBarItems() {
         editItem.isEnabled = !playlist.tracks.isEmpty
+    }
+
+    func showMediaPicker() {
+        if MPMediaLibrary.authorizationStatus() == .denied {
+            let alertController = UIAlertController(
+                title: NSLocalizedString("Add Tracks", comment: ""),
+                message: NSLocalizedString("There is no permission to access the media library. Please allow it in the settings app.", comment: ""),
+                preferredStyle: .alert
+            )
+            alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil))
+            present(alertController, animated: true, completion: nil)
+
+            return
+        }
+
+        let mediaController = MPMediaPickerController()
+        mediaController.delegate = self
+        mediaController.allowsPickingMultipleItems = true
+        mediaController.showsItemsWithProtectedAssets = false
+        mediaController.showsCloudItems = false
+
+        present(mediaController, animated: true, completion: nil)
     }
 }
 
