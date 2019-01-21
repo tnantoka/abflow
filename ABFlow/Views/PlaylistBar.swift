@@ -12,15 +12,28 @@ class PlaylistBar: UIView {
 
     var onTapLabel: () -> Void = {}
     var playerTimer: Timer?
+    var labelTimer: Timer?
 
-    lazy var titleLabel: UILabel = {
-        let titleLabel = UILabel(frame: .zero)
+    lazy var trackLabel: UILabel = {
+        let trackLabel = UILabel(frame: .zero)
 
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.textColor = Color.text
+        trackLabel.translatesAutoresizingMaskIntoConstraints = false
+        trackLabel.textColor = Color.text
         durationLabel.font = UIFont.systemFont(ofSize: 14.0, weight: .regular)
 
-        return titleLabel
+        return trackLabel
+    }()
+
+    lazy var playlistLabel: UILabel = {
+        let playlistLabel = UILabel(frame: .zero)
+
+        playlistLabel.translatesAutoresizingMaskIntoConstraints = false
+        playlistLabel.textColor = Color.text
+        durationLabel.font = UIFont.systemFont(ofSize: 14.0, weight: .regular)
+
+        playlistLabel.isHidden = true
+
+        return playlistLabel
     }()
 
     lazy var durationLabel: UILabel = {
@@ -35,7 +48,8 @@ class PlaylistBar: UIView {
 
     lazy var labelStack: UIStackView = {
         let labelStack = UIStackView(arrangedSubviews: [
-            titleLabel,
+            trackLabel,
+            playlistLabel,
             durationLabel,
         ])
 
@@ -104,6 +118,12 @@ class PlaylistBar: UIView {
         playerTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
             self?.updateControls()
         }
+        labelTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+
+            self.trackLabel.isHidden = !self.trackLabel.isHidden
+            self.playlistLabel.isHidden = !self.playlistLabel.isHidden
+        }
         updateControls()
     }
 
@@ -147,7 +167,8 @@ class PlaylistBar: UIView {
 
     func updateControls() {
         durationLabel.text = BackgroundPlayer.shared.currentTimeString
-        titleLabel.text = "\(BackgroundPlayer.shared.currentTrackTitle ?? "") - \(BackgroundPlayer.shared.playlist?.name ?? "")"
+        trackLabel.text = BackgroundPlayer.shared.currentTrackTitle
+        playlistLabel.text = BackgroundPlayer.shared.playlist?.name
 
         if BackgroundPlayer.shared.isPlaying {
             playButton.isHidden = true
