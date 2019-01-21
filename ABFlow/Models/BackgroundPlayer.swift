@@ -21,6 +21,7 @@ class BackgroundPlayer: NSObject {
 
     var playlist: Playlist? {
         didSet {
+            stop()
             playAll()
             NotificationCenter.default.post(name: BackgroundPlayer.changePlaylistNotification, object: nil)
         }
@@ -30,6 +31,7 @@ class BackgroundPlayer: NSObject {
             NotificationCenter.default.post(name: BackgroundPlayer.changeTrackNotification, object: nil)
         }
     }
+    
     var currentItem: AVPlayerItem? {
         return avPlayer?.currentItem
     }
@@ -137,6 +139,12 @@ class BackgroundPlayer: NSObject {
 
     func pause() {
         avPlayer?.pause()
+    }
+
+    func stop() {
+        pause()
+        track = nil
+        avPlayer = nil
     }
 
     func prev() {

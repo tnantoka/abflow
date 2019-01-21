@@ -173,7 +173,7 @@ class TracksViewController: UIViewController {
             alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil))
             present(alertController, animated: true, completion: nil)
 
-            Settings.shared.playlistsEdited = true
+            Settings.shared.tracksEdited = true
         }
     }
 
@@ -367,12 +367,21 @@ extension TracksViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            let isPlaying = BackgroundPlayer.shared.playlist?.id == playlist.id
+            if isPlaying {
+                BackgroundPlayer.shared.playlist = nil
+            }
+
             let track = playlist.tracks[indexPath.row]
             playlist.destroyTrack(track)
             tableView.deleteRows(at: [indexPath], with: .automatic)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
                 self?.updateAlertView()
                 self?.updateBarItems()
+            }
+
+            if isPlaying && !playlist.tracks.isEmpty {
+                BackgroundPlayer.shared.playlist = playlist
             }
         }
     }
@@ -384,5 +393,10 @@ extension TracksViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         let track = playlist.tracks[sourceIndexPath.row]
         playlist.moveTrack(track, to: destinationIndexPath.row)
+        tableView.reloadData()
+
+        if BackgroundPlayer.shared.playlist?.id == playlist.id {
+            BackgroundPlayer.shared.playlist = playlist
+        }
     }
 }

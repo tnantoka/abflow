@@ -339,6 +339,9 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let playlist = playlists[indexPath.row]
+            if BackgroundPlayer.shared.playlist?.id == playlist.id {
+                BackgroundPlayer.shared.playlist = nil
+            }
             playlist.destroy()
             updatePlaylists()
             tableView.deleteRows(at: [indexPath], with: .automatic)
