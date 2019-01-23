@@ -16,6 +16,8 @@ class BackgroundPlayer: NSObject {
     static let changePlaylistNotification = Notification.Name("changePlaylistNotification")
     static let changeTrackNotification = Notification.Name("changeTrackNotification")
 
+    static let speeds: [Float] = [0.75, 1.0, 1.5, 2.0]
+
     var avPlayer: AVQueuePlayer?
     var playerItems = [AVPlayerItem]()
 
@@ -29,6 +31,11 @@ class BackgroundPlayer: NSObject {
     var track: Track? {
         didSet {
             NotificationCenter.default.post(name: BackgroundPlayer.changeTrackNotification, object: nil)
+        }
+    }
+    var speed: Float = 1.0 {
+        didSet {
+            avPlayer?.rate = speed
         }
     }
     
@@ -109,7 +116,7 @@ class BackgroundPlayer: NSObject {
         avPlayer = AVQueuePlayer(items: playerItems)
         avPlayer?.addObserver(self, forKeyPath: "currentItem", options: [.initial], context: nil)
 
-        avPlayer?.play()
+        play()
     }
 
     private func prepareForRemoteControl() {
@@ -135,6 +142,7 @@ class BackgroundPlayer: NSObject {
 
     func play() {
         avPlayer?.play()
+        avPlayer?.rate = speed
     }
 
     func pause() {
@@ -174,5 +182,12 @@ class BackgroundPlayer: NSObject {
             pause()
         }
         (0..<index).forEach { _ in avPlayer?.advanceToNextItem() }
+    }
+
+    func changeSpeed() {
+        guard let index = BackgroundPlayer.speeds.index(where: { $0 == speed }) else { return }
+
+        let nextIndex = index < BackgroundPlayer.speeds.count - 1 ? index + 1 : 0
+        speed = BackgroundPlayer.speeds[nextIndex]
     }
 }

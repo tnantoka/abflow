@@ -116,7 +116,6 @@ class PlaylistModalViewController: UIViewController {
         speedButton.translatesAutoresizingMaskIntoConstraints = false
         speedButton.addTarget(self, action: #selector(speedButtonDidTap), for: .touchUpInside)
         speedButton.tintColor = Color.text
-        speedButton.setTitle("1x", for: .normal)
         speedButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18.0)
 
         return speedButton
@@ -248,7 +247,7 @@ class PlaylistModalViewController: UIViewController {
     }
 
     @objc func speedButtonDidTap(sender: Any) {
-        print("speed")
+        BackgroundPlayer.shared.changeSpeed()
     }
 
     @objc func durationSliderDidChange(sender: Any) {
@@ -289,6 +288,8 @@ class PlaylistModalViewController: UIViewController {
     func updateControls() {
         durationSlider.maximumValue = Float(BackgroundPlayer.shared.currentDuration)
         durationSlider.value = BackgroundPlayer.shared.currentTime
+
+        speedButton.setTitle("\(BackgroundPlayer.shared.speed)x", for: .normal)
 
         if BackgroundPlayer.shared.isPlaying {
             playButton.isHidden = true
