@@ -83,9 +83,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let rootViewController = PlaylistsViewController()
         let navController = NavigationController(rootViewController: rootViewController)
 
-        AdFooter.shared.adMobApplicationId = ABFlowKeys().adMobApplicationId
-        AdFooter.shared.adMobAdUnitId = ABFlowKeys().adMobAdUnitId
-        window?.rootViewController = AdFooter.shared.wrap(navController)
+        #if DEBUG
+            let ad = false
+        #else
+            let ad = true
+        #endif
+
+        if ad {
+            AdFooter.shared.adMobApplicationId = ABFlowKeys().adMobApplicationId
+            AdFooter.shared.adMobAdUnitId = ABFlowKeys().adMobAdUnitId
+            window?.rootViewController = AdFooter.shared.wrap(navController)
+        } else {
+            window?.rootViewController = navController
+        }
 
         window?.makeKeyAndVisible()
     }
