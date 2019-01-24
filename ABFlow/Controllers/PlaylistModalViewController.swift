@@ -104,9 +104,6 @@ class PlaylistModalViewController: UIViewController {
         repeatButton.addTarget(self, action: #selector(repeatButtonDidTap), for: .touchUpInside)
         repeatButton.tintColor = Color.text
 
-        let repeatImage = UIImage(from: .materialIcon, code: "repeat", textColor: .black, backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
-        repeatButton.setImage(repeatImage, for: .normal)
-
         return repeatButton
     }()
 
@@ -192,6 +189,8 @@ class PlaylistModalViewController: UIViewController {
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(viewDidTap))
         view.addGestureRecognizer(tapRecognizer)
 
+        view.clipsToBounds = true
+
         buildLayout()
 
         playerTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
@@ -243,7 +242,7 @@ class PlaylistModalViewController: UIViewController {
     }
 
     @objc func repeatButtonDidTap(sender: Any) {
-        print("repeat")
+        BackgroundPlayer.shared.changeRepeatMode()
     }
 
     @objc func speedButtonDidTap(sender: Any) {
@@ -290,6 +289,15 @@ class PlaylistModalViewController: UIViewController {
         durationSlider.value = BackgroundPlayer.shared.currentTime
 
         speedButton.setTitle("\(BackgroundPlayer.shared.speed)x", for: .normal)
+
+        let repeatImage: UIImage
+        switch BackgroundPlayer.shared.repeatMode {
+        case .all:
+            repeatImage = UIImage(from: .materialIcon, code: "repeat", textColor: .black, backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
+        case .one:
+            repeatImage = UIImage(from: .materialIcon, code: "repeat.one", textColor: .black, backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
+        }
+        repeatButton.setImage(repeatImage, for: .normal)
 
         if BackgroundPlayer.shared.isPlaying {
             playButton.isHidden = true

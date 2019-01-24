@@ -17,10 +17,14 @@ class BackgroundPlayer: NSObject {
     static let changeTrackNotification = Notification.Name("changeTrackNotification")
 
     static let speeds: [Float] = [0.75, 1.0, 1.5, 2.0]
+    enum RepeatMode {
+        case all
+        case one
+    }
 
     var avPlayer: AVQueuePlayer?
     var playerItems = [AVPlayerItem]()
-
+    var allPlayerItems = [AVPlayerItem]()
     var playlist: Playlist? {
         didSet {
             stop()
@@ -33,12 +37,18 @@ class BackgroundPlayer: NSObject {
             NotificationCenter.default.post(name: BackgroundPlayer.changeTrackNotification, object: nil)
         }
     }
+
     var speed: Float = 1.0 {
         didSet {
             avPlayer?.rate = speed
         }
     }
-    
+    var repeatMode = RepeatMode.all {
+        didSet {
+            playAll()
+        }
+    }
+
     var currentItem: AVPlayerItem? {
         return avPlayer?.currentItem
     }
@@ -83,7 +93,7 @@ class BackgroundPlayer: NSObject {
         guard let playerItem = notification.object as? AVPlayerItem else { return }
 
         if playerItem == playerItems.last {
-            playAll()
+            replayAll()
         }
     }
 
@@ -93,7 +103,7 @@ class BackgroundPlayer: NSObject {
         guard let currentItem = avPlayer?.currentItem else { return }
         guard let playlist = playlist else { return }
 
-        if let index = playerItems.index(where: { $0 == currentItem }) {
+        if let index = allPlayerItems.index(where: { $0 == currentItem }) {
             let track = playlist.tracks[index]
             MPNowPlayingInfoCenter.default().nowPlayingInfo = [
                 MPMediaItemPropertyAlbumTitle: playlist.name,
@@ -102,6 +112,8 @@ class BackgroundPlayer: NSObject {
                 MPNowPlayingInfoPropertyPlaybackRate: 1.0
             ]
             self.track = track
+        } else {
+            print("not found", currentItem, allPlayerItems)
         }
     }
 
@@ -111,7 +123,33 @@ class BackgroundPlayer: NSObject {
         guard let playlist = playlist else { return }
         guard !playlist.tracks.isEmpty else { return }
 
-        playerItems = playlist.tracks.map { $0.playerItem }
+        let currentIndex = allPlayerItems.index { $0 == currentItem } ?? 0
+        allPlayerItems = playlist.tracks.map { $0.playerItem }
+
+        if repeatMode == .one {
+            playerItems = [allPlayerItems[currentIndex]]
+        } else {
+            playerItems = allPlayerItems
+        }
+
+        avPlayer = AVQueuePlayer(items: playerItems)
+        avPlayer?.addObserver(self, forKeyPath: "currentItem", options: [.initial], context: nil)
+
+        play()
+    }
+
+    private func replayAll() {
+        guard let playlist = playlist else { return }
+        guard !playlist.tracks.isEmpty else { return }
+
+        let currentIndex = allPlayerItems.index { $0 == playerItems.last } ?? 0
+        allPlayerItems = playlist.tracks.map { $0.playerItem }
+
+        if repeatMode == .one {
+            playerItems = [allPlayerItems[currentIndex]]
+        } else {
+            playerItems = allPlayerItems
+        }
 
         avPlayer = AVQueuePlayer(items: playerItems)
         avPlayer?.addObserver(self, forKeyPath: "currentItem", options: [.initial], context: nil)
@@ -153,24 +191,24 @@ class BackgroundPlayer: NSObject {
         pause()
         track = nil
         avPlayer = nil
+        allPlayerItems = []
+        playerItems = []
     }
 
     func prev() {
-        guard let playlist = playlist else { return }
         guard let currentItem = avPlayer?.currentItem else { return }
 
-        if let index = playerItems.index(where: { $0 == currentItem }) {
-            let prevIndex = index > 0 ? index - 1 : playlist.tracks.count - 1
+        if let index = allPlayerItems.index(where: { $0 == currentItem }) {
+            let prevIndex = index > 0 ? index - 1 : playerItems.count - 1
             play(index: prevIndex)
         }
     }
 
     func next() {
-        guard let playlist = playlist else { return }
         guard let currentItem = avPlayer?.currentItem else { return }
 
-        if let index = playerItems.index(where: { $0 == currentItem }) {
-            let nextIndex = index < playlist.tracks.count - 1 ? index + 1 : 0
+        if let index = allPlayerItems.index(where: { $0 == currentItem }) {
+            let nextIndex = index < playerItems.count - 1 ? index + 1 : 0
             play(index: nextIndex)
        }
     }
@@ -189,5 +227,9 @@ class BackgroundPlayer: NSObject {
 
         let nextIndex = index < BackgroundPlayer.speeds.count - 1 ? index + 1 : 0
         speed = BackgroundPlayer.speeds[nextIndex]
+    }
+
+    func changeRepeatMode() {
+        repeatMode = repeatMode == .all ? .one : .all
     }
 }
