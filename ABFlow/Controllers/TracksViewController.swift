@@ -24,13 +24,8 @@ class TracksViewController: UIViewController {
     }()
 
     lazy var alertLabel: UILabel = {
-        let alertLabel = UILabel(frame: .zero)
-
-        alertLabel.translatesAutoresizingMaskIntoConstraints = false
+        let alertLabel = Util.createLabel(center: true)
         alertLabel.text = NSLocalizedString("No tracks yet.", comment: "")
-        alertLabel.textColor = Color.text
-        alertLabel.textAlignment = .center
-
         return alertLabel
     }()
 

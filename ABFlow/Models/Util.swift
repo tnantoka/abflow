@@ -31,4 +31,16 @@ class Util {
         return view
     }
 
+    static func createLabel(center: Bool = false) -> UILabel {
+        let label = UILabel(frame: .zero)
+
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = Color.text
+        if center {
+            label.textAlignment = .center
+        }
+
+        return label
+    }
+
 }

@@ -40,17 +40,11 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
     }()
 
     lazy var durationLabel: UILabel = {
-        let durationLabel = UILabel(frame: .zero)
-
-        durationLabel.translatesAutoresizingMaskIntoConstraints = false
+        let durationLabel = Util.createLabel(center: true)
         durationLabel.backgroundColor = Color.white
-        durationLabel.textAlignment = .center
         durationLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 16.0, weight: .regular)
-        durationLabel.textColor = Color.text
         durationLabel.text = "0:00:00"
-
         controlView.addSubview(durationLabel)
-
         return durationLabel
     }()
 
@@ -144,12 +138,7 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
     }()
 
     lazy var pointALabel: UILabel = {
-        let pointALabel = UILabel(frame: .zero)
-
-        pointALabel.translatesAutoresizingMaskIntoConstraints = false
-        pointALabel.textColor = Color.text
-        pointALabel.textAlignment = .center
-
+        let pointALabel = Util.createLabel(center: true)
         return pointALabel
     }()
 
@@ -224,12 +213,7 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
     }()
 
     lazy var pointBLabel: UILabel = {
-        let pointBLabel = UILabel(frame: .zero)
-
-        pointBLabel.translatesAutoresizingMaskIntoConstraints = false
-        pointBLabel.textColor = Color.text
-        pointBLabel.textAlignment = .center
-
+        let pointBLabel = Util.createLabel(center: true)
         return pointBLabel
     }()
 

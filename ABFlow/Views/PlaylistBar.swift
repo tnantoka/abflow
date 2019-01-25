@@ -15,32 +15,19 @@ class PlaylistBar: UIView {
     var labelTimer: Timer?
 
     lazy var trackLabel: UILabel = {
-        let trackLabel = UILabel(frame: .zero)
-
-        trackLabel.translatesAutoresizingMaskIntoConstraints = false
-        trackLabel.textColor = Color.text
-
+        let trackLabel = Util.createLabel()
         return trackLabel
     }()
 
     lazy var playlistLabel: UILabel = {
-        let playlistLabel = UILabel(frame: .zero)
-
-        playlistLabel.translatesAutoresizingMaskIntoConstraints = false
-        playlistLabel.textColor = Color.text
-
+        let playlistLabel = Util.createLabel()
         playlistLabel.isHidden = true
-
         return playlistLabel
     }()
 
     lazy var durationLabel: UILabel = {
-        let durationLabel = UILabel(frame: .zero)
-
-        durationLabel.translatesAutoresizingMaskIntoConstraints = false
-        durationLabel.textColor = Color.text
+        let durationLabel = Util.createLabel()
         durationLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 14.0, weight: .regular)
-
         return durationLabel
     }()
 

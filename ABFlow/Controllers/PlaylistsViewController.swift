@@ -25,13 +25,8 @@ class PlaylistsViewController: UIViewController {
     }()
 
     lazy var alertLabel: UILabel = {
-        let alertLabel = UILabel(frame: .zero)
-
-        alertLabel.translatesAutoresizingMaskIntoConstraints = false
+        let alertLabel = Util.createLabel(center: true)
         alertLabel.text = NSLocalizedString("No playlists yet.", comment: "")
-        alertLabel.textColor = Color.text
-        alertLabel.textAlignment = .center
-
         return alertLabel
     }()
 
