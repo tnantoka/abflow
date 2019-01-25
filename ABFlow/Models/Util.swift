@@ -20,11 +20,11 @@ class Util {
         return formatter.string(from: duration) ?? ""
     }
 
-    static func createView(transparent: Bool = false) -> UIView {
+    static func createView(white: Bool = true) -> UIView {
         let view = UIView(frame: .zero)
 
         view.translatesAutoresizingMaskIntoConstraints = false
-        if !transparent {
+        if white {
             view.backgroundColor = Color.white
         }
 

@@ -164,7 +164,8 @@ class PlaylistModalViewController: UIViewController {
     }()
 
     lazy var containerView: UIView = {
-        let containerView = Util.createView()
+        let containerView = Util.createView(white: false)
+        containerView.backgroundColor = Color.secondary
         view.addSubview(containerView)
         return containerView
     }()

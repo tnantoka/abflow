@@ -28,7 +28,7 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
     }()
 
     lazy var containerView: UIView = {
-        let containerView = Util.createView(transparent: true)
+        let containerView = Util.createView(white: false)
         scrollView.addSubview(containerView)
         return containerView
     }()
