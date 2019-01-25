@@ -54,7 +54,7 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
         durationLabel.translatesAutoresizingMaskIntoConstraints = false
         durationLabel.backgroundColor = Color.white
         durationLabel.textAlignment = .center
-        durationLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 14.0, weight: .regular)
+        durationLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 16.0, weight: .regular)
         durationLabel.textColor = Color.text
         durationLabel.text = "0:00:00"
 
@@ -132,15 +132,15 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
         return controlStack
     }()
 
-    lazy var pointView: UIView = {
-        let pointView = UIView(frame: .zero)
+    lazy var pointAView: UIView = {
+        let pointAView = UIView(frame: .zero)
 
-        pointView.translatesAutoresizingMaskIntoConstraints = false
-        pointView.backgroundColor = Color.white
+        pointAView.translatesAutoresizingMaskIntoConstraints = false
+        pointAView.backgroundColor = Color.white
 
-        containerView.addSubview(pointView)
+        containerView.addSubview(pointAView)
 
-        return pointView
+        return pointAView
     }()
 
     lazy var pointAButton: UIButton = {
@@ -167,6 +167,24 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
         return pointALabel
     }()
 
+    lazy var pointAClearButton: UIButton = {
+        let pointAClearButton = UIButton(type: .system)
+
+        pointAClearButton.translatesAutoresizingMaskIntoConstraints = false
+        pointAClearButton.addTarget(self, action: #selector(pointAClearButtonDidTap), for: .touchUpInside)
+        pointAClearButton.tintColor = Color.red
+        pointAClearButton.isEnabled = false
+        pointAClearButton.alpha = 0.7
+
+        let removeImage = UIImage(from: .materialIcon, code: "remove.circle", textColor: .black,
+                                 backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
+        pointAClearButton.setImage(removeImage, for: .normal)
+
+        pointAView.addSubview(pointAClearButton)
+
+        return pointAClearButton
+    }()
+
     lazy var pointAStack: UIStackView = {
         let pointAStack = UIStackView(arrangedSubviews: [
             pointAButton,
@@ -177,9 +195,37 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
         pointAStack.axis = .horizontal
         pointAStack.distribution = .fillEqually
 
-        pointView.addSubview(pointAStack)
+        pointAView.addSubview(pointAStack)
 
         return pointAStack
+    }()
+
+    lazy var pointASlider: UISlider = {
+        let pointASlider = UISlider(frame: .zero)
+
+        pointASlider.translatesAutoresizingMaskIntoConstraints = false
+        pointASlider.isContinuous = false
+        pointASlider.minimumValue = 0.0
+        pointASlider.maximumValue = Float(CMTimeGetSeconds(track.asset.duration))
+        pointASlider.addTarget(self, action: #selector(pointASliderDidChange), for: .valueChanged)
+        pointASlider.tintColor = Color.text
+        pointASlider.thumbTintColor = Color.primary
+        pointASlider.isEnabled = false
+
+        pointAView.addSubview(pointASlider)
+
+        return pointASlider
+    }()
+
+    lazy var pointBView: UIView = {
+        let pointBView = UIView(frame: .zero)
+
+        pointBView.translatesAutoresizingMaskIntoConstraints = false
+        pointBView.backgroundColor = Color.white
+
+        containerView.addSubview(pointBView)
+
+        return pointBView
     }()
 
     lazy var pointBButton: UIButton = {
@@ -206,6 +252,24 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
         return pointBLabel
     }()
 
+    lazy var pointBClearButton: UIButton = {
+        let pointBClearButton = UIButton(type: .system)
+
+        pointBClearButton.translatesAutoresizingMaskIntoConstraints = false
+        pointBClearButton.addTarget(self, action: #selector(pointBClearButtonDidTap), for: .touchUpInside)
+        pointBClearButton.tintColor = Color.red
+        pointBClearButton.isEnabled = false
+        pointBClearButton.alpha = 0.7
+
+        let removeImage = UIImage(from: .materialIcon, code: "remove.circle", textColor: .black,
+                                  backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
+        pointBClearButton.setImage(removeImage, for: .normal)
+
+        pointBView.addSubview(pointBClearButton)
+
+        return pointBClearButton
+    }()
+
     lazy var pointBStack: UIStackView = {
         let pointBStack = UIStackView(arrangedSubviews: [
             pointBButton,
@@ -216,9 +280,26 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
         pointBStack.axis = .horizontal
         pointBStack.distribution = .fillEqually
 
-        pointView.addSubview(pointBStack)
+        pointBView.addSubview(pointBStack)
 
         return pointBStack
+    }()
+
+    lazy var pointBSlider: UISlider = {
+        let pointBSlider = UISlider(frame: .zero)
+
+        pointBSlider.translatesAutoresizingMaskIntoConstraints = false
+        pointBSlider.isContinuous = false
+        pointBSlider.minimumValue = 0.0
+        pointBSlider.maximumValue = Float(CMTimeGetSeconds(track.asset.duration))
+        pointBSlider.addTarget(self, action: #selector(pointBSliderDidChange), for: .valueChanged)
+        pointBSlider.tintColor = Color.text
+        pointBSlider.thumbTintColor = Color.primary
+        pointBSlider.isEnabled = false
+
+        pointBView.addSubview(pointBSlider)
+
+        return pointBSlider
     }()
 
     init(track: Track) {
@@ -271,8 +352,28 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
         updatePointLabels()
     }
 
+    @objc func pointAClearButtonDidTap(sender: Any) {
+        track.update(pointA: nil)
+        updatePointLabels()
+    }
+
+    @objc func pointASliderDidChange(sender: Any) {
+        track.update(pointA: Double(pointASlider.value))
+        updatePointLabels()
+    }
+
     @objc func pointBButtonDidTap(sender: Any) {
         track.update(pointB: wholePlayer?.currentTime)
+        updatePointLabels()
+    }
+
+    @objc func pointBClearButtonDidTap(sender: Any) {
+        track.update(pointB: nil)
+        updatePointLabels()
+    }
+
+    @objc func pointBSliderDidChange(sender: Any) {
+        track.update(pointB: Double(pointBSlider.value))
         updatePointLabels()
     }
 
@@ -294,8 +395,15 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
         durationSlider.isUserInteractionEnabled = true
         pointAButton.isEnabled = true
         pointAButton.alpha = 1.0
+        pointAClearButton.isEnabled = true
+        pointAClearButton.alpha = 1.0
+        pointASlider.isEnabled = true
+
         pointBButton.isEnabled = true
         pointBButton.alpha = 1.0
+        pointBClearButton.isEnabled = true
+        pointBClearButton.alpha = 1.0
+        pointBSlider.isEnabled = true
 
         pauseButton.isEnabled = true
     }
@@ -316,8 +424,15 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
         durationSlider.isUserInteractionEnabled = false
         pointAButton.isEnabled = false
         pointAButton.alpha = 0.7
+        pointAClearButton.isEnabled = false
+        pointAClearButton.alpha = 0.7
+        pointASlider.isEnabled = false
+
         pointBButton.isEnabled = false
         pointBButton.alpha = 0.7
+        pointBClearButton.isEnabled = false
+        pointBClearButton.alpha = 0.7
+        pointBSlider.isEnabled = false
 
         pauseButton.isEnabled = true
     }
@@ -364,14 +479,14 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
         ])
 
         NSLayoutConstraint.activate([
-            durationSlider.topAnchor.constraint(equalTo: durationLabel.bottomAnchor, constant: 8.0),
+            durationSlider.topAnchor.constraint(equalTo: durationLabel.bottomAnchor, constant: 0.0),
             durationSlider.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 8.0),
             durationSlider.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -8.0),
             durationSlider.heightAnchor.constraint(equalToConstant: 44.0)
         ])
 
         NSLayoutConstraint.activate([
-            controlStack.topAnchor.constraint(equalTo: durationSlider.bottomAnchor, constant: 8.0),
+            controlStack.topAnchor.constraint(equalTo: durationSlider.bottomAnchor, constant: 0.0),
             controlStack.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 8.0),
             controlStack.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -8.0),
             controlStack.heightAnchor.constraint(equalToConstant: 44.0),
@@ -379,38 +494,77 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
         ])
 
         NSLayoutConstraint.activate([
-            pointView.topAnchor.constraint(equalTo: controlView.bottomAnchor, constant: 8.0),
-            pointView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8.0),
-            pointView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8.0),
-            pointView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8.0)
+            pointAView.topAnchor.constraint(equalTo: controlView.bottomAnchor, constant: 8.0),
+            pointAView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8.0),
+            pointAView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8.0)
         ])
 
         NSLayoutConstraint.activate([
-            pointAStack.topAnchor.constraint(equalTo: pointView.topAnchor, constant: 8.0),
-            pointAStack.leadingAnchor.constraint(equalTo: pointView.leadingAnchor, constant: 8.0),
-            pointAStack.trailingAnchor.constraint(equalTo: pointView.trailingAnchor, constant: -8.0),
+            pointAStack.topAnchor.constraint(equalTo: pointAView.topAnchor, constant: 8.0),
+            pointAStack.leadingAnchor.constraint(equalTo: pointAView.leadingAnchor, constant: 8.0),
             pointAStack.heightAnchor.constraint(equalToConstant: 44.0)
         ])
 
         NSLayoutConstraint.activate([
-            pointBStack.topAnchor.constraint(equalTo: pointAStack.bottomAnchor, constant: 8.0),
-            pointBStack.leadingAnchor.constraint(equalTo: pointView.leadingAnchor, constant: 8.0),
-            pointBStack.trailingAnchor.constraint(equalTo: pointView.trailingAnchor, constant: -8.0),
-            pointBStack.heightAnchor.constraint(equalToConstant: 44.0),
-            pointBStack.bottomAnchor.constraint(equalTo: pointView.bottomAnchor, constant: -8.0)
+            pointAClearButton.topAnchor.constraint(equalTo: pointAView.topAnchor, constant: 8.0),
+            pointAClearButton.leadingAnchor.constraint(equalTo: pointAStack.trailingAnchor, constant: 8.0),
+            pointAClearButton.trailingAnchor.constraint(equalTo: pointAView.trailingAnchor, constant: -8.0),
+            pointAClearButton.heightAnchor.constraint(equalToConstant: 44.0),
+            pointAClearButton.widthAnchor.constraint(equalToConstant: 44.0)
+        ])
+
+        NSLayoutConstraint.activate([
+            pointASlider.topAnchor.constraint(equalTo: pointAStack.bottomAnchor, constant: 0.0),
+            pointASlider.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 8.0),
+            pointASlider.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -8.0),
+            pointASlider.heightAnchor.constraint(equalToConstant: 44.0),
+            pointASlider.bottomAnchor.constraint(equalTo: pointAView.bottomAnchor, constant: -8.0)
+        ])
+
+        NSLayoutConstraint.activate([
+            pointBView.topAnchor.constraint(equalTo: pointAView.bottomAnchor, constant: 8.0),
+            pointBView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8.0),
+            pointBView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8.0),
+            pointBView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8.0)
+        ])
+
+        NSLayoutConstraint.activate([
+            pointBStack.topAnchor.constraint(equalTo: pointBView.topAnchor, constant: 8.0),
+            pointBStack.leadingAnchor.constraint(equalTo: pointBView.leadingAnchor, constant: 8.0),
+            pointBStack.heightAnchor.constraint(equalToConstant: 44.0)
+        ])
+
+        NSLayoutConstraint.activate([
+            pointBClearButton.topAnchor.constraint(equalTo: pointBView.topAnchor, constant: 8.0),
+            pointBClearButton.leadingAnchor.constraint(equalTo: pointBStack.trailingAnchor, constant: 8.0),
+            pointBClearButton.trailingAnchor.constraint(equalTo: pointBView.trailingAnchor, constant: -8.0),
+            pointBClearButton.heightAnchor.constraint(equalToConstant: 44.0),
+            pointBClearButton.widthAnchor.constraint(equalToConstant: 44.0)
+        ])
+
+        NSLayoutConstraint.activate([
+            pointBSlider.topAnchor.constraint(equalTo: pointBStack.bottomAnchor, constant: 0.0),
+            pointBSlider.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 8.0),
+            pointBSlider.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -8.0),
+            pointBSlider.heightAnchor.constraint(equalToConstant: 44.0),
+            pointBSlider.bottomAnchor.constraint(equalTo: pointBView.bottomAnchor, constant: -8.0)
         ])
     }
 
     func updatePointLabels() {
         if let pointA = track.pointA {
             pointALabel.text = Util.formatDuration(pointA)
+            pointASlider.value = Float(pointA)
         } else {
             pointALabel.text = "-"
+            pointASlider.value = 0.0
         }
         if let pointB = track.pointB {
             pointBLabel.text = Util.formatDuration(pointB)
+            pointBSlider.value = Float(pointB)
         } else {
             pointBLabel.text = "-"
+            pointBSlider.value = 0.0
         }
     }
 } // swiftlint:disable:this file_length

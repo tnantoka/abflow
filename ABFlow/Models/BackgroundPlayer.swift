@@ -16,7 +16,7 @@ class BackgroundPlayer: NSObject {
     static let changePlaylistNotification = Notification.Name("changePlaylistNotification")
     static let changeTrackNotification = Notification.Name("changeTrackNotification")
 
-    static let speeds: [Float] = [0.75, 1.0, 1.5, 2.0]
+    static let speeds: [Float] = [0.8, 1.0, 1.5, 2.0]
     enum RepeatMode {
         case all
         case one

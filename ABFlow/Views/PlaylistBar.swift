@@ -19,7 +19,6 @@ class PlaylistBar: UIView {
 
         trackLabel.translatesAutoresizingMaskIntoConstraints = false
         trackLabel.textColor = Color.text
-        durationLabel.font = UIFont.systemFont(ofSize: 14.0, weight: .regular)
 
         return trackLabel
     }()
@@ -29,7 +28,6 @@ class PlaylistBar: UIView {
 
         playlistLabel.translatesAutoresizingMaskIntoConstraints = false
         playlistLabel.textColor = Color.text
-        durationLabel.font = UIFont.systemFont(ofSize: 14.0, weight: .regular)
 
         playlistLabel.isHidden = true
 

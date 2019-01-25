@@ -19,6 +19,8 @@ class Track: Codable {
                 if pointA >= pointB {
                     self.pointB = nil
                 }
+            } else {
+                self.pointB = nil
             }
         }
     }
@@ -28,6 +30,8 @@ class Track: Codable {
                 if pointA >= pointB {
                     self.pointB = nil
                 }
+            } else {
+                self.pointB = nil
             }
         }
     }

@@ -117,7 +117,7 @@ class PlaylistModalViewController: UIViewController {
         speedButton.translatesAutoresizingMaskIntoConstraints = false
         speedButton.addTarget(self, action: #selector(speedButtonDidTap), for: .touchUpInside)
         speedButton.tintColor = Color.text
-        speedButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18.0)
+        speedButton.titleLabel?.font = UIFont.monospacedDigitSystemFont(ofSize: 16.0, weight: .bold)
 
         return speedButton
     }()
