@@ -16,8 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         Playlist.load()
         buildAppearance()
@@ -32,25 +32,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
     func prepareForSimulator() {
@@ -61,9 +54,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let playlist = Playlist.all[0]
         playlist.appendTracks([
-            Track(title: "1. Exercise 1: I have a pen.", assetURL: Bundle.main.url(forResource: "track1", withExtension: "m4a")!),
-            Track(title: "2. Exercise 2: They each have an apple.", assetURL: Bundle.main.url(forResource: "track2", withExtension: "m4a")!),
-            Track(title: "3. Exercise 3: Have a nice day.", assetURL: Bundle.main.url(forResource: "track3", withExtension: "m4a")!)
+            Track(title: "1. Exercise 1: I have a pen.",
+                  assetURL: Bundle.main.url(forResource: "track1", withExtension: "m4a")!),
+            Track(title: "2. Exercise 2: They each have an apple.",
+                  assetURL: Bundle.main.url(forResource: "track2", withExtension: "m4a")!),
+            Track(title: "3. Exercise 3: Have a nice day.",
+                  assetURL: Bundle.main.url(forResource: "track3", withExtension: "m4a")!)
         ])
 
         Settings.reset()
@@ -84,12 +80,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let navController = NavigationController(rootViewController: rootViewController)
 
         #if DEBUG
-            let ad = false
+            let withAd = false
         #else
-            let ad = true
+            let withAd = true
         #endif
 
-        if ad {
+        if withAd {
             AdFooter.shared.adMobApplicationId = ABFlowKeys().adMobApplicationId
             AdFooter.shared.adMobAdUnitId = ABFlowKeys().adMobAdUnitId
             window?.rootViewController = AdFooter.shared.wrap(navController)

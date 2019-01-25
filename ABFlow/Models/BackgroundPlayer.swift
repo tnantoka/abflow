@@ -72,13 +72,16 @@ class BackgroundPlayer: NSObject {
         return track?.title
     }
 
+    var observeCurrentItem: NSKeyValueObservation?
+
     private override init() {
         super.init()
 
         try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
         try? AVAudioSession.sharedInstance().setActive(true)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidEnd), name: .AVPlayerItemDidPlayToEndTime, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(playerItemDidEnd),
+                                               name: .AVPlayerItemDidPlayToEndTime, object: nil)
 
         prepareForRemoteControl()
     }
@@ -94,26 +97,6 @@ class BackgroundPlayer: NSObject {
 
         if playerItem == playerItems.last {
             replayAll()
-        }
-    }
-
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        guard object is AVQueuePlayer else { return }
-        guard keyPath == "currentItem" else { return }
-        guard let currentItem = avPlayer?.currentItem else { return }
-        guard let playlist = playlist else { return }
-
-        if let index = allPlayerItems.index(where: { $0 == currentItem }) {
-            let track = playlist.tracks[index]
-            MPNowPlayingInfoCenter.default().nowPlayingInfo = [
-                MPMediaItemPropertyAlbumTitle: playlist.name,
-                MPMediaItemPropertyTitle: track.title,
-                MPMediaItemPropertyPlaybackDuration: CMTimeGetSeconds(currentItem.duration),
-                MPNowPlayingInfoPropertyPlaybackRate: 1.0
-            ]
-            self.track = track
-        } else {
-            print("not found", currentItem, allPlayerItems)
         }
     }
 
@@ -133,7 +116,7 @@ class BackgroundPlayer: NSObject {
         }
 
         avPlayer = AVQueuePlayer(items: playerItems)
-        avPlayer?.addObserver(self, forKeyPath: "currentItem", options: [.initial], context: nil)
+        observePlayer()
 
         play()
     }
@@ -152,9 +135,27 @@ class BackgroundPlayer: NSObject {
         }
 
         avPlayer = AVQueuePlayer(items: playerItems)
-        avPlayer?.addObserver(self, forKeyPath: "currentItem", options: [.initial], context: nil)
+        observePlayer()
 
         play()
+    }
+
+    private func observePlayer() {
+        observeCurrentItem = avPlayer?.observe(\.currentItem, options: [.initial], changeHandler: { [weak self] _, _ in
+            guard let currentItem = self?.avPlayer?.currentItem else { return }
+            guard let playlist = self?.playlist else { return }
+
+            if let index = self?.allPlayerItems.index(where: { $0 == currentItem }) {
+                let track = playlist.tracks[index]
+                MPNowPlayingInfoCenter.default().nowPlayingInfo = [
+                    MPMediaItemPropertyAlbumTitle: playlist.name,
+                    MPMediaItemPropertyTitle: track.title,
+                    MPMediaItemPropertyPlaybackDuration: CMTimeGetSeconds(currentItem.duration),
+                    MPNowPlayingInfoPropertyPlaybackRate: 1.0
+                ]
+                self?.track = track
+            }
+        })
     }
 
     private func prepareForRemoteControl() {

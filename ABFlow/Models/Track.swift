@@ -10,7 +10,7 @@ import Foundation
 import AVFoundation
 
 class Track: Codable {
-    let id = UUID().uuidString
+    let id = UUID().uuidString // swiftlint:disable:this identifier_name
     let title: String
     let assetURL: URL
     var pointA: Double? {

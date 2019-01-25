@@ -50,7 +50,7 @@ class PlaylistBar: UIView {
         let labelStack = UIStackView(arrangedSubviews: [
             trackLabel,
             playlistLabel,
-            durationLabel,
+            durationLabel
         ])
 
         labelStack.translatesAutoresizingMaskIntoConstraints = false
@@ -72,7 +72,8 @@ class PlaylistBar: UIView {
         playButton.addTarget(self, action: #selector(playButtonDidTap), for: .touchUpInside)
         playButton.tintColor = Color.text
 
-        let playImage = UIImage(from: .materialIcon, code: "play.arrow", textColor: .black, backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
+        let playImage = UIImage(from: .materialIcon, code: "play.arrow", textColor: .black,
+                                backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
         playButton.setImage(playImage, for: .normal)
 
         return playButton
@@ -86,7 +87,8 @@ class PlaylistBar: UIView {
         pauseButton.tintColor = Color.text
         pauseButton.isHidden = true
 
-        let pauseImage = UIImage(from: .materialIcon, code: "pause", textColor: .black, backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
+        let pauseImage = UIImage(from: .materialIcon, code: "pause", textColor: .black,
+                                 backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
         pauseButton.setImage(pauseImage, for: .normal)
 
         return pauseButton
@@ -95,7 +97,7 @@ class PlaylistBar: UIView {
     lazy var controlStack: UIStackView = {
         let controlStack = UIStackView(arrangedSubviews: [
             playButton,
-            pauseButton,
+            pauseButton
         ])
 
         controlStack.translatesAutoresizingMaskIntoConstraints = false
@@ -142,7 +144,7 @@ class PlaylistBar: UIView {
     }
 
     @objc func labelStackDidTap(sender: Any) {
-        if let _ = BackgroundPlayer.shared.playlist {
+        if BackgroundPlayer.shared.playlist != nil {
             onTapLabel()
         }
     }
@@ -153,7 +155,7 @@ class PlaylistBar: UIView {
         NSLayoutConstraint.activate([
             labelStack.topAnchor.constraint(equalTo: topAnchor, constant: 8.0),
             labelStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8.0),
-            labelStack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8.0),
+            labelStack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8.0)
         ])
 
         NSLayoutConstraint.activate([
@@ -161,7 +163,7 @@ class PlaylistBar: UIView {
             controlStack.leadingAnchor.constraint(equalTo: labelStack.trailingAnchor, constant: 8.0),
             controlStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8.0),
             controlStack.widthAnchor.constraint(equalToConstant: 44.0),
-            controlStack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8.0),
+            controlStack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8.0)
         ])
     }
 

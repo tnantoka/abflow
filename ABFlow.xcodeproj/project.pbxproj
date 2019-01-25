@@ -48,6 +48,7 @@
 		1B8B47AC18EEF28628C07AE5 /* Pods-ABFlowTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ABFlowTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ABFlowTests/Pods-ABFlowTests.release.xcconfig"; sourceTree = "<group>"; };
 		2245E034B652A7F2384BB0DA /* Pods-ABFlow.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ABFlow.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ABFlow/Pods-ABFlow.debug.xcconfig"; sourceTree = "<group>"; };
 		320B61B15339526FE3D668A6 /* Pods-ABFlow.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ABFlow.release.xcconfig"; path = "Pods/Target Support Files/Pods-ABFlow/Pods-ABFlow.release.xcconfig"; sourceTree = "<group>"; };
+		9B1CE72021F9FBB700F0A18A /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		9B52857821E70300008A75D5 /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
 		9B52857A21E7032E008A75D5 /* PlaylistsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistsViewController.swift; sourceTree = "<group>"; };
 		9B52859A21E8707B008A75D5 /* TracksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TracksViewController.swift; sourceTree = "<group>"; };
@@ -161,6 +162,7 @@
 		9B6F724321E490AB00538D25 = {
 			isa = PBXGroup;
 			children = (
+				9B1CE72021F9FBB700F0A18A /* .swiftlint.yml */,
 				9B6F724E21E490AB00538D25 /* ABFlow */,
 				9B6F726321E490AD00538D25 /* ABFlowTests */,
 				9B6F724D21E490AB00538D25 /* Products */,
@@ -225,6 +227,7 @@
 				9B6F724921E490AB00538D25 /* Frameworks */,
 				9B6F724A21E490AB00538D25 /* Resources */,
 				49E829E4DF2A7B1B7E9403BC /* [CP] Embed Pods Frameworks */,
+				9B1CE71F21F9FA8000F0A18A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -370,6 +373,23 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		9B1CE71F21F9FA8000F0A18A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
 		};
 		DC8C28671489C8AC91CD33D4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

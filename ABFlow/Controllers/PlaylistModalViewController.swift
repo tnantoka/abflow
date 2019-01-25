@@ -37,7 +37,8 @@ class PlaylistModalViewController: UIViewController {
         playButton.addTarget(self, action: #selector(playButtonDidTap), for: .touchUpInside)
         playButton.tintColor = Color.text
 
-        let playImage = UIImage(from: .materialIcon, code: "play.arrow", textColor: .black, backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
+        let playImage = UIImage(from: .materialIcon, code: "play.arrow", textColor: .black,
+                                backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
         playButton.setImage(playImage, for: .normal)
 
         return playButton
@@ -50,7 +51,8 @@ class PlaylistModalViewController: UIViewController {
         prevButton.addTarget(self, action: #selector(prevButtonDidTap), for: .touchUpInside)
         prevButton.tintColor = Color.text
 
-        let prevImage = UIImage(from: .materialIcon, code: "fast.rewind", textColor: .black, backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
+        let prevImage = UIImage(from: .materialIcon, code: "fast.rewind", textColor: .black,
+                                backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
         prevButton.setImage(prevImage, for: .normal)
 
         return prevButton
@@ -63,7 +65,8 @@ class PlaylistModalViewController: UIViewController {
         nextButton.addTarget(self, action: #selector(nextButtonDidTap), for: .touchUpInside)
         nextButton.tintColor = Color.text
 
-        let nextImage = UIImage(from: .materialIcon, code: "fast.forward", textColor: .black, backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
+        let nextImage = UIImage(from: .materialIcon, code: "fast.forward", textColor: .black,
+                                backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
         nextButton.setImage(nextImage, for: .normal)
 
         return nextButton
@@ -76,7 +79,8 @@ class PlaylistModalViewController: UIViewController {
         pauseButton.addTarget(self, action: #selector(pauseButtonDidTap), for: .touchUpInside)
         pauseButton.tintColor = Color.text
 
-        let pauseImage = UIImage(from: .materialIcon, code: "pause", textColor: .black, backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
+        let pauseImage = UIImage(from: .materialIcon, code: "pause", textColor: .black,
+                                 backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
         pauseButton.setImage(pauseImage, for: .normal)
 
         return pauseButton
@@ -87,7 +91,7 @@ class PlaylistModalViewController: UIViewController {
             prevButton,
             playButton,
             pauseButton,
-            nextButton,
+            nextButton
         ])
 
         controlStack.translatesAutoresizingMaskIntoConstraints = false
@@ -121,7 +125,7 @@ class PlaylistModalViewController: UIViewController {
     lazy var modeStack: UIStackView = {
         let modeStack = UIStackView(arrangedSubviews: [
             repeatButton,
-            speedButton,
+            speedButton
         ])
 
         modeStack.translatesAutoresizingMaskIntoConstraints = false
@@ -130,7 +134,6 @@ class PlaylistModalViewController: UIViewController {
 
         return modeStack
     }()
-
 
     lazy var playlistBar: PlaylistBar = {
         let playlistBar = PlaylistBar(frame: .zero)
@@ -148,7 +151,7 @@ class PlaylistModalViewController: UIViewController {
         let containerStack = UIStackView(arrangedSubviews: [
             durationSlider,
             controlStack,
-            modeStack,
+            modeStack
         ])
 
         containerStack.translatesAutoresizingMaskIntoConstraints = false
@@ -208,7 +211,7 @@ class PlaylistModalViewController: UIViewController {
             self?.view.backgroundColor = Color.darkGray.withAlphaComponent(0.7)
         }
     }
-    
+
     // MARK: - Actions
 
     @objc func viewDidTap(sender: Any) {
@@ -263,10 +266,13 @@ class PlaylistModalViewController: UIViewController {
         NSLayoutConstraint.activate([
             containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0.0),
             containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0.0),
-            containerView.heightAnchor.constraint(equalToConstant: containerHeight),
+            containerView.heightAnchor.constraint(equalToConstant: containerHeight)
         ])
 
-        containerBottomConstraint = containerView.bottomAnchor.constraint(equalTo: playlistBar.topAnchor, constant: containerHeight)
+        containerBottomConstraint = containerView.bottomAnchor.constraint(
+            equalTo: playlistBar.topAnchor,
+            constant: containerHeight
+        )
         containerBottomConstraint?.isActive = true
 
         NSLayoutConstraint.activate([
@@ -293,9 +299,11 @@ class PlaylistModalViewController: UIViewController {
         let repeatImage: UIImage
         switch BackgroundPlayer.shared.repeatMode {
         case .all:
-            repeatImage = UIImage(from: .materialIcon, code: "repeat", textColor: .black, backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
+            repeatImage = UIImage(from: .materialIcon, code: "repeat", textColor: .black,
+                                  backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
         case .one:
-            repeatImage = UIImage(from: .materialIcon, code: "repeat.one", textColor: .black, backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
+            repeatImage = UIImage(from: .materialIcon, code: "repeat.one", textColor: .black,
+                                  backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
         }
         repeatButton.setImage(repeatImage, for: .normal)
 

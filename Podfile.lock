@@ -2,16 +2,19 @@ PODS:
   - AdFooter (7.37.0)
   - Keys (1.0.1)
   - SwiftIconFont (2.9.1)
+  - SwiftLint (0.30.0)
 
 DEPENDENCIES:
   - AdFooter
   - Keys (from `Pods/CocoaPodsKeys`)
   - SwiftIconFont
+  - SwiftLint
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AdFooter
     - SwiftIconFont
+    - SwiftLint
 
 EXTERNAL SOURCES:
   Keys:
@@ -21,7 +24,8 @@ SPEC CHECKSUMS:
   AdFooter: b2a6d109ca0cefa98ff3f5fd480b365ff4341ab6
   Keys: a576f4c9c1c641ca913a959a9c62ed3f215a8de9
   SwiftIconFont: c6d0073f1fa7e03a81b6daf2d8fa8d6ac62b7711
+  SwiftLint: 4e37cb5cd33435170dfd09fba089f41fdbf64d53
 
-PODFILE CHECKSUM: 89114a518815853170d4ae6daf6b4bd9c7f28eec
+PODFILE CHECKSUM: 29e444577450104f1a18e08ae9f32829884c8750
 
 COCOAPODS: 1.5.3

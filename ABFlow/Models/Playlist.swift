@@ -9,7 +9,7 @@
 import Foundation
 
 class Playlist: Codable {
-    let id = UUID().uuidString
+    let id = UUID().uuidString // swiftlint:disable:this identifier_name
     private(set) var name = ""
     private(set) var tracks = [Track]()
 
@@ -60,9 +60,9 @@ class Playlist: Codable {
         Playlist.save()
     }
 
-    func move(to i: Int) {
+    func move(to index: Int) {
         Playlist.playlists.removeAll { $0.id == id }
-        Playlist.playlists.insert(self, at: i)
+        Playlist.playlists.insert(self, at: index)
 
         Playlist.save()
     }
@@ -81,9 +81,9 @@ class Playlist: Codable {
         Playlist.save()
     }
 
-    func moveTrack(_ track: Track, to i: Int) {
+    func moveTrack(_ track: Track, to index: Int) {
         tracks.removeAll { $0.id == track.id }
-        tracks.insert(track, at: i)
+        tracks.insert(track, at: index)
 
         Playlist.save()
     }

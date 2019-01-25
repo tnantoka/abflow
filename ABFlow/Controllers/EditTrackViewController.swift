@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class EditTrackViewController: UIViewController {
+class EditTrackViewController: UIViewController { // swiftlint:disable:this type_body_length
 
     let track: Track
 
@@ -98,7 +98,8 @@ class EditTrackViewController: UIViewController {
         pauseButton.tintColor = Color.text
         pauseButton.isEnabled = false
 
-        let pauseImage = UIImage(from: .materialIcon, code: "pause", textColor: .black, backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
+        let pauseImage = UIImage(from: .materialIcon, code: "pause", textColor: .black,
+                                 backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
         pauseButton.setImage(pauseImage, for: .normal)
 
         return pauseButton
@@ -119,7 +120,7 @@ class EditTrackViewController: UIViewController {
         let controlStack = UIStackView(arrangedSubviews: [
             playButton,
             pauseButton,
-            previewButton,
+            previewButton
         ])
 
         controlStack.translatesAutoresizingMaskIntoConstraints = false
@@ -169,7 +170,7 @@ class EditTrackViewController: UIViewController {
     lazy var pointAStack: UIStackView = {
         let pointAStack = UIStackView(arrangedSubviews: [
             pointAButton,
-            pointALabel,
+            pointALabel
         ])
 
         pointAStack.translatesAutoresizingMaskIntoConstraints = false
@@ -208,7 +209,7 @@ class EditTrackViewController: UIViewController {
     lazy var pointBStack: UIStackView = {
         let pointBStack = UIStackView(arrangedSubviews: [
             pointBButton,
-            pointBLabel,
+            pointBLabel
         ])
 
         pointBStack.translatesAutoresizingMaskIntoConstraints = false
@@ -259,7 +260,8 @@ class EditTrackViewController: UIViewController {
 
         wholePlayer = try? AVAudioPlayer(contentsOf: track.assetURL)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(appDidEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(appDidEnterBackground),
+                                               name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
 
     // MARK: - Actions
@@ -333,39 +335,39 @@ class EditTrackViewController: UIViewController {
 
     // MARK: - Utils
 
-    func buildLayout() {
+    func buildLayout() { // swiftlint:disable:this function_body_length
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0.0),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0.0),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0.0),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0.0),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0.0)
         ])
 
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 0.0),
             containerView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 0.0),
             containerView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, multiplier: 1.0),
-            containerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 0.0),
+            containerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 0.0)
         ])
 
         NSLayoutConstraint.activate([
             controlView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8.0),
             controlView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8.0),
-            controlView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8.0),
+            controlView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8.0)
         ])
 
         NSLayoutConstraint.activate([
             durationLabel.topAnchor.constraint(equalTo: controlView.topAnchor, constant: 8.0),
             durationLabel.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 8.0),
             durationLabel.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -8.0),
-            durationLabel.heightAnchor.constraint(equalToConstant: 44.0),
+            durationLabel.heightAnchor.constraint(equalToConstant: 44.0)
         ])
 
         NSLayoutConstraint.activate([
             durationSlider.topAnchor.constraint(equalTo: durationLabel.bottomAnchor, constant: 8.0),
             durationSlider.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 8.0),
             durationSlider.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -8.0),
-            durationSlider.heightAnchor.constraint(equalToConstant: 44.0),
+            durationSlider.heightAnchor.constraint(equalToConstant: 44.0)
         ])
 
         NSLayoutConstraint.activate([
@@ -373,21 +375,21 @@ class EditTrackViewController: UIViewController {
             controlStack.leadingAnchor.constraint(equalTo: controlView.leadingAnchor, constant: 8.0),
             controlStack.trailingAnchor.constraint(equalTo: controlView.trailingAnchor, constant: -8.0),
             controlStack.heightAnchor.constraint(equalToConstant: 44.0),
-            controlStack.bottomAnchor.constraint(equalTo: controlView.bottomAnchor, constant: -8.0),
+            controlStack.bottomAnchor.constraint(equalTo: controlView.bottomAnchor, constant: -8.0)
         ])
 
         NSLayoutConstraint.activate([
             pointView.topAnchor.constraint(equalTo: controlView.bottomAnchor, constant: 8.0),
             pointView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8.0),
             pointView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8.0),
-            pointView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8.0),
+            pointView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8.0)
         ])
 
         NSLayoutConstraint.activate([
             pointAStack.topAnchor.constraint(equalTo: pointView.topAnchor, constant: 8.0),
             pointAStack.leadingAnchor.constraint(equalTo: pointView.leadingAnchor, constant: 8.0),
             pointAStack.trailingAnchor.constraint(equalTo: pointView.trailingAnchor, constant: -8.0),
-            pointAStack.heightAnchor.constraint(equalToConstant: 44.0),
+            pointAStack.heightAnchor.constraint(equalToConstant: 44.0)
         ])
 
         NSLayoutConstraint.activate([
@@ -395,7 +397,7 @@ class EditTrackViewController: UIViewController {
             pointBStack.leadingAnchor.constraint(equalTo: pointView.leadingAnchor, constant: 8.0),
             pointBStack.trailingAnchor.constraint(equalTo: pointView.trailingAnchor, constant: -8.0),
             pointBStack.heightAnchor.constraint(equalToConstant: 44.0),
-            pointBStack.bottomAnchor.constraint(equalTo: pointView.bottomAnchor, constant: -8.0),
+            pointBStack.bottomAnchor.constraint(equalTo: pointView.bottomAnchor, constant: -8.0)
         ])
     }
 
@@ -411,4 +413,4 @@ class EditTrackViewController: UIViewController {
             pointBLabel.text = "-"
         }
     }
-}
+} // swiftlint:disable:this file_length

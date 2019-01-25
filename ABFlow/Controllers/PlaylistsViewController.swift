@@ -55,7 +55,7 @@ class PlaylistsViewController: UIViewController {
     lazy var alertStack: UIStackView = {
         let alertStack = UIStackView(arrangedSubviews: [
             alertLabel,
-            alertButton,
+            alertButton
         ])
 
         alertStack.translatesAutoresizingMaskIntoConstraints = false
@@ -99,19 +99,22 @@ class PlaylistsViewController: UIViewController {
     }()
 
     lazy var addItem: UIBarButtonItem = {
-        let addImage = UIImage(from: .materialIcon, code: "library.add", textColor: .black, backgroundColor: .clear, size: itemSize)
+        let addImage = UIImage(from: .materialIcon, code: "library.add", textColor: .black,
+                               backgroundColor: .clear, size: itemSize)
         let addItem = UIBarButtonItem(image: addImage, style: .plain, target: self, action: #selector(addItemDidTap))
         return addItem
     }()
 
     lazy var editItem: UIBarButtonItem = {
-        let editImage = UIImage(from: .materialIcon, code: "edit", textColor: .black, backgroundColor: .clear, size: itemSize)
+        let editImage = UIImage(from: .materialIcon, code: "edit", textColor: .black,
+                                backgroundColor: .clear, size: itemSize)
         let editItem = UIBarButtonItem(image: editImage, style: .plain, target: self, action: #selector(editItemDidTap))
         return editItem
     }()
 
     lazy var doneItem: UIBarButtonItem = {
-        let doneImage = UIImage(from: .materialIcon, code: "close", textColor: .black, backgroundColor: .clear, size: itemSize)
+        let doneImage = UIImage(from: .materialIcon, code: "close", textColor: .black,
+                                backgroundColor: .clear, size: itemSize)
         let doneItem = UIBarButtonItem(image: doneImage, style: .plain, target: self, action: #selector(doneItemDidTap))
         return doneItem
     }()
@@ -127,9 +130,9 @@ class PlaylistsViewController: UIViewController {
 
         buildLayout()
 
-        NotificationCenter.default.addObserver(forName: BackgroundPlayer.changeTrackNotification, object: nil, queue: nil) { [weak self] _ in
-            self?.updatePlaylistBar()
-        }
+        NotificationCenter.default.addObserver(self, selector: #selector(updatePlaylistBar),
+                                               name: BackgroundPlayer.changeTrackNotification, object: nil)
+
         updatePlaylistBar()
         updateAlertView()
         updateBarItems()
@@ -159,7 +162,9 @@ class PlaylistsViewController: UIViewController {
                 message: NSLocalizedString("Please tap the cell to rename the playlist.", comment: ""),
                 preferredStyle: .alert
             )
-            alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil))
+            alertController.addAction(
+                UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil)
+            )
             present(alertController, animated: true, completion: nil)
 
             Settings.shared.playlistsEdited = true
@@ -174,9 +179,10 @@ class PlaylistsViewController: UIViewController {
                 title: NSLocalizedString("Add", comment: ""),
                 style: .default,
                 handler: { _ in
-                    guard let text = alertController.textFields?.first?.text?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) else { return }
-                    guard !text.isEmpty else { return }
-                    Playlist.create(name: text)
+                    guard let text = alertController.textFields?.first?.text else { return }
+                    let trimmed = text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+                    guard !trimmed.isEmpty else { return }
+                    Playlist.create(name: trimmed)
                     self.refresh()
                 }
             )
@@ -201,7 +207,7 @@ class PlaylistsViewController: UIViewController {
         NSLayoutConstraint.activate([
             alertView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8.0),
             alertView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8.0),
-            alertView.heightAnchor.constraint(equalToConstant: 88.0),
+            alertView.heightAnchor.constraint(equalToConstant: 88.0)
         ])
 
         alertTopConstraint = alertView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8.0)
@@ -217,7 +223,7 @@ class PlaylistsViewController: UIViewController {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: alertView.bottomAnchor, constant: 4.0),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4.0),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4.0),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4.0)
         ])
 
         NSLayoutConstraint.activate([
@@ -227,7 +233,10 @@ class PlaylistsViewController: UIViewController {
             playlistBar.heightAnchor.constraint(equalToConstant: 60.0)
         ])
 
-        barBottomConstraint = playlistBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 60.0)
+        barBottomConstraint = playlistBar.bottomAnchor.constraint(
+            equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+            constant: 60.0
+        )
         barBottomConstraint?.isActive = true
     }
 
@@ -269,7 +278,7 @@ class PlaylistsViewController: UIViewController {
         }
     }
 
-    func updatePlaylistBar() {
+    @objc func updatePlaylistBar() {
         barBottomConstraint?.constant = BackgroundPlayer.shared.playlist == nil ? 60.0 : 0.0
     }
 
@@ -280,7 +289,10 @@ class PlaylistsViewController: UIViewController {
             textField.text = text
         }
         alertController.addAction(actionProvider(alertController))
-        alertController.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: { [weak self] _ in self?.deselectRow(animated: true) }))
+        alertController.addAction(
+            UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel,
+                          handler: { [weak self] _ in self?.deselectRow(animated: true) })
+        )
         present(alertController, animated: true, completion: nil)
     }
 }
@@ -313,14 +325,16 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
         let playlist = playlists[indexPath.row]
 
         if tableView.isEditing {
-            presentPlaylistAlert(title: NSLocalizedString("Edit Playlist", comment: ""), text: playlist.name) { [weak self] alertController in
+            presentPlaylistAlert(title: NSLocalizedString("Edit Playlist", comment: ""),
+                                 text: playlist.name) { [weak self] alertController in
                 return UIAlertAction(
                     title: NSLocalizedString("Update", comment: ""),
                     style: .default,
                     handler: { _ in
-                        guard let text = alertController.textFields?.first?.text?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) else { return }
-                        guard !text.isEmpty else { return }
-                        playlist.update(name: text)
+                        guard let text = alertController.textFields?.first?.text else { return }
+                        let trimmed = text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+                        guard !trimmed.isEmpty else { return }
+                        playlist.update(name: trimmed)
                         self?.updateCells()
                         self?.deselectRow(animated: true)
                     }
@@ -336,7 +350,8 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
         return tableView.isEditing
     }
 
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle,
+                   forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let playlist = playlists[indexPath.row]
             if BackgroundPlayer.shared.playlist?.id == playlist.id {

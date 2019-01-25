@@ -54,8 +54,8 @@ class TracksViewController: UIViewController {
     lazy var alertStack: UIStackView = {
         let alertStack = UIStackView(arrangedSubviews: [
             alertLabel,
-            alertButton,
-            ])
+            alertButton
+        ])
 
         alertStack.translatesAutoresizingMaskIntoConstraints = false
         alertStack.axis = .vertical
@@ -98,19 +98,22 @@ class TracksViewController: UIViewController {
     }()
 
     lazy var addItem: UIBarButtonItem = {
-        let addImage = UIImage(from: .materialIcon, code: "playlist.add", textColor: .black, backgroundColor: .clear, size: itemSize)
+        let addImage = UIImage(from: .materialIcon, code: "playlist.add", textColor: .black,
+                               backgroundColor: .clear, size: itemSize)
         let addItem = UIBarButtonItem(image: addImage, style: .plain, target: self, action: #selector(addItemDidTap))
         return addItem
     }()
 
     lazy var editItem: UIBarButtonItem = {
-        let editImage = UIImage(from: .materialIcon, code: "edit", textColor: .black, backgroundColor: .clear, size: itemSize)
+        let editImage = UIImage(from: .materialIcon, code: "edit", textColor: .black,
+                                backgroundColor: .clear, size: itemSize)
         let editItem = UIBarButtonItem(image: editImage, style: .plain, target: self, action: #selector(editItemDidTap))
         return editItem
     }()
 
     lazy var doneItem: UIBarButtonItem = {
-        let doneImage = UIImage(from: .materialIcon, code: "close", textColor: .black, backgroundColor: .clear, size: itemSize)
+        let doneImage = UIImage(from: .materialIcon, code: "close", textColor: .black,
+                                backgroundColor: .clear, size: itemSize)
         let doneItem = UIBarButtonItem(image: doneImage, style: .plain, target: self, action: #selector(doneItemDidTap))
         return doneItem
     }()
@@ -135,12 +138,11 @@ class TracksViewController: UIViewController {
 
         buildLayout()
 
-        NotificationCenter.default.addObserver(forName: BackgroundPlayer.changeTrackNotification, object: nil, queue: nil) { [weak self] _ in
-            self?.updateCells()
-        }
-        NotificationCenter.default.addObserver(forName: BackgroundPlayer.changeTrackNotification, object: nil, queue: nil) { [weak self] _ in
-            self?.updatePlaylistBar()
-        }
+        NotificationCenter.default.addObserver(self, selector: #selector(updateCells),
+                                               name: BackgroundPlayer.changeTrackNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updatePlaylistBar),
+                                               name: BackgroundPlayer.changePlaylistNotification, object: nil)
+
         updatePlaylistBar()
         updateAlertView()
         updateBarItems()
@@ -170,7 +172,9 @@ class TracksViewController: UIViewController {
                 message: NSLocalizedString("Please tap the cell to configure settings for the track.", comment: ""),
                 preferredStyle: .alert
             )
-            alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil))
+            alertController.addAction(
+                UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil)
+            )
             present(alertController, animated: true, completion: nil)
 
             Settings.shared.tracksEdited = true
@@ -185,10 +189,13 @@ class TracksViewController: UIViewController {
         } else {
             let alertController = UIAlertController(
                 title: NSLocalizedString("Add Tracks", comment: ""),
-                message: NSLocalizedString("There are some formats that are not supported, such as DRM-protected songs.", comment: ""),
+                message: NSLocalizedString("There are some formats that are not supported, such as DRM-protected songs.", comment: ""), // swiftlint:disable:this line_length
                 preferredStyle: .alert
             )
-            alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: { [weak self] _ in self?.showMediaPicker() }))
+            alertController.addAction(
+                UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default,
+                              handler: { [weak self] _ in self?.showMediaPicker() })
+            )
             present(alertController, animated: true, completion: nil)
 
             Settings.shared.tracksAdded = true
@@ -213,7 +220,7 @@ class TracksViewController: UIViewController {
         NSLayoutConstraint.activate([
             alertView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8.0),
             alertView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8.0),
-            alertView.heightAnchor.constraint(equalToConstant: 88.0),
+            alertView.heightAnchor.constraint(equalToConstant: 88.0)
         ])
 
         alertTopConstraint = alertView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8.0)
@@ -229,17 +236,20 @@ class TracksViewController: UIViewController {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: alertView.bottomAnchor, constant: 4.0),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 4.0),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4.0),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -4.0)
         ])
 
         NSLayoutConstraint.activate([
             playlistBar.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 0.0),
             playlistBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0.0),
             playlistBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0.0),
-            playlistBar.heightAnchor.constraint(equalToConstant: 60.0),
+            playlistBar.heightAnchor.constraint(equalToConstant: 60.0)
         ])
 
-        barBottomConstraint = playlistBar.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 60.0)
+        barBottomConstraint = playlistBar.bottomAnchor.constraint(
+            equalTo: view.safeAreaLayoutGuide.bottomAnchor,
+            constant: 60.0
+        )
         barBottomConstraint?.isActive = true
     }
 
@@ -255,7 +265,7 @@ class TracksViewController: UIViewController {
         }
     }
 
-    func updateCells() {
+    @objc func updateCells() {
         for cell in tableView.visibleCells {
             if let indexPath = tableView.indexPath(for: cell) {
                 let track = playlist.tracks[indexPath.row]
@@ -264,7 +274,7 @@ class TracksViewController: UIViewController {
         }
     }
 
-    func updatePlaylistBar() {
+    @objc func updatePlaylistBar() {
         barBottomConstraint?.constant = BackgroundPlayer.shared.playlist == nil ? 60.0 : 0.0
     }
 
@@ -284,10 +294,12 @@ class TracksViewController: UIViewController {
         if MPMediaLibrary.authorizationStatus() == .denied {
             let alertController = UIAlertController(
                 title: NSLocalizedString("Add Tracks", comment: ""),
-                message: NSLocalizedString("There is no permission to access the media library. Please allow it in the settings app.", comment: ""),
+                message: NSLocalizedString("There is no permission to access the media library. Please allow it in the settings app.", comment: ""), // swiftlint:disable:this line_length
                 preferredStyle: .alert
             )
-            alertController.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil))
+            alertController.addAction(
+                UIAlertAction(title: NSLocalizedString("OK", comment: ""), style: .default, handler: nil)
+            )
             present(alertController, animated: true, completion: nil)
 
             return
@@ -304,7 +316,8 @@ class TracksViewController: UIViewController {
 }
 
 extension TracksViewController: MPMediaPickerControllerDelegate {
-    func mediaPicker(_ mediaPicker: MPMediaPickerController, didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
+    func mediaPicker(_ mediaPicker: MPMediaPickerController,
+                     didPickMediaItems mediaItemCollection: MPMediaItemCollection) {
         guard mediaItemCollection.count > 0 else { return }
 
         let tracks: [Track] = mediaItemCollection.items.map { item in
@@ -365,7 +378,8 @@ extension TracksViewController: UITableViewDelegate, UITableViewDataSource {
         return tableView.isEditing
     }
 
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle,
+                   forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let isPlaying = BackgroundPlayer.shared.playlist?.id == playlist.id
             if isPlaying {
@@ -399,4 +413,4 @@ extension TracksViewController: UITableViewDelegate, UITableViewDataSource {
             BackgroundPlayer.shared.playlist = playlist
         }
     }
-}
+} // swiftlint:disable:this file_length

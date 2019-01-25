@@ -23,7 +23,7 @@ class PlaylistCell: UITableViewCell {
         borderView.backgroundColor = Color.secondary
 
         contentView.addSubview(borderView)
-        
+
         return borderView
     }()
 

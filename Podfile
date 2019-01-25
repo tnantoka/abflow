@@ -3,6 +3,7 @@ target 'ABFlow' do
 
   pod 'AdFooter'
   pod 'SwiftIconFont'
+  pod 'SwiftLint'
 
   target 'ABFlowTests' do
     inherit! :search_paths
