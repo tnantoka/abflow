@@ -164,13 +164,8 @@ class PlaylistModalViewController: UIViewController {
     }()
 
     lazy var containerView: UIView = {
-        let containerView = UIView(frame: .zero)
-
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.backgroundColor = Color.secondary
-
+        let containerView = Util.createView()
         view.addSubview(containerView)
-
         return containerView
     }()
 

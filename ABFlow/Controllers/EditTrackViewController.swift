@@ -28,23 +28,14 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
     }()
 
     lazy var containerView: UIView = {
-        let containerView = UIView(frame: .zero)
-
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-
+        let containerView = Util.createView(transparent: true)
         scrollView.addSubview(containerView)
-
         return containerView
     }()
 
     lazy var controlView: UIView = {
-        let controlView = UIView(frame: .zero)
-
-        controlView.translatesAutoresizingMaskIntoConstraints = false
-        controlView.backgroundColor = Color.white
-
+        let controlView = Util.createView()
         containerView.addSubview(controlView)
-
         return controlView
     }()
 
@@ -133,13 +124,8 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
     }()
 
     lazy var pointAView: UIView = {
-        let pointAView = UIView(frame: .zero)
-
-        pointAView.translatesAutoresizingMaskIntoConstraints = false
-        pointAView.backgroundColor = Color.white
-
+        let pointAView = Util.createView()
         containerView.addSubview(pointAView)
-
         return pointAView
     }()
 
@@ -218,13 +204,8 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
     }()
 
     lazy var pointBView: UIView = {
-        let pointBView = UIView(frame: .zero)
-
-        pointBView.translatesAutoresizingMaskIntoConstraints = false
-        pointBView.backgroundColor = Color.white
-
+        let pointBView = Util.createView()
         containerView.addSubview(pointBView)
-
         return pointBView
     }()
 
@@ -567,4 +548,4 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
             pointBSlider.value = 0.0
         }
     }
-} // swiftlint:disable:this file_length
+}

@@ -6,7 +6,7 @@
 //  Copyright © 2019 tnantoka. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class Util {
     static func formatDuration(_ duration: Double?) -> String {
@@ -19,4 +19,16 @@ class Util {
 
         return formatter.string(from: duration) ?? ""
     }
+
+    static func createView(transparent: Bool = false) -> UIView {
+        let view = UIView(frame: .zero)
+
+        view.translatesAutoresizingMaskIntoConstraints = false
+        if !transparent {
+            view.backgroundColor = Color.white
+        }
+
+        return view
+    }
+
 }

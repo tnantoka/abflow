@@ -19,13 +19,8 @@ class PlaylistsViewController: UIViewController {
     var alertTopConstraint: NSLayoutConstraint?
 
     lazy var alertView: UIView = {
-        let alertView = UIView(frame: .zero)
-
-        alertView.translatesAutoresizingMaskIntoConstraints = false
-        alertView.backgroundColor = Color.white
-
+        let alertView = Util.createView()
         view.addSubview(alertView)
-
         return alertView
     }()
 
