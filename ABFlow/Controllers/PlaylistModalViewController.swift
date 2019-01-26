@@ -18,15 +18,8 @@ class PlaylistModalViewController: UIViewController {
     var playerTimer: Timer?
 
     lazy var durationSlider: UISlider = {
-        let durationSlider = UISlider(frame: .zero)
-
-        durationSlider.translatesAutoresizingMaskIntoConstraints = false
-        durationSlider.isContinuous = false
-        durationSlider.minimumValue = 0.0
+        let durationSlider = Util.createSlider()
         durationSlider.addTarget(self, action: #selector(durationSliderDidChange), for: .valueChanged)
-        durationSlider.tintColor = Color.text
-        durationSlider.thumbTintColor = Color.primary
-
         return durationSlider
     }()
 
@@ -55,17 +48,12 @@ class PlaylistModalViewController: UIViewController {
     }()
 
     lazy var controlStack: UIStackView = {
-        let controlStack = UIStackView(arrangedSubviews: [
+        let controlStack = Util.createStackView([
             prevButton,
             playButton,
             pauseButton,
             nextButton
-        ])
-
-        controlStack.translatesAutoresizingMaskIntoConstraints = false
-        controlStack.axis = .horizontal
-        controlStack.distribution = .fillEqually
-
+        ], vertical: false)
         return controlStack
     }()
 
@@ -82,15 +70,10 @@ class PlaylistModalViewController: UIViewController {
     }()
 
     lazy var modeStack: UIStackView = {
-        let modeStack = UIStackView(arrangedSubviews: [
+        let modeStack = Util.createStackView([
             repeatButton,
             speedButton
-        ])
-
-        modeStack.translatesAutoresizingMaskIntoConstraints = false
-        modeStack.axis = .horizontal
-        modeStack.distribution = .fillEqually
-
+        ], vertical: false)
         return modeStack
     }()
 
@@ -107,18 +90,12 @@ class PlaylistModalViewController: UIViewController {
     }()
 
     lazy var containerStack: UIStackView = {
-        let containerStack = UIStackView(arrangedSubviews: [
+        let containerStack = Util.createStackView([
             durationSlider,
             controlStack,
             modeStack
         ])
-
-        containerStack.translatesAutoresizingMaskIntoConstraints = false
-        containerStack.axis = .vertical
-        containerStack.distribution = .fillEqually
-
         containerView.addSubview(containerStack)
-
         return containerStack
     }()
 

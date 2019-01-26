@@ -49,18 +49,10 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
     }()
 
     lazy var durationSlider: UISlider = {
-        let durationSlider = UISlider(frame: .zero)
-
-        durationSlider.translatesAutoresizingMaskIntoConstraints = false
-        durationSlider.isContinuous = false
-        durationSlider.minimumValue = 0.0
+        let durationSlider = Util.createSlider()
         durationSlider.maximumValue = Float(CMTimeGetSeconds(track.asset.duration))
         durationSlider.addTarget(self, action: #selector(durationSliderDidChange), for: .valueChanged)
-        durationSlider.tintColor = Color.text
-        durationSlider.thumbTintColor = Color.primary
-
         controlView.addSubview(durationSlider)
-
         return durationSlider
     }()
 
@@ -84,18 +76,12 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
     }()
 
     lazy var controlStack: UIStackView = {
-        let controlStack = UIStackView(arrangedSubviews: [
+        let controlStack = Util.createStackView([
             playButton,
             pauseButton,
             previewButton
-        ])
-
-        controlStack.translatesAutoresizingMaskIntoConstraints = false
-        controlStack.axis = .horizontal
-        controlStack.distribution = .fillEqually
-
+        ], vertical: false)
         controlView.addSubview(controlStack)
-
         return controlStack
     }()
 
@@ -129,34 +115,20 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
     }()
 
     lazy var pointAStack: UIStackView = {
-        let pointAStack = UIStackView(arrangedSubviews: [
+        let pointAStack = Util.createStackView([
             pointAButton,
             pointALabel
-        ])
-
-        pointAStack.translatesAutoresizingMaskIntoConstraints = false
-        pointAStack.axis = .horizontal
-        pointAStack.distribution = .fillEqually
-
+        ], vertical: false)
         pointAView.addSubview(pointAStack)
-
         return pointAStack
     }()
 
     lazy var pointASlider: UISlider = {
-        let pointASlider = UISlider(frame: .zero)
-
-        pointASlider.translatesAutoresizingMaskIntoConstraints = false
-        pointASlider.isContinuous = false
-        pointASlider.minimumValue = 0.0
+        let pointASlider = Util.createSlider()
         pointASlider.maximumValue = Float(CMTimeGetSeconds(track.asset.duration))
         pointASlider.addTarget(self, action: #selector(pointASliderDidChange), for: .valueChanged)
-        pointASlider.tintColor = Color.text
-        pointASlider.thumbTintColor = Color.primary
         pointASlider.isEnabled = false
-
         pointAView.addSubview(pointASlider)
-
         return pointASlider
     }()
 
@@ -190,34 +162,20 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
     }()
 
     lazy var pointBStack: UIStackView = {
-        let pointBStack = UIStackView(arrangedSubviews: [
+        let pointBStack = Util.createStackView([
             pointBButton,
             pointBLabel
-        ])
-
-        pointBStack.translatesAutoresizingMaskIntoConstraints = false
-        pointBStack.axis = .horizontal
-        pointBStack.distribution = .fillEqually
-
+        ], vertical: false)
         pointBView.addSubview(pointBStack)
-
         return pointBStack
     }()
 
     lazy var pointBSlider: UISlider = {
-        let pointBSlider = UISlider(frame: .zero)
-
-        pointBSlider.translatesAutoresizingMaskIntoConstraints = false
-        pointBSlider.isContinuous = false
-        pointBSlider.minimumValue = 0.0
+        let pointBSlider = Util.createSlider()
         pointBSlider.maximumValue = Float(CMTimeGetSeconds(track.asset.duration))
         pointBSlider.addTarget(self, action: #selector(pointBSliderDidChange), for: .valueChanged)
-        pointBSlider.tintColor = Color.text
-        pointBSlider.thumbTintColor = Color.primary
         pointBSlider.isEnabled = false
-
         pointBView.addSubview(pointBSlider)
-
         return pointBSlider
     }()
 
@@ -312,19 +270,9 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
         previewButton.backgroundColor = .clear
 
         durationSlider.isUserInteractionEnabled = true
-        pointAButton.isEnabled = true
-        pointAButton.alpha = 1.0
-        pointAClearButton.isEnabled = true
-        pointAClearButton.alpha = 1.0
-        pointASlider.isEnabled = true
-
-        pointBButton.isEnabled = true
-        pointBButton.alpha = 1.0
-        pointBClearButton.isEnabled = true
-        pointBClearButton.alpha = 1.0
-        pointBSlider.isEnabled = true
-
         pauseButton.isEnabled = true
+
+        updatePointControls(isEnabled: true)
     }
 
     @objc func previewButtonDidTap(sender: Any) {
@@ -341,19 +289,9 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
         previewButton.backgroundColor = Color.primary
 
         durationSlider.isUserInteractionEnabled = false
-        pointAButton.isEnabled = false
-        pointAButton.alpha = 0.7
-        pointAClearButton.isEnabled = false
-        pointAClearButton.alpha = 0.7
-        pointASlider.isEnabled = false
-
-        pointBButton.isEnabled = false
-        pointBButton.alpha = 0.7
-        pointBClearButton.isEnabled = false
-        pointBClearButton.alpha = 0.7
-        pointBSlider.isEnabled = false
-
         pauseButton.isEnabled = true
+
+        updatePointControls(isEnabled: false)
     }
 
     @objc func pauseButtonDidTap(sender: Any) {
@@ -486,4 +424,20 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
             pointBSlider.value = 0.0
         }
     }
-}
+
+    func updatePointControls(isEnabled: Bool) {
+        let alpha: CGFloat = isEnabled ? 1.0 : 0.7
+
+        pointAButton.isEnabled = isEnabled
+        pointAButton.alpha = alpha
+        pointAClearButton.isEnabled = isEnabled
+        pointAClearButton.alpha = alpha
+        pointASlider.isEnabled = isEnabled
+
+        pointBButton.isEnabled = isEnabled
+        pointBButton.alpha = alpha
+        pointBClearButton.isEnabled = isEnabled
+        pointBClearButton.alpha = alpha
+        pointBSlider.isEnabled = isEnabled
+    }
+} // swiftlint:disable:this file_length

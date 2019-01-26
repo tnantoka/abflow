@@ -37,34 +37,20 @@ class TracksViewController: UIViewController {
     }()
 
     lazy var alertStack: UIStackView = {
-        let alertStack = UIStackView(arrangedSubviews: [
+        let alertStack = Util.createStackView([
             alertLabel,
             alertButton
         ])
-
-        alertStack.translatesAutoresizingMaskIntoConstraints = false
-        alertStack.axis = .vertical
-        alertStack.distribution = .fillEqually
-
         alertView.addSubview(alertStack)
-
         return alertStack
     }()
 
     lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero)
-
-        tableView.translatesAutoresizingMaskIntoConstraints = false
+        let tableView = Util.createTableView()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(TrackCell.self, forCellReuseIdentifier: cellIdentifier)
-        tableView.separatorStyle = .none
-        tableView.backgroundColor = Color.darkGray
-        tableView.allowsSelectionDuringEditing = true
-        tableView.rowHeight = 60.0
-
         view.addSubview(tableView)
-
         return tableView
     }()
 
@@ -83,24 +69,15 @@ class TracksViewController: UIViewController {
     }()
 
     lazy var addItem: UIBarButtonItem = {
-        let addImage = UIImage(from: .materialIcon, code: "playlist.add", textColor: .black,
-                               backgroundColor: .clear, size: itemSize)
-        let addItem = UIBarButtonItem(image: addImage, style: .plain, target: self, action: #selector(addItemDidTap))
-        return addItem
+        Util.createBarButtonItem(iconCode: "playlist.add", target: self, action: #selector(addItemDidTap))
     }()
 
     lazy var editItem: UIBarButtonItem = {
-        let editImage = UIImage(from: .materialIcon, code: "edit", textColor: .black,
-                                backgroundColor: .clear, size: itemSize)
-        let editItem = UIBarButtonItem(image: editImage, style: .plain, target: self, action: #selector(editItemDidTap))
-        return editItem
+        Util.createBarButtonItem(iconCode: "edit", target: self, action: #selector(editItemDidTap))
     }()
 
     lazy var doneItem: UIBarButtonItem = {
-        let doneImage = UIImage(from: .materialIcon, code: "close", textColor: .black,
-                                backgroundColor: .clear, size: itemSize)
-        let doneItem = UIBarButtonItem(image: doneImage, style: .plain, target: self, action: #selector(doneItemDidTap))
-        return doneItem
+        Util.createBarButtonItem(iconCode: "close", target: self, action: #selector(doneItemDidTap))
     }()
 
     init(playlist: Playlist) {

@@ -32,21 +32,14 @@ class PlaylistBar: UIView {
     }()
 
     lazy var labelStack: UIStackView = {
-        let labelStack = UIStackView(arrangedSubviews: [
+        let labelStack = Util.createStackView([
             trackLabel,
             playlistLabel,
             durationLabel
         ])
-
-        labelStack.translatesAutoresizingMaskIntoConstraints = false
-        labelStack.axis = .vertical
-        labelStack.distribution = .fillEqually
-
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(labelStackDidTap))
         labelStack.addGestureRecognizer(tapRecognizer)
-
         addSubview(labelStack)
-
         return labelStack
     }()
 
@@ -63,17 +56,11 @@ class PlaylistBar: UIView {
     }()
 
     lazy var controlStack: UIStackView = {
-        let controlStack = UIStackView(arrangedSubviews: [
+        let controlStack = Util.createStackView([
             playButton,
             pauseButton
         ])
-
-        controlStack.translatesAutoresizingMaskIntoConstraints = false
-        controlStack.axis = .horizontal
-        controlStack.distribution = .fillEqually
-
         addSubview(controlStack)
-
         return controlStack
     }()
 
