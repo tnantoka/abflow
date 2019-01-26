@@ -30,14 +30,9 @@ class TracksViewController: UIViewController {
     }()
 
     lazy var alertButton: UIButton = {
-        let alertButton = UIButton(type: .system)
-
-        alertButton.translatesAutoresizingMaskIntoConstraints = false
-        alertButton.setTitle(NSLocalizedString("Add New Track", comment: ""), for: .normal)
+        let alertButton = Util.createButton(title: NSLocalizedString("Add New Track", comment: ""))
         alertButton.addTarget(self, action: #selector(alertButtonDidTap), for: .touchUpInside)
-        alertButton.setTitleColor(Color.text, for: .normal)
         alertButton.backgroundColor = Color.secondary
-
         return alertButton
     }()
 

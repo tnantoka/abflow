@@ -43,4 +43,26 @@ class Util {
         return label
     }
 
+    static func createButton(title: String? = nil, iconCode: String? = nil, red: Bool = false) -> UIButton {
+        let button = UIButton(type: .system)
+
+        button.translatesAutoresizingMaskIntoConstraints = false
+
+        button.tintColor = red ? Color.red : Color.text
+
+        if let title = title {
+            button.setTitle(title, for: .normal)
+        }
+        if let iconCode = iconCode {
+            let image = UIImage(from: .materialIcon, code: iconCode, textColor: .black,
+                                    backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
+            button.setImage(image, for: .normal)
+        }
+
+        return button
+    }
+
+    static func createBarButtonItem() -> UIBarButtonItem {
+        return UIBarButtonItem()
+    }
 }

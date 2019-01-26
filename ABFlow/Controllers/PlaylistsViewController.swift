@@ -31,14 +31,9 @@ class PlaylistsViewController: UIViewController {
     }()
 
     lazy var alertButton: UIButton = {
-        let alertButton = UIButton(type: .system)
-
-        alertButton.translatesAutoresizingMaskIntoConstraints = false
-        alertButton.setTitle(NSLocalizedString("Add New Playlist", comment: ""), for: .normal)
+        let alertButton = Util.createButton(title: NSLocalizedString("Add New Playlist", comment: ""))
         alertButton.addTarget(self, action: #selector(alertButtonDidTap), for: .touchUpInside)
-        alertButton.setTitleColor(Color.text, for: .normal)
         alertButton.backgroundColor = Color.secondary
-
         return alertButton
     }()
 

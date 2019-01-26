@@ -51,31 +51,14 @@ class PlaylistBar: UIView {
     }()
 
     lazy var playButton: UIButton = {
-        let playButton = UIButton(type: .system)
-
-        playButton.translatesAutoresizingMaskIntoConstraints = false
+        let playButton = Util.createButton(iconCode: "play.arrow")
         playButton.addTarget(self, action: #selector(playButtonDidTap), for: .touchUpInside)
-        playButton.tintColor = Color.text
-
-        let playImage = UIImage(from: .materialIcon, code: "play.arrow", textColor: .black,
-                                backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
-        playButton.setImage(playImage, for: .normal)
-
         return playButton
     }()
 
     lazy var pauseButton: UIButton = {
-        let pauseButton = UIButton(type: .system)
-
-        pauseButton.translatesAutoresizingMaskIntoConstraints = false
+        let pauseButton = Util.createButton(iconCode: "pause")
         pauseButton.addTarget(self, action: #selector(pauseButtonDidTap), for: .touchUpInside)
-        pauseButton.tintColor = Color.text
-        pauseButton.isHidden = true
-
-        let pauseImage = UIImage(from: .materialIcon, code: "pause", textColor: .black,
-                                 backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
-        pauseButton.setImage(pauseImage, for: .normal)
-
         return pauseButton
     }()
 

@@ -31,58 +31,26 @@ class PlaylistModalViewController: UIViewController {
     }()
 
     lazy var playButton: UIButton = {
-        let playButton = UIButton(type: .system)
-
-        playButton.translatesAutoresizingMaskIntoConstraints = false
+        let playButton = Util.createButton(iconCode: "play.arrow")
         playButton.addTarget(self, action: #selector(playButtonDidTap), for: .touchUpInside)
-        playButton.tintColor = Color.text
-
-        let playImage = UIImage(from: .materialIcon, code: "play.arrow", textColor: .black,
-                                backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
-        playButton.setImage(playImage, for: .normal)
-
         return playButton
     }()
 
     lazy var prevButton: UIButton = {
-        let prevButton = UIButton(type: .system)
-
-        prevButton.translatesAutoresizingMaskIntoConstraints = false
+        let prevButton = Util.createButton(iconCode: "fast.rewind")
         prevButton.addTarget(self, action: #selector(prevButtonDidTap), for: .touchUpInside)
-        prevButton.tintColor = Color.text
-
-        let prevImage = UIImage(from: .materialIcon, code: "fast.rewind", textColor: .black,
-                                backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
-        prevButton.setImage(prevImage, for: .normal)
-
         return prevButton
     }()
 
     lazy var nextButton: UIButton = {
-        let nextButton = UIButton(type: .system)
-
-        nextButton.translatesAutoresizingMaskIntoConstraints = false
+        let nextButton = Util.createButton(iconCode: "fast.forward")
         nextButton.addTarget(self, action: #selector(nextButtonDidTap), for: .touchUpInside)
-        nextButton.tintColor = Color.text
-
-        let nextImage = UIImage(from: .materialIcon, code: "fast.forward", textColor: .black,
-                                backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
-        nextButton.setImage(nextImage, for: .normal)
-
         return nextButton
     }()
 
     lazy var pauseButton: UIButton = {
-        let pauseButton = UIButton(type: .system)
-
-        pauseButton.translatesAutoresizingMaskIntoConstraints = false
+        let pauseButton = Util.createButton(iconCode: "pause")
         pauseButton.addTarget(self, action: #selector(pauseButtonDidTap), for: .touchUpInside)
-        pauseButton.tintColor = Color.text
-
-        let pauseImage = UIImage(from: .materialIcon, code: "pause", textColor: .black,
-                                 backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
-        pauseButton.setImage(pauseImage, for: .normal)
-
         return pauseButton
     }()
 
@@ -102,23 +70,14 @@ class PlaylistModalViewController: UIViewController {
     }()
 
     lazy var repeatButton: UIButton = {
-        let repeatButton = UIButton(type: .system)
-
-        repeatButton.translatesAutoresizingMaskIntoConstraints = false
+        let repeatButton = Util.createButton()
         repeatButton.addTarget(self, action: #selector(repeatButtonDidTap), for: .touchUpInside)
-        repeatButton.tintColor = Color.text
-
         return repeatButton
     }()
 
     lazy var speedButton: UIButton = {
-        let speedButton = UIButton(type: .system)
-
-        speedButton.translatesAutoresizingMaskIntoConstraints = false
+        let speedButton = Util.createButton()
         speedButton.addTarget(self, action: #selector(speedButtonDidTap), for: .touchUpInside)
-        speedButton.tintColor = Color.text
-        speedButton.titleLabel?.font = UIFont.monospacedDigitSystemFont(ofSize: 16.0, weight: .bold)
-
         return speedButton
     }()
 

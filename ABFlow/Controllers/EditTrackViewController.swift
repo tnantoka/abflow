@@ -65,39 +65,21 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
     }()
 
     lazy var playButton: UIButton = {
-        let playButton = UIButton(type: .system)
-
-        playButton.translatesAutoresizingMaskIntoConstraints = false
-        playButton.setTitle(NSLocalizedString("Play whole", comment: ""), for: .normal)
+        let playButton = Util.createButton(title: NSLocalizedString("Play whole", comment: ""))
         playButton.addTarget(self, action: #selector(playButtonDidTap), for: .touchUpInside)
-        playButton.tintColor = Color.text
-
         return playButton
     }()
 
     lazy var pauseButton: UIButton = {
-        let pauseButton = UIButton(type: .system)
-
-        pauseButton.translatesAutoresizingMaskIntoConstraints = false
+        let pauseButton = Util.createButton(iconCode: "pause")
         pauseButton.addTarget(self, action: #selector(pauseButtonDidTap), for: .touchUpInside)
-        pauseButton.tintColor = Color.text
         pauseButton.isEnabled = false
-
-        let pauseImage = UIImage(from: .materialIcon, code: "pause", textColor: .black,
-                                 backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
-        pauseButton.setImage(pauseImage, for: .normal)
-
         return pauseButton
     }()
 
     lazy var previewButton: UIButton = {
-        let previewButton = UIButton(type: .system)
-
-        previewButton.translatesAutoresizingMaskIntoConstraints = false
-        previewButton.setTitle(NSLocalizedString("Preview", comment: ""), for: .normal)
+        let previewButton = Util.createButton(title: NSLocalizedString("Preview", comment: ""))
         previewButton.addTarget(self, action: #selector(previewButtonDidTap), for: .touchUpInside)
-        previewButton.tintColor = Color.text
-
         return previewButton
     }()
 
@@ -124,16 +106,11 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
     }()
 
     lazy var pointAButton: UIButton = {
-        let pointAButton = UIButton(type: .system)
-
-        pointAButton.translatesAutoresizingMaskIntoConstraints = false
-        pointAButton.setTitle(NSLocalizedString("Point A", comment: ""), for: .normal)
+        let pointAButton = Util.createButton(title: NSLocalizedString("Point A", comment: ""))
         pointAButton.addTarget(self, action: #selector(pointAButtonDidTap), for: .touchUpInside)
-        pointAButton.setTitleColor(Color.text, for: .normal)
         pointAButton.backgroundColor = Color.secondary
         pointAButton.isEnabled = false
         pointAButton.alpha = 0.7
-
         return pointAButton
     }()
 
@@ -143,20 +120,11 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
     }()
 
     lazy var pointAClearButton: UIButton = {
-        let pointAClearButton = UIButton(type: .system)
-
-        pointAClearButton.translatesAutoresizingMaskIntoConstraints = false
+        let pointAClearButton = Util.createButton(iconCode: "remove.circle", red: true)
         pointAClearButton.addTarget(self, action: #selector(pointAClearButtonDidTap), for: .touchUpInside)
-        pointAClearButton.tintColor = Color.red
         pointAClearButton.isEnabled = false
         pointAClearButton.alpha = 0.7
-
-        let removeImage = UIImage(from: .materialIcon, code: "remove.circle", textColor: .black,
-                                 backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
-        pointAClearButton.setImage(removeImage, for: .normal)
-
         pointAView.addSubview(pointAClearButton)
-
         return pointAClearButton
     }()
 
@@ -199,16 +167,11 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
     }()
 
     lazy var pointBButton: UIButton = {
-        let pointBButton = UIButton(type: .system)
-
-        pointBButton.translatesAutoresizingMaskIntoConstraints = false
-        pointBButton.setTitle(NSLocalizedString("Point B", comment: ""), for: .normal)
+        let pointBButton = Util.createButton(title: NSLocalizedString("Point B", comment: ""))
         pointBButton.addTarget(self, action: #selector(pointBButtonDidTap), for: .touchUpInside)
-        pointBButton.setTitleColor(Color.text, for: .normal)
         pointBButton.backgroundColor = Color.secondary
         pointBButton.isEnabled = false
         pointBButton.alpha = 0.7
-
         return pointBButton
     }()
 
@@ -218,20 +181,11 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
     }()
 
     lazy var pointBClearButton: UIButton = {
-        let pointBClearButton = UIButton(type: .system)
-
-        pointBClearButton.translatesAutoresizingMaskIntoConstraints = false
+        let pointBClearButton = Util.createButton(iconCode: "remove.circle", red: true)
         pointBClearButton.addTarget(self, action: #selector(pointBClearButtonDidTap), for: .touchUpInside)
-        pointBClearButton.tintColor = Color.red
         pointBClearButton.isEnabled = false
         pointBClearButton.alpha = 0.7
-
-        let removeImage = UIImage(from: .materialIcon, code: "remove.circle", textColor: .black,
-                                  backgroundColor: .clear, size: CGSize(width: 32.0, height: 32.0))
-        pointBClearButton.setImage(removeImage, for: .normal)
-
         pointBView.addSubview(pointBClearButton)
-
         return pointBClearButton
     }()
 
