@@ -21,21 +21,29 @@ class PlaylistBar: UIView {
 
     lazy var playlistLabel: UILabel = {
         let playlistLabel = Util.createLabel()
-        playlistLabel.isHidden = true
+        playlistLabel.font = UIFont.systemFont(ofSize: 14.0, weight: .regular)
         return playlistLabel
     }()
 
     lazy var durationLabel: UILabel = {
-        let durationLabel = Util.createLabel()
+        let durationLabel = Util.createLabel(center: false)
         durationLabel.font = UIFont.monospacedDigitSystemFont(ofSize: 14.0, weight: .regular)
+        durationLabel.textAlignment = .right
         return durationLabel
+    }()
+
+    lazy var durationStack: UIStackView = {
+        let durationStack = Util.createStackView([
+            playlistLabel,
+            durationLabel
+        ], vertical: false)
+        return durationStack
     }()
 
     lazy var labelStack: UIStackView = {
         let labelStack = Util.createStackView([
             trackLabel,
-            playlistLabel,
-            durationLabel
+            durationStack
         ])
         let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(labelStackDidTap))
         labelStack.addGestureRecognizer(tapRecognizer)
@@ -74,12 +82,6 @@ class PlaylistBar: UIView {
 
         playerTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
             self?.updateControls()
-        }
-        labelTimer = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { [weak self] _ in
-            guard let self = self else { return }
-
-            self.trackLabel.isHidden = !self.trackLabel.isHidden
-            self.playlistLabel.isHidden = !self.playlistLabel.isHidden
         }
         updateControls()
     }
