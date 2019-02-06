@@ -49,7 +49,7 @@ class PlaylistsViewController: UIViewController {
         let tableView = Util.createTableView()
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(PlaylistCell.self, forCellReuseIdentifier: cellIdentifier)
+        tableView.register(ItemCell.self, forCellReuseIdentifier: cellIdentifier)
         view.addSubview(tableView)
         return tableView
     }()
@@ -273,7 +273,7 @@ extension PlaylistsViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func configureCell(_ cell: UITableViewCell, with playlist: Playlist) {
-        guard let cell = cell as? PlaylistCell else { return }
+        guard let cell = cell as? ItemCell else { return }
 
         cell.textLabel?.text = playlist.name
         cell.accessoryType = .disclosureIndicator

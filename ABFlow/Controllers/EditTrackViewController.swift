@@ -222,6 +222,12 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
                                                name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        playButtonDidTap(sender: self)
+    }
+
     // MARK: - Actions
 
     @objc func pointAButtonDidTap(sender: Any) {

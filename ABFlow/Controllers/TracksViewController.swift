@@ -49,7 +49,7 @@ class TracksViewController: UIViewController {
         let tableView = Util.createTableView()
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(TrackCell.self, forCellReuseIdentifier: cellIdentifier)
+        tableView.register(ItemCell.self, forCellReuseIdentifier: cellIdentifier)
         view.addSubview(tableView)
         return tableView
     }()
@@ -315,7 +315,7 @@ extension TracksViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func configureCell(_ cell: UITableViewCell, with track: Track) {
-        guard let cell = cell as? TrackCell else { return }
+        guard let cell = cell as? ItemCell else { return }
 
         cell.textLabel?.text = track.title
         cell.detailTextLabel?.text = "\(Util.formatDuration(track.pointA)) - \(Util.formatDuration(track.pointB))"

@@ -1,14 +1,14 @@
 //
-//  TrackCell.swift
+//  ItemCell.swift
 //  ABFlow
 //
-//  Created by Tatsuya Tobioka on 2019/01/12.
+//  Created by Tatsuya Tobioka on 2019/01/13.
 //  Copyright © 2019 tnantoka. All rights reserved.
 //
 
 import UIKit
 
-class TrackCell: UITableViewCell {
+class ItemCell: UITableViewCell {
 
     var isPlaying: Bool = false {
         didSet {
@@ -65,7 +65,8 @@ class TrackCell: UITableViewCell {
         guard let textLabel = textLabel else { return }
         NSLayoutConstraint.activate([
             borderView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0.0),
-            borderView.trailingAnchor.constraint(equalTo: textLabel.leadingAnchor, constant: -9.0),
+            borderView.trailingAnchor.constraint(equalTo: textLabel.leadingAnchor,
+                                                 constant: -4.5 * UIScreen.main.scale),
             borderView.widthAnchor.constraint(equalToConstant: 2.0),
             borderView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0.0)
         ])
