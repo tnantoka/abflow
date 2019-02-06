@@ -1,5 +1,7 @@
 # ABFlow
 
+![](/docs/icon-192.png)
+
 A-B repeat with playlists.
 
 ```
