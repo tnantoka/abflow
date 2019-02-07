@@ -9,6 +9,10 @@ body {
   margin-bottom: -2rem;
 }
 
+.screenshot {
+  border-color: #4A6572 !important;
+}
+
 .download {
   width: 192px;
   margin-bottom: 1rem;
