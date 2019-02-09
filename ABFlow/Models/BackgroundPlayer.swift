@@ -28,7 +28,7 @@ class BackgroundPlayer: NSObject {
     var playlist: Playlist? {
         didSet {
             stop()
-            playAll()
+            preparePlay()
             NotificationCenter.default.post(name: BackgroundPlayer.changePlaylistNotification, object: nil)
         }
     }
@@ -102,7 +102,7 @@ class BackgroundPlayer: NSObject {
 
     // MARK: - Utils
 
-    private func playAll() {
+    private func preparePlay() {
         guard let playlist = playlist else { return }
         guard !playlist.tracks.isEmpty else { return }
 
@@ -117,7 +117,10 @@ class BackgroundPlayer: NSObject {
 
         avPlayer = AVQueuePlayer(items: playerItems)
         observePlayer()
+    }
 
+    private func playAll() {
+        preparePlay()
         play()
     }
 

@@ -343,8 +343,8 @@ extension TracksViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle,
                    forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let isPlaying = BackgroundPlayer.shared.playlist?.id == playlist.id
-            if isPlaying {
+            let isUsing = BackgroundPlayer.shared.playlist?.id == playlist.id
+            if isUsing {
                 BackgroundPlayer.shared.playlist = nil
             }
 
@@ -356,7 +356,7 @@ extension TracksViewController: UITableViewDelegate, UITableViewDataSource {
                 self?.updateBarItems()
             }
 
-            if isPlaying && !playlist.tracks.isEmpty {
+            if isUsing && !playlist.tracks.isEmpty {
                 BackgroundPlayer.shared.playlist = playlist
             }
         }
