@@ -1,7 +1,7 @@
 target 'ABFlow' do
   use_frameworks!
 
-  pod 'AdFooter'
+  pod 'AdFooter', git: 'https://gitlab.com/tnantoka/AdFooter.git'
   pod 'SwiftIconFont'
   pod 'SwiftLint'
 

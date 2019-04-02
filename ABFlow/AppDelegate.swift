@@ -80,18 +80,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let navController = NavigationController(rootViewController: rootViewController)
 
         #if DEBUG
-            let withAd = false
+            let hiddenAd = true
         #else
-            let withAd = true
+            let hiddenAd = false
         #endif
 
-        if withAd {
-            AdFooter.shared.adMobApplicationId = ABFlowKeys().adMobApplicationId
-            AdFooter.shared.adMobAdUnitId = ABFlowKeys().adMobAdUnitId
-            window?.rootViewController = AdFooter.shared.wrap(navController)
-        } else {
-            window?.rootViewController = navController
-        }
+        AdFooter.shared.adMobApplicationId = ABFlowKeys().adMobApplicationId
+        AdFooter.shared.adMobAdUnitId = ABFlowKeys().adMobAdUnitId
+        AdFooter.shared.hidden = hiddenAd
+        window?.rootViewController = AdFooter.shared.wrap(navController)
 
         window?.makeKeyAndVisible()
     }
