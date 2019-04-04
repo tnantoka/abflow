@@ -88,7 +88,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AdFooter.shared.adMobApplicationId = ABFlowKeys().adMobApplicationId
         AdFooter.shared.adMobAdUnitId = ABFlowKeys().adMobAdUnitId
         AdFooter.shared.hidden = hiddenAd
-        window?.rootViewController = AdFooter.shared.wrap(navController)
+        let adController = AdFooter.shared.wrap(navController)
+        adController.view.backgroundColor = Color.darkGray
+        window?.rootViewController = adController
 
         window?.makeKeyAndVisible()
     }
