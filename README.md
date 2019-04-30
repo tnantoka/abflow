@@ -16,6 +16,8 @@ A-B repeat with playlists.
 
 ## Download
 
+https://itunes.apple.com/jp/app/abflow-a-b-repeat-player/id1451678772
+
 ## Development
 
 ```
