@@ -106,7 +106,7 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
     }()
 
     lazy var pointAClearButton: UIButton = {
-        let pointAClearButton = Util.createButton(iconCode: "remove.circle", red: true)
+        let pointAClearButton = Util.createButton(iconCode: "remove-circle", red: true)
         pointAClearButton.addTarget(self, action: #selector(pointAClearButtonDidTap), for: .touchUpInside)
         pointAClearButton.isEnabled = false
         pointAClearButton.alpha = 0.7
@@ -153,7 +153,7 @@ class EditTrackViewController: UIViewController { // swiftlint:disable:this type
     }()
 
     lazy var pointBClearButton: UIButton = {
-        let pointBClearButton = Util.createButton(iconCode: "remove.circle", red: true)
+        let pointBClearButton = Util.createButton(iconCode: "remove-circle", red: true)
         pointBClearButton.addTarget(self, action: #selector(pointBClearButtonDidTap), for: .touchUpInside)
         pointBClearButton.isEnabled = false
         pointBClearButton.alpha = 0.7

@@ -52,7 +52,7 @@ class PlaylistBar: UIView {
     }()
 
     lazy var playButton: UIButton = {
-        let playButton = Util.createButton(iconCode: "play.arrow")
+        let playButton = Util.createButton(iconCode: "play-arrow")
         playButton.addTarget(self, action: #selector(playButtonDidTap), for: .touchUpInside)
         return playButton
     }()

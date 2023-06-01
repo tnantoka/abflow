@@ -69,7 +69,7 @@ class PlaylistsViewController: UIViewController {
     }()
 
     lazy var addItem: UIBarButtonItem = {
-        Util.createBarButtonItem(iconCode: "library.add", target: self, action: #selector(addItemDidTap))
+        Util.createBarButtonItem(iconCode: "library-add", target: self, action: #selector(addItemDidTap))
     }()
 
     lazy var editItem: UIBarButtonItem = {

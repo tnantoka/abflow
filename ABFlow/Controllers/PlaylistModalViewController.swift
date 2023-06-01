@@ -24,19 +24,19 @@ class PlaylistModalViewController: UIViewController {
     }()
 
     lazy var playButton: UIButton = {
-        let playButton = Util.createButton(iconCode: "play.arrow")
+        let playButton = Util.createButton(iconCode: "play-arrow")
         playButton.addTarget(self, action: #selector(playButtonDidTap), for: .touchUpInside)
         return playButton
     }()
 
     lazy var prevButton: UIButton = {
-        let prevButton = Util.createButton(iconCode: "fast.rewind")
+        let prevButton = Util.createButton(iconCode: "fast-rewind")
         prevButton.addTarget(self, action: #selector(prevButtonDidTap), for: .touchUpInside)
         return prevButton
     }()
 
     lazy var nextButton: UIButton = {
-        let nextButton = Util.createButton(iconCode: "fast.forward")
+        let nextButton = Util.createButton(iconCode: "fast-forward")
         nextButton.addTarget(self, action: #selector(nextButtonDidTap), for: .touchUpInside)
         return nextButton
     }()

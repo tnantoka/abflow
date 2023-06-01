@@ -71,6 +71,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance(whenContainedInInstancesOf: [NavigationController.self]).titleTextAttributes = [
             .foregroundColor: Color.white
         ]
+
+        if #available(iOS 15.0, *) {
+            let navAppearance = UINavigationBarAppearance()
+            navAppearance.configureWithOpaqueBackground()
+            navAppearance.backgroundColor = Color.primary
+            navAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+
+            UINavigationBar.appearance(whenContainedInInstancesOf: [NavigationController.self])
+                .standardAppearance = navAppearance
+            UINavigationBar.appearance(whenContainedInInstancesOf: [NavigationController.self])
+                .scrollEdgeAppearance = navAppearance
+        }
     }
 
     func buildWindow() {

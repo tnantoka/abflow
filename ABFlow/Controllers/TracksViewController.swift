@@ -69,7 +69,7 @@ class TracksViewController: UIViewController {
     }()
 
     lazy var addItem: UIBarButtonItem = {
-        Util.createBarButtonItem(iconCode: "playlist.add", target: self, action: #selector(addItemDidTap))
+        Util.createBarButtonItem(iconCode: "playlist-add", target: self, action: #selector(addItemDidTap))
     }()
 
     lazy var editItem: UIBarButtonItem = {
