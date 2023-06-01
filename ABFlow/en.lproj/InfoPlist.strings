@@ -7,3 +7,4 @@
 */
 
 NSAppleMusicUsageDescription = "Access the library to add music to the in-app playlist.";
+NSUserTrackingUsageDescription = "It will be used to deliver personalized ads to you.";

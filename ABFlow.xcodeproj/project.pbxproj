@@ -333,24 +333,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-ABFlow/Pods-ABFlow-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/AdFooter/AdFooter.framework",
-				"${BUILT_PRODUCTS_DIR}/Keys/Keys.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftIconFont/SwiftIconFont.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-ABFlow/Pods-ABFlow-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AdFooter.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Keys.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftIconFont.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-ABFlow/Pods-ABFlow-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ABFlow/Pods-ABFlow-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ABFlow/Pods-ABFlow-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		64C777B42B477A488EC743D8 /* [CP] Check Pods Manifest.lock */ = {

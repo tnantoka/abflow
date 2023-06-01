@@ -7,3 +7,4 @@
 */
 
 NSAppleMusicUsageDescription = "アプリ内プレイリストに音楽を追加するためにライブラリにアクセスします。";
+NSUserTrackingUsageDescription = "できるだけ関心のある広告を表示するために使用します";

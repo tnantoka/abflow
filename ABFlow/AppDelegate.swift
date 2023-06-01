@@ -97,7 +97,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let hiddenAd = false
         #endif
 
-        AdFooter.shared.adMobApplicationId = ABFlowKeys().adMobApplicationId
         AdFooter.shared.adMobAdUnitId = ABFlowKeys().adMobAdUnitId
         AdFooter.shared.hidden = hiddenAd
         let adController = AdFooter.shared.wrap(navController)
