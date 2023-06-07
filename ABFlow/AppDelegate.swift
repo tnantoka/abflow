@@ -92,7 +92,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let navController = NavigationController(rootViewController: rootViewController)
 
         #if DEBUG
-            let hiddenAd = true
+//            let hiddenAd = true
+            let hiddenAd = false
         #else
             let hiddenAd = false
         #endif
