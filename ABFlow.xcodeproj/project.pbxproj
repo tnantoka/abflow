@@ -3,11 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		939A6E4DFFB2075B03A92875 /* Pods_ABFlowTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8292E70E79674EE5146D64F /* Pods_ABFlowTests.framework */; };
+		10F507339AF66509A1F59FFD /* libPods-ABFlow.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 66516CDBB39A98DFB52D0660 /* libPods-ABFlow.a */; };
+		246A9D81C72EE5E5583DDBB9 /* libPods-ABFlowTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FFA08A5C9406661CDC46983 /* libPods-ABFlowTests.a */; };
 		9B52857921E70300008A75D5 /* Playlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B52857821E70300008A75D5 /* Playlist.swift */; };
 		9B52857B21E7032E008A75D5 /* PlaylistsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B52857A21E7032E008A75D5 /* PlaylistsViewController.swift */; };
 		9B52859B21E8707B008A75D5 /* TracksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B52859A21E8707B008A75D5 /* TracksViewController.swift */; };
@@ -30,8 +31,8 @@
 		9B6F725721E490AD00538D25 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B6F725621E490AD00538D25 /* Assets.xcassets */; };
 		9B6F725A21E490AD00538D25 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B6F725821E490AD00538D25 /* LaunchScreen.storyboard */; };
 		9B6F726521E490AD00538D25 /* ABFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6F726421E490AD00538D25 /* ABFlowTests.swift */; };
+		9B8142B62F127F480012359C /* ABFlowKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8142B52F127F450012359C /* ABFlowKeys.swift */; };
 		9BA44435220AB1E400F6FA36 /* track4.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9BA44434220AB1E400F6FA36 /* track4.m4a */; };
-		A2726CBBF45F388B49CAE68A /* Pods_ABFlow.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0DEFAD6EBE513723648B9E5 /* Pods_ABFlow.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,8 @@
 		1B8B47AC18EEF28628C07AE5 /* Pods-ABFlowTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ABFlowTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ABFlowTests/Pods-ABFlowTests.release.xcconfig"; sourceTree = "<group>"; };
 		2245E034B652A7F2384BB0DA /* Pods-ABFlow.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ABFlow.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ABFlow/Pods-ABFlow.debug.xcconfig"; sourceTree = "<group>"; };
 		320B61B15339526FE3D668A6 /* Pods-ABFlow.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ABFlow.release.xcconfig"; path = "Pods/Target Support Files/Pods-ABFlow/Pods-ABFlow.release.xcconfig"; sourceTree = "<group>"; };
+		3FFA08A5C9406661CDC46983 /* libPods-ABFlowTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ABFlowTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		66516CDBB39A98DFB52D0660 /* libPods-ABFlow.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ABFlow.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B1CE72021F9FBB700F0A18A /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		9B52857821E70300008A75D5 /* Playlist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Playlist.swift; sourceTree = "<group>"; };
 		9B52857A21E7032E008A75D5 /* PlaylistsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistsViewController.swift; sourceTree = "<group>"; };
@@ -77,10 +80,9 @@
 		9B6F726021E490AD00538D25 /* ABFlowTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ABFlowTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B6F726421E490AD00538D25 /* ABFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABFlowTests.swift; sourceTree = "<group>"; };
 		9B6F726621E490AD00538D25 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9B8142B52F127F450012359C /* ABFlowKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABFlowKeys.swift; sourceTree = "<group>"; };
 		9BA44434220AB1E400F6FA36 /* track4.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = track4.m4a; sourceTree = "<group>"; };
 		AB1730157652D417D8EB9B07 /* Pods-ABFlowTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ABFlowTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ABFlowTests/Pods-ABFlowTests.debug.xcconfig"; sourceTree = "<group>"; };
-		F0DEFAD6EBE513723648B9E5 /* Pods_ABFlow.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ABFlow.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F8292E70E79674EE5146D64F /* Pods_ABFlowTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ABFlowTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,7 +90,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A2726CBBF45F388B49CAE68A /* Pods_ABFlow.framework in Frameworks */,
+				10F507339AF66509A1F59FFD /* libPods-ABFlow.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,7 +98,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				939A6E4DFFB2075B03A92875 /* Pods_ABFlowTests.framework in Frameworks */,
+				246A9D81C72EE5E5583DDBB9 /* libPods-ABFlowTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,6 +131,7 @@
 		9B52857621E702DF008A75D5 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				9B8142B52F127F450012359C /* ABFlowKeys.swift */,
 				9B52857821E70300008A75D5 /* Playlist.swift */,
 				9B5285A821E9A9C5008A75D5 /* Track.swift */,
 				9B5285AC21E9B963008A75D5 /* Color.swift */,
@@ -209,8 +212,8 @@
 		AAE98203475EFFB6D9683E62 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F0DEFAD6EBE513723648B9E5 /* Pods_ABFlow.framework */,
-				F8292E70E79674EE5146D64F /* Pods_ABFlowTests.framework */,
+				66516CDBB39A98DFB52D0660 /* libPods-ABFlow.a */,
+				3FFA08A5C9406661CDC46983 /* libPods-ABFlowTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -226,8 +229,8 @@
 				9B6F724821E490AB00538D25 /* Sources */,
 				9B6F724921E490AB00538D25 /* Frameworks */,
 				9B6F724A21E490AB00538D25 /* Resources */,
-				49E829E4DF2A7B1B7E9403BC /* [CP] Embed Pods Frameworks */,
 				9B1CE71F21F9FA8000F0A18A /* ShellScript */,
+				1AE699A4F16DD3AA09D7CC69 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -327,21 +330,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		49E829E4DF2A7B1B7E9403BC /* [CP] Embed Pods Frameworks */ = {
+		1AE699A4F16DD3AA09D7CC69 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ABFlow/Pods-ABFlow-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-ABFlow/Pods-ABFlow-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ABFlow/Pods-ABFlow-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-ABFlow/Pods-ABFlow-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ABFlow/Pods-ABFlow-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ABFlow/Pods-ABFlow-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		64C777B42B477A488EC743D8 /* [CP] Check Pods Manifest.lock */ = {
@@ -416,6 +419,7 @@
 				9B5285AB21E9AE4A008A75D5 /* EditTrackViewController.swift in Sources */,
 				9B5285B121EA03FC008A75D5 /* Util.swift in Sources */,
 				9B52859B21E8707B008A75D5 /* TracksViewController.swift in Sources */,
+				9B8142B62F127F480012359C /* ABFlowKeys.swift in Sources */,
 				9B5285BB21ED8DE2008A75D5 /* PlaylistModalViewController.swift in Sources */,
 				9B5285B321EAA958008A75D5 /* ItemCell.swift in Sources */,
 				9B5285AD21E9B963008A75D5 /* Color.swift in Sources */,
@@ -603,6 +607,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = H4Z42X3L6X;
 				INFOPLIST_FILE = ABFlow/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -622,6 +627,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = H4Z42X3L6X;
 				INFOPLIST_FILE = ABFlow/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -9,7 +9,6 @@
 import UIKit
 
 import AdFooter
-import Keys
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -98,7 +97,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let hiddenAd = false
         #endif
 
-        AdFooter.shared.adMobAdUnitId = ABFlowKeys().adMobAdUnitId
+        AdFooter.shared.adMobAdUnitId = ABFlowKeys.adMobAdUnitId
         AdFooter.shared.hidden = hiddenAd
         let adController = AdFooter.shared.wrap(navController)
         adController.view.backgroundColor = Color.darkGray
