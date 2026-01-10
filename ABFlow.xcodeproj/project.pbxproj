@@ -32,6 +32,7 @@
 		9B6F725A21E490AD00538D25 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B6F725821E490AD00538D25 /* LaunchScreen.storyboard */; };
 		9B6F726521E490AD00538D25 /* ABFlowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6F726421E490AD00538D25 /* ABFlowTests.swift */; };
 		9B8142B62F127F480012359C /* ABFlowKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B8142B52F127F450012359C /* ABFlowKeys.swift */; };
+		9B8142B82F12861A0012359C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 9B8142B72F12861A0012359C /* PrivacyInfo.xcprivacy */; };
 		9BA44435220AB1E400F6FA36 /* track4.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 9BA44434220AB1E400F6FA36 /* track4.m4a */; };
 /* End PBXBuildFile section */
 
@@ -81,6 +82,7 @@
 		9B6F726421E490AD00538D25 /* ABFlowTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABFlowTests.swift; sourceTree = "<group>"; };
 		9B6F726621E490AD00538D25 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9B8142B52F127F450012359C /* ABFlowKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ABFlowKeys.swift; sourceTree = "<group>"; };
+		9B8142B72F12861A0012359C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		9BA44434220AB1E400F6FA36 /* track4.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = track4.m4a; sourceTree = "<group>"; };
 		AB1730157652D417D8EB9B07 /* Pods-ABFlowTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ABFlowTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ABFlowTests/Pods-ABFlowTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -196,6 +198,7 @@
 				9B6F725B21E490AD00538D25 /* Info.plist */,
 				9B5285A621E99E68008A75D5 /* Localizable.strings */,
 				9B5285A021E99B68008A75D5 /* InfoPlist.strings */,
+				9B8142B72F12861A0012359C /* PrivacyInfo.xcprivacy */,
 			);
 			path = ABFlow;
 			sourceTree = "<group>";
@@ -312,6 +315,7 @@
 				9B6F725A21E490AD00538D25 /* LaunchScreen.storyboard in Resources */,
 				9B5285A421E99E68008A75D5 /* Localizable.strings in Resources */,
 				9B5285C021EECF47008A75D5 /* track1.m4a in Resources */,
+				9B8142B82F12861A0012359C /* PrivacyInfo.xcprivacy in Resources */,
 				9BA44435220AB1E400F6FA36 /* track4.m4a in Resources */,
 				9B5285C121EECF50008A75D5 /* track2.m4a in Resources */,
 				9B5285C221EECF53008A75D5 /* track3.m4a in Resources */,
