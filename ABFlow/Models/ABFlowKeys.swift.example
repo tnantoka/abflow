@@ -1,0 +1,11 @@
+//
+//  Keys.swift
+//  ABFlow
+//
+//  Created by Tatsuya Tobioka on 2026/01/10.
+//  Copyright © 2026 tnantoka. All rights reserved.
+//
+
+struct ABFlowKeys {
+    static let adMobAdUnitId = ""
+}

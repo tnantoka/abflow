@@ -21,6 +21,7 @@ https://itunes.apple.com/jp/app/abflow-a-b-repeat-player/id1451678772
 ## Development
 
 ```
+$ ABFlow/Models/ABFlowKeys.swift.example ABFlow/Models/ABFlowKeys.swift
 $ gem install bundler
 $ bundle
 $ bundle exec pod install
